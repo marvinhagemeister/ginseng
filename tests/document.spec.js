@@ -75,13 +75,13 @@ describe("Document", () => {
 /* Test: #query should accept selector */
 function queryShouldAcceptSelector() {
   expect(Document.query("body"))
-    .toEqual(jasmine.any(Element))
+    .toEqual(document.body)
 }
 
 /* Test: #query should accept element */
 function queryShouldAcceptElement() {
   expect(Document.query(document.body))
-    .toEqual(jasmine.any(Element))
+    .toEqual(document.body)
 }
 
 /* Test: #query should throw on missing argument */
