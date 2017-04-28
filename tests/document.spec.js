@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-import Document from "../src/document"
+import * as Document from "../src/document"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -64,6 +64,11 @@ describe("Document", () => {
     /* Test: should return an iterable */
     it("should return an iterable",
       traverseShouldReturnAnIterable
+    )
+
+    /* Test: should return an iterable returning nodes */
+    it("should return an iterable returning nodes",
+      traverseShouldReturnAnIterableReturningNodes
     )
   })
 })
@@ -115,4 +120,11 @@ function queryShouldThrowOnInvalidSelector() {
 function traverseShouldReturnAnIterable() {
   expect(Document.traverse(document.body)[Symbol.iterator])
     .toEqual(jasmine.any(Function))
+}
+
+/* Test: #traverse should return an iterable returning nodes */
+function traverseShouldReturnAnIterableReturningNodes() {
+  const it = Document.traverse(document.body)
+  for (const node of it)
+    expect(node).toEqual(jasmine.any(Node))
 }

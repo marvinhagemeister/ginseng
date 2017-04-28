@@ -26,48 +26,46 @@ import "regenerator-runtime/runtime"                                            
  * Module
  * ------------------------------------------------------------------------- */
 
-export default {
+/**
+ * Resolve a given selector to an element
+ *
+ * If a selector is given, it will be passed to document.querySelector which
+ * will only query for a single element, ignoring subsequent matches.
+ *
+ * @param {(string|Element)} selector - Selector or element
+ * @return {Element} Element
+ */
+export const query = selector => {
+  if (typeof selector !== "string" && !(selector instanceof Element))
+    throw new TypeError(`Invalid selector or element: "${selector}"`)
 
-  /**
-   * Resolve a given selector to an element
-   *
-   * If a selector is given, it will be passed to document.querySelector which
-   * will only query for a single element, ignoring subsequent matches.
-   *
-   * @param {(string|Element)} selector - Selector or element
-   * @return {Element} Element
-   */
-  query(selector) {
-    if (typeof selector !== "string" && !(selector instanceof Element))
-      throw new TypeError(`Invalid selector or element: "${selector}"`)
+  /* Resolve selector */
+  const el = (typeof selector === "string" && selector.length)
+    ? document.querySelector(selector)
+    : selector
+  if (!(el instanceof Element))
+    throw new ReferenceError(
+      typeof selector === "string"
+        ? `No match for selector: "${selector}"`
+        : `Invalid element: "${el}"`)
 
-    /* Resolve selector */
-    const el = (typeof selector === "string" && selector.length)
-      ? document.querySelector(selector)
-      : selector
-    if (!(el instanceof Element))
-      throw new ReferenceError(
-        typeof selector === "string"
-          ? `No match for selector: "${selector}"`
-          : `Invalid element: "${el}"`)
+  /* Return resolved element */
+  return el
+}
 
-    /* Return resolved element */
-    return el
-  },
+/**
+ * Create a depth-first-search (DFS) node iterator
+ *
+ * @param {(string|Element)} selector - Selector or element
+ * @return {Iterable<Node>} - Node iterator
+ */
+export const traverse = selector => {
+  const iterator = function *(el) {
+    yield el
 
-  /**
-   * Create a depth-first-search (DFS) node iterator
-   *
-   * @return {Iterable<Node>} - Node iterator
-   */
-  traverse() {
-    const iterator = function *(el) {
-      yield el
-
-      /* Recursively yield on all child nodes */
-      for (let n = 0; n < el.childNodes.length; n++)
-        yield* iterator(el.childNodes[n])
-    }
-    return {}[Symbol.iterator] = iterator(this.el_)
+    /* Recursively yield on all child nodes */
+    for (let n = 0; n < el.childNodes.length; n++)
+      yield* iterator(el.childNodes[n])
   }
+  return {}[Symbol.iterator] = iterator(query(selector))
 }
