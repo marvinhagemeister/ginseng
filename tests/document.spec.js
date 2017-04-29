@@ -70,6 +70,11 @@ describe("Document", () => {
     it("should return an iterable returning nodes",
       traverseShouldReturnAnIterableReturningNodes
     )
+
+    /* Test: should perform a depth-first pre-order traversal */
+    it("should perform a depth-first pre-order traversal",
+      traverseShouldPerformADepthFirstPreOrderTraversal
+    )
   })
 })
 
@@ -118,12 +123,39 @@ function queryShouldThrowOnInvalidSelector() {
 
 /* Test: #traverse should return an iterable */
 function traverseShouldReturnAnIterable() {
-  expect(Document.traverse(document.body)[Symbol.iterator])
-    .toEqual(jasmine.any(Function))
+  document.body.innerHTML += "<b><span></span><i><i></i><span></span></i></b>"
+  console.log(Document.traverse(document.body, (node, children) => {
+    return {
+      node: node.tagName,
+      tree: children
+    }
+  }))
+  // expect(Document.traverse(document.body)[Symbol.iterator])
+  //   .toEqual(jasmine.any(Function))
 }
 
 /* Test: #traverse should return an iterable returning nodes */
 function traverseShouldReturnAnIterableReturningNodes() {
-  for (const node of Document.traverse(document.body))
-    expect(node).toEqual(jasmine.any(Node))
+  pending()
+  // for (const node of Document.traverse(document.body))
+  //   expect(node).toEqual(jasmine.any(Node))
+}
+
+/* <b><div>
+  <span></span>
+  <li>
+    <i></i>
+  </li>
+  <em></em>
+</div><b> */
+
+// div.  parents: [b].
+// span. parents: [b, div]
+// li.   parents: [b, div]
+// i.    parents: [b, div, li]
+// em.   parents: [b, div]
+
+/* Test: #traverse should perform a depth-first pre-order traversal */
+function traverseShouldPerformADepthFirstPreOrderTraversal() {
+  pending()
 }

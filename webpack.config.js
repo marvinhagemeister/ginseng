@@ -4,9 +4,6 @@ const webpack = require("webpack")
 module.exports = {
   entry: [
 
-    /* Polyfills */
-    // "regenerator-runtime/runtime-module",
-
     /* Main entry point */
     path.resolve(__dirname, "./src/index.js")
   ],

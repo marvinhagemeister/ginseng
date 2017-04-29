@@ -20,8 +20,6 @@
  * IN THE SOFTWARE.
  */
 
-import "regenerator-runtime/runtime"                                            // TODO: inject into webpack
-
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -56,29 +54,20 @@ export const query = selector => {
 /**
  * Invoke the callback on a node and all of its child nodes, recursing
  *
- * A simple data structure containing the return value of the callback in the
- * node member and all child nodes in the tree member.
- *
  * @param {(string|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
- * @return {Iterable<Node>} - Node iterator
+ * @return {*} - Return value from callback
  */
 export const traverse = (selector, cb) => {
   const children = el => {
     return Array.prototype.reduce.call(el.childNodes, (nodes, node) => {
       if (node instanceof Element)
-        nodes.push({
-          node: cb(node),
-          tree: children(node)
-        })
+        nodes.push(cb(node, children(node)))
       return nodes
     }, [])
   }
 
-  /* Invoke callback on root node */
+  /* Invoke callback on root node and recurse */
   const el = query(selector)
-  return {
-    node: cb(el),
-    tree: children(el)
-  }
+  return cb(el, children(el))
 }
