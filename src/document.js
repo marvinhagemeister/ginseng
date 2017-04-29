@@ -23,7 +23,7 @@
 import "regenerator-runtime/runtime"                                            // TODO: inject into webpack
 
 /* ----------------------------------------------------------------------------
- * Module
+ * Functions
  * ------------------------------------------------------------------------- */
 
 /**
@@ -54,18 +54,31 @@ export const query = selector => {
 }
 
 /**
- * Create a depth-first-search (DFS) node iterator
+ * Invoke the callback on a node and all of its child nodes, recursing
+ *
+ * A simple data structure containing the return value of the callback in the
+ * node member and all child nodes in the tree member.
  *
  * @param {(string|Element)} selector - Selector or element
+ * @param {Function} cb - Node callback
  * @return {Iterable<Node>} - Node iterator
  */
-export const traverse = selector => {
-  const iterator = function *(el) {
-    yield el
-
-    /* Recursively yield on all child nodes */
-    for (let n = 0; n < el.childNodes.length; n++)
-      yield* iterator(el.childNodes[n])
+export const traverse = (selector, cb) => {
+  const children = el => {
+    return Array.prototype.reduce.call(el.childNodes, (nodes, node) => {
+      if (node instanceof Element)
+        nodes.push({
+          node: cb(node),
+          tree: children(node)
+        })
+      return nodes
+    }, [])
   }
-  return {}[Symbol.iterator] = iterator(query(selector))
+
+  /* Invoke callback on root node */
+  const el = query(selector)
+  return {
+    node: cb(el),
+    tree: children(el)
+  }
 }

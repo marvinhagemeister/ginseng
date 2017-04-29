@@ -124,7 +124,6 @@ function traverseShouldReturnAnIterable() {
 
 /* Test: #traverse should return an iterable returning nodes */
 function traverseShouldReturnAnIterableReturningNodes() {
-  const it = Document.traverse(document.body)
-  for (const node of it)
+  for (const node of Document.traverse(document.body))
     expect(node).toEqual(jasmine.any(Node))
 }
