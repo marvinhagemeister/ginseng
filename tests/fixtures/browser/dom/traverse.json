@@ -1,29 +1,29 @@
 {
-  "element": "DIV",
+  "tag": "DIV",
   "children": [
     {
-      "element": "DIV",
+      "tag": "DIV",
       "children": [
         {
-          "element": "DIV",
+          "tag": "DIV",
           "children": []
         },
         {
-          "element": "DIV",
+          "tag": "DIV",
           "children": []
         },
         {
-          "element": "DIV",
+          "tag": "DIV",
           "children": [
             {
-              "element": "DIV",
+              "tag": "DIV",
               "children": [
                 {
-                  "element": "DIV",
+                  "tag": "DIV",
                   "children": []
                 },
                 {
-                  "element": "DIV",
+                  "tag": "DIV",
                   "children": []
                 }
               ]
@@ -31,16 +31,16 @@
           ]
         },
         {
-          "element": "DIV",
+          "tag": "DIV",
           "children": []
         }
       ]
     },
     {
-      "element": "DIV",
+      "tag": "DIV",
       "children": [
         {
-          "element": "DIV",
+          "tag": "DIV",
           "children": []
         }
       ]

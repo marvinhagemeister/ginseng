@@ -6,7 +6,7 @@ const webpackConfig = require("./webpack.config.js")
 module.exports = function(config) {
   config.set({
     basePath: "",
-    frameworks: ["jasmine", "fixture", "property"],
+    frameworks: ["jasmine", "fixture"],
     files: [
       "tests/fixtures/**/*",
       "tests/**/*.spec.js"
@@ -25,7 +25,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     preprocessors: {
       "src/**/*.js": ["webpack"],
-      "tests/**/*spec.js": ["webpack"],
+      "tests/**/*.spec.js": ["webpack"],
 
       // Fixtures
       "**/*.html": ["html2js"],
@@ -41,7 +41,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["spec"], //"property", "spec"],
+    reporters: ["spec"], //"ginseng", "spec"],
 
     // web server port
     port: 9876,

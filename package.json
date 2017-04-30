@@ -1,5 +1,5 @@
 {
-  "name": "property",
+  "name": "ginseng",
   "version": "0.1.0",
   "description": "A property-based CSS unit testing framework",
   "keywords": [
@@ -7,9 +7,9 @@
     "testing",
     "framework"
   ],
-  "homepage": "http://squidfunk.github.io/property/",
+  "homepage": "http://squidfunk.github.io/ginseng/",
   "bugs": {
-    "url": "https://github.com/squidfunk/property/issues",
+    "url": "https://github.com/squidfunk/ginseng/issues",
     "email": "martin.donath@squidfunk.com"
   },
   "license": "MIT",
@@ -20,7 +20,7 @@
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/squidfunk/property.git"
+    "url": "https://github.com/squidfunk/ginseng.git"
   },
   "main": "dist/index.js",
   "scripts": {
@@ -28,18 +28,17 @@
     "travis": "scripts/travis",
     "watch": "scripts/watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "deep-equal": "^1.0.1"
+  },
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-root-import": "^5.1.0",
     "babel-preset-es2015": "^6.24.1",
-    "chai": "^3.5.0",
     "eslint": "^3.19.0",
     "eslint-plugin-jasmine": "^2.2.0",
-    "flow-bin": "^0.44.2",
-    "flow-jsdoc": "^0.3.0",
     "git-hooks": "^1.1.8",
     "jasmine-core": "^2.5.2",
     "karma": "^1.6.0",
@@ -51,7 +50,6 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-spec-reporter": "0.0.31",
     "karma-webpack": "^2.0.3",
-    "regenerator-runtime": "^0.10.3",
     "webpack": "^2.4.1"
   }
 }
