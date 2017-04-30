@@ -28,3 +28,6 @@
 
 # Distribution files
 /dist
+
+# Coverage reports
+/coverage

@@ -1,5 +1,5 @@
 const webpackConfig = require("./webpack.config.js")
-
+const path = require("path")
 var browsers = {                                 // 1
   sl_chrome: {
     base: 'SauceLabs',
@@ -30,12 +30,28 @@ var browsers = {                                 // 1
 // Generated on Mon Apr 24 2017 19:44:05 GMT+0200 (CEST)
 
 module.exports = function(config) {
+  webpackConfig.module.rules.push(
+
+                // instrument only testing sources with Istanbul
+                {
+                    test: /\.js$/,
+                    loader: 'istanbul-instrumenter-loader',
+                    include: path.resolve('src/'),
+                    query: {
+                      esModules: true
+                    }
+                }
+
+  )
+  console.log(webpackConfig.module.rules)
+
   const conf = {
     basePath: "",
     frameworks: ["jasmine", "fixture"],
     files: [
       "tests/fixtures/**/*",
-      "tests/**/*.spec.js"
+      // "tests/**/*.spec.js",
+      "tests/index.js"
     ],
 
     // list of files to exclude
@@ -50,8 +66,9 @@ module.exports = function(config) {
 
     // preprocess matching files before serving them to the browser
     preprocessors: {
-      "src/**/*.js": ["webpack"],
-      "tests/**/*.spec.js": ["webpack"],
+      // "src/**/*.js": ["webpack", "coverage"],
+      // "tests/**/*.spec.js": ["webpack"],
+      "tests/index.js": ["webpack"],
 
       // Fixtures
       "**/*.html": ["html2js"],
@@ -67,7 +84,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["spec"], //"ginseng", "spec"],
+    reporters: ["spec", "coverage-istanbul"], //"ginseng", "spec"],
 
     // web server port
     port: 9876,
@@ -81,6 +98,10 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any changes
     autoWatch: true,
 
+    coverageIstanbulReporter: {
+      reports: ['text-summary', "html"],
+      fixWebpackSourcePaths: true
+    },
     // start these browsers
     // browsers: ["Chrome"],
 
