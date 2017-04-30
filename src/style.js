@@ -61,7 +61,7 @@ export const computed = (el, pseudo) => {
 
     /* Handle element */
     default:
-      if (pseudo)
+      if (typeof pseudo !== "undefined")
         throw new TypeError(`Invalid pseudo qualifier: "${pseudo}"`)
       return window.getComputedStyle(el)
   }

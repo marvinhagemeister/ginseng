@@ -61,6 +61,16 @@ describe("style", () => {
     it("should return computed styles for element after",
       computedShouldReturnComputedStylesForElementAfter
     )
+
+    /* Test: should throw on invalid element */
+    it("should throw on invalid element",
+      computedShouldThrowOnInvalidElement
+    )
+
+    /* Test: should throw on invalid pseudo qualifier */
+    it("should throw on invalid pseudo qualifier",
+      computedShouldThrowOnInvalidPseudoQualifier
+    )
   })
 })
 
@@ -87,4 +97,23 @@ function computedShouldReturnComputedStylesForElementAfter() {
   const match = document.querySelector(".match")
   expect(style.computed(match, style.PSEUDO_AFTER))
     .toEqual(window.getComputedStyle(match, "::after"))
+}
+
+/* Test: #computed should throw on invalid element */
+function computedShouldThrowOnInvalidElement() {
+  expect(() => {
+    style.computed(null)
+  }).toThrow(
+    new ReferenceError("Invalid element: \"null\"")
+  )
+}
+
+/* Test: #computed should throw on invalid element */
+function computedShouldThrowOnInvalidPseudoQualifier() {
+  const match = document.querySelector(".match")
+  expect(() => {
+    style.computed(match, "invalid")
+  }).toThrow(
+    new TypeError("Invalid pseudo qualifier: \"invalid\"")
+  )
 }
