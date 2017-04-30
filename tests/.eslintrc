@@ -2,6 +2,9 @@
   "env": {
     "jasmine": true
   },
+  "globals": {
+    "fixture": true
+  },
   "plugins": [
     "jasmine"
   ],
@@ -14,9 +17,10 @@
     "jasmine/no-spec-dupes": [1, "block"],
     "jasmine/no-suite-callback-args": 2,
     "jasmine/no-suite-dupes": [1, "block"],
-    "jasmine/no-unsafe-spy": 1,
+    "jasmine/no-unsafe-spy": 0,
     "jasmine/valid-expect": 1,
     "prefer-arrow-callback": 0,
+    "no-invalid-this": 0,
     "no-use-before-define": 0,
     "require-jsdoc": 0
   }

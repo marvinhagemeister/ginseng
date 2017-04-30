@@ -52,13 +52,25 @@ export const query = selector => {
 }
 
 /**
- * Invoke the callback on a node and all of its child nodes, recursing
+ * Invoke the callback on a node and all of its child nodes
+ *
+ * Traversal is done in depth-first pre-order manner. The callback must extract
+ * the relevant value from the node and map the children to a data structure.
+ *
+ * Example:
+ *
+ * (node, children) => {
+ *   return {
+ *     tag: node.tagName,
+ *     children: children
+ *   }
+ * }
  *
  * @param {(string|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
  * @return {*} - Return value from callback
  */
-export const traverse = (selector, cb) => {
+export const traverse = (selector, cb = () => {}) => {
   const children = el => {
     return Array.prototype.reduce.call(el.childNodes, (nodes, node) => {
       if (node instanceof Element)

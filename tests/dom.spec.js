@@ -20,17 +20,32 @@
  * IN THE SOFTWARE.
  */
 
-import * as Document from "../src/document"
+import * as dom from "../src/dom"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
- /* Document */
-describe("Document", () => {
+/* dom */
+describe("dom", () => {
+
+  /* Set fixture base path */
+  beforeAll(function(){
+    fixture.setBase("tests/fixtures/dom")
+  })
+
+  /* Cleanup fixtures */
+  afterEach(function(){
+    fixture.cleanup()
+  })
 
   /* #query */
   describe("#query", () => {
+
+    /* Load fixtures */
+    beforeEach(function(){
+      fixture.load("query.html")
+    })
 
     /* Test: should accept selector */
     it("should accept selector",
@@ -61,43 +76,43 @@ describe("Document", () => {
   /* #traverse */
   describe("#traverse", () => {
 
-    /* Test: should return an iterable */
-    it("should return an iterable",
-      traverseShouldReturnAnIterable
+    /* Load fixtures */
+    beforeEach(function(){
+      fixture.load("traverse.html", "traverse.json")
+    })
+
+    /* Test: should resolve selector */
+    it("should call resolve selector",
+      traverseShouldResolveSelector
     )
 
-    /* Test: should return an iterable returning nodes */
-    it("should return an iterable returning nodes",
-      traverseShouldReturnAnIterableReturningNodes
-    )
-
-    /* Test: should perform a depth-first pre-order traversal */
-    it("should perform a depth-first pre-order traversal",
-      traverseShouldPerformADepthFirstPreOrderTraversal
+    /* Test: should apply callback to all child nodes */
+    it("should apply callback to all child nodes",
+      traverseShouldApplyCallbackToAllChildNodes
     )
   })
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions
+ * Definitions: #query
  * ------------------------------------------------------------------------- */
 
 /* Test: #query should accept selector */
 function queryShouldAcceptSelector() {
-  expect(Document.query("body"))
-    .toEqual(document.body)
+  expect(dom.query(".match"))
+    .toEqual(document.querySelector(".match"))
 }
 
 /* Test: #query should accept element */
 function queryShouldAcceptElement() {
-  expect(Document.query(document.body))
-    .toEqual(document.body)
+  expect(dom.query(fixture.el.firstChild))
+    .toEqual(document.querySelector(".match"))
 }
 
 /* Test: #query should throw on missing argument */
 function queryShouldThrowOnMissingArgument() {
   expect(() => {
-    Document.query()
+    dom.query()
   }).toThrow(
     new ReferenceError("Invalid selector or element: \"undefined\"")
   )
@@ -106,7 +121,7 @@ function queryShouldThrowOnMissingArgument() {
 /* Test: #query should throw on empty selector */
 function queryShouldThrowOnEmptySelector() {
   expect(() => {
-    Document.query("")
+    dom.query("")
   }).toThrow(
     new ReferenceError("No match for selector: \"\"")
   )
@@ -115,47 +130,27 @@ function queryShouldThrowOnEmptySelector() {
 /* Test: #query should throw on invalid selector */
 function queryShouldThrowOnInvalidSelector() {
   expect(() => {
-    Document.query(".no-match")
+    dom.query(".no-match")
   }).toThrow(
     new ReferenceError("No match for selector: \".no-match\"")
   )
 }
 
-/* Test: #traverse should return an iterable */
-function traverseShouldReturnAnIterable() {
-  document.body.innerHTML += "<b><span></span><i><i></i><span></span></i></b>"
-  console.log(Document.traverse(document.body, (node, children) => {
-    return {
-      node: node.tagName,
-      tree: children
-    }
-  }))
-  // expect(Document.traverse(document.body)[Symbol.iterator])
-  //   .toEqual(jasmine.any(Function))
+/* ----------------------------------------------------------------------------
+ * Definitions: #traverse
+ * ------------------------------------------------------------------------- */
+
+/* Test: #traverse should resolve selector */
+function traverseShouldResolveSelector() {
+  expect(() => {
+    dom.traverse(".match")
+  }).not.toThrow(
+    jasmine.any(Error))
 }
 
-/* Test: #traverse should return an iterable returning nodes */
-function traverseShouldReturnAnIterableReturningNodes() {
-  pending()
-  // for (const node of Document.traverse(document.body))
-  //   expect(node).toEqual(jasmine.any(Node))
-}
-
-/* <b><div>
-  <span></span>
-  <li>
-    <i></i>
-  </li>
-  <em></em>
-</div><b> */
-
-// div.  parents: [b].
-// span. parents: [b, div]
-// li.   parents: [b, div]
-// i.    parents: [b, div, li]
-// em.   parents: [b, div]
-
-/* Test: #traverse should perform a depth-first pre-order traversal */
-function traverseShouldPerformADepthFirstPreOrderTraversal() {
-  pending()
+/* Test: #traverse should apply callback on all child nodes */
+function traverseShouldApplyCallbackToAllChildNodes() {
+  expect(dom.traverse(".match", (node, children) => {
+    return { element: node.tagName, children }
+  })).toEqual(fixture.json[0])
 }

@@ -25,14 +25,23 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     preprocessors: {
       "src/**/*.js": ["webpack"],
-      "tests/**/*spec.js": ["webpack"]
+      "tests/**/*spec.js": ["webpack"],
+
+      // Fixtures
+      "**/*.html": ["html2js"],
+      "**/*.json": ["json_fixtures"]
     },
+
+    jsonFixturesPreprocessor: {
+      variableName: '__json__'
+    },
+
     webpack: webpackConfig,
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["property", "spec"],//, "spec"],
+    reporters: ["spec"], //"property", "spec"],
 
     // web server port
     port: 9876,
