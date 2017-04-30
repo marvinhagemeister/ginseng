@@ -111,15 +111,6 @@ describe("Spec", () => {
       captureShouldThrowOnInvalidOptions
     )
   })
-
-  /* #record */
-  describe("#record", () => {
-
-    /* Test: should traverse child nodes */
-    it("should traverse child nodes",
-      recordShouldTraverseChildNodes
-    )
-  })
 })
 
 /* ----------------------------------------------------------------------------
