@@ -70,7 +70,11 @@ export const query = selector => {
  * @param {Function} cb - Node callback
  * @return {*} - Return value from callback
  */
-export const traverse = (selector, cb = () => {}) => {
+export const traverse = (selector, cb) => {
+  if (typeof cb !== "function")
+    throw new TypeError("Invalid callback")
+
+  /* Recursively traverse children */
   const children = el => {
     return Array.prototype.reduce.call(el.childNodes, (nodes, node) => {
       if (node instanceof Element)

@@ -90,6 +90,11 @@ describe("dom", () => {
     it("should apply callback to all child nodes",
       traverseShouldApplyCallbackToAllChildNodes
     )
+
+    /* Test: should throw on invalid callback */
+    it("should throw on invalid callback",
+      traverseShouldThrowOnInvalidCallback
+    )
   })
 })
 
@@ -143,7 +148,7 @@ function queryShouldThrowOnInvalidSelector() {
 /* Test: #traverse should resolve selector */
 function traverseShouldResolveSelector() {
   expect(() => {
-    dom.traverse(".match")
+    dom.traverse(".match", () => {})
   }).not.toThrow(
     jasmine.any(Error))
 }
@@ -153,4 +158,12 @@ function traverseShouldApplyCallbackToAllChildNodes() {
   expect(dom.traverse(".match", (node, children) => {
     return { element: node.tagName, children }
   })).toEqual(fixture.json[0])
+}
+
+/* Test: #traverse should throw on invalid callback */
+function traverseShouldThrowOnInvalidCallback() {
+  expect(() => {
+    dom.traverse(".match", "")
+  }).toThrow(
+    new TypeError("Invalid callback"))
 }
