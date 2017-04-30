@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Copyright (c) 2017 Martin Donath <martin.donath@squidfunk.com>
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,18 +18,30 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-# Exit, if one command fails
-set -e
+language: node_js
+sudo: false
 
-# Check if "yarn" was executed
-if [[ ! -d "$(yarn bin)" ]]; then
-  echo "\"node_modules\" not found:"
-  echo "yarn"
-  exit 1
-fi
+# -----------------------------------------------------------------------------
+# Regular builds
+# -----------------------------------------------------------------------------
 
-# Run build
-"$(yarn bin)"/webpack
+# Node.js version and necessary services
+node_js: 5
 
-# Start test runner
-"$(yarn bin)"/karma start --single-run
+# Limit clone depth to 5, to speed up build
+git:
+  depth: 5
+
+# Cache dependencies
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+# Install yarn as Travis doesn't support it out of the box
+before_install:
+  - npm install -g yarn@v0.22.0
+
+# Perform build, tests and release
+script:
+  - yarn run travis

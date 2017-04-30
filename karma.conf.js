@@ -1,10 +1,36 @@
 const webpackConfig = require("./webpack.config.js")
 
+var browsers = {                                 // 1
+  sl_chrome: {
+    base: 'SauceLabs',
+    browserName: 'chrome',
+    platform: 'Windows 7'
+    // version: '58'
+  }
+  // sl_firefox: {
+  //   base: 'SauceLabs',
+  //   browserName: 'firefox',
+  //   version: '30'
+  // },
+  // sl_ios_safari: {
+  //   base: 'SauceLabs',
+  //   browserName: 'iphone',
+  //   platform: 'OS X 10.9',
+  //   version: '7.1'
+  // },
+  // sl_ie_11: {
+  //   base: 'SauceLabs',
+  //   browserName: 'internet explorer',
+  //   platform: 'Windows 8.1',
+  //   version: '11'
+  // }
+}
+
 // Karma configuration
 // Generated on Mon Apr 24 2017 19:44:05 GMT+0200 (CEST)
 
 module.exports = function(config) {
-  config.set({
+  const conf = {
     basePath: "",
     frameworks: ["jasmine", "fixture"],
     files: [
@@ -65,5 +91,16 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  }
+
+  if (process.env.TRAVIS) {
+    conf.sauceLabs = {
+      testName: "Ginseng Test"
+    },
+    conf.reporters = ["saucelabs", "spec"]
+    conf.browsers = Object.keys(browsers)
+    conf.customLaunchers = browsers
+  }
+  config.set(conf)
+
 }
