@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "../src/dom"
+import * as dom from "~/src/dom"
 
 /* ----------------------------------------------------------------------------
  * Declarations

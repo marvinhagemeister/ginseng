@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-import identity from "../../src/reduce/identity"
+import identity from "~/src/reduce/identity"
 
 /* ----------------------------------------------------------------------------
  * Declarations
