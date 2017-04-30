@@ -68,7 +68,7 @@ export const query = selector => {
  *
  * @param {(string|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
- * @return {*} - Return value from callback
+ * @return {*} Return value from callback
  */
 export const traverse = (selector, cb) => {
   if (typeof cb !== "function")
