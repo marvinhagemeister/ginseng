@@ -154,7 +154,8 @@ module.exports = function(karma) {
       testName: id,
       tunnelIdentifier: id,
       recordVideo: false,
-      recordScreenshots: false
+      recordScreenshots: false,
+      startConnect: false
     }
 
     /* Set reporters and browsers */
