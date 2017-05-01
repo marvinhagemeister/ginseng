@@ -152,10 +152,9 @@ module.exports = function(karma) {
     config.sauceLabs = {
       build: process.env.TRAVIS_BUILD_NUMBER,
       testName: id,
-      tunnelIdentifier: id,
+      // tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER || 100, // id,
       recordVideo: false,
-      recordScreenshots: false,
-      startConnect: false
+      recordScreenshots: false
     }
 
     /* Set reporters and browsers */
