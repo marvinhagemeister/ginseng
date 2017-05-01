@@ -33,5 +33,6 @@ fi
 # Clean build directory
 rm -rf dist
 
-# Transpile javascript sources and copy static files
-"$(yarn bin)"/webpack
+# Build library for production
+"$(yarn bin)"/cross-env NODE_ENV=production \
+  "$(yarn bin)"/webpack

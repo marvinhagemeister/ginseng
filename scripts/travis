@@ -30,8 +30,12 @@ if [[ ! -d "$(yarn bin)" ]]; then
   exit 1
 fi
 
-# Run build
-"$(yarn bin)"/webpack
+# Clean build directory
+rm -rf dist
+
+# Build library for production
+"$(yarn bin)"/cross-env NODE_ENV=production \
+  "$(yarn bin)"/webpack
 
 # Start test runner
 "$(yarn bin)"/karma start --single-run

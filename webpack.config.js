@@ -27,49 +27,79 @@ const webpack = require("webpack")
  * Configuration
  * ------------------------------------------------------------------------- */
 
-module.exports = {
+module.exports = function() {
+  const config = {
 
-  /* Entrypoint */
-  entry: [
-    path.resolve(__dirname, "./src/index.js")
-  ],
-
-  /* Loaders */
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: "babel-loader",
-        exclude: /(\/node_modules\/|\/dist\/)/
-      }
-    ]
-  },
-
-  /* Output */
-  output: {
-    path: path.resolve(__dirname, "./dist"),
-    filename: "index.js",
-    pathinfo: true
-  },
-
-  /* Plugins */
-  plugins: [
-
-    /* Don't emit assets that include errors */
-    new webpack.NoEmitOnErrorsPlugin()
-  ],
-
-  /* Module resolver */
-  resolve: {
-    modules: [
-      __dirname,
-      path.resolve(__dirname, "./node_modules")
+    /* Entrypoint */
+    entry: [
+      path.resolve(__dirname, "./src/index.js")
     ],
-    extensions: [
-      ".js"
-    ]
-  },
 
-  /* Enable sourcemaps */
-  devtool: "inline-source-map"
+    /* Loaders */
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          use: "babel-loader",
+          exclude: /(\/node_modules\/|\/dist\/)/
+        }
+      ]
+    },
+
+    /* Output */
+    output: {
+      path: path.resolve(__dirname, "./dist"),
+      filename: "index.js",
+      pathinfo: true
+    },
+
+    /* Plugins */
+    plugins: [
+
+      /* Don't emit assets that include errors */
+      new webpack.NoEmitOnErrorsPlugin()
+    ],
+
+    /* Module resolver */
+    resolve: {
+      modules: [
+        __dirname,
+        path.resolve(__dirname, "./node_modules")
+      ],
+      extensions: [
+        ".js"
+      ]
+    },
+
+    /* Enable sourcemaps */
+    devtool: "inline-source-map"
+  }
+
+  /* Build for production environment */
+  if (process.env.NODE_ENV === "production") {
+
+    /* Aggressively minify sources */
+    config.plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          conditionals: true,
+          comparisons: true,
+          dead_code: true,     // eslint-disable-line camelcase
+          evaluate: true,
+          if_return: true,     // eslint-disable-line camelcase
+          join_vars: true,     // eslint-disable-line camelcase
+          loops: true,
+          properties: true,
+          sequences: true,
+          unused: true,
+          warnings: false
+        },
+        output: {
+          comments: false
+        }
+      }))
+  }
+
+  /* We're good to go */
+  return config
 }

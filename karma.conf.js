@@ -27,11 +27,11 @@ const path = require("path")
  * Configuration
  * ------------------------------------------------------------------------- */
 
-module.exports = function(config) {
+module.exports = function(karma) {
   const webpack = require("./webpack.config.js")
 
   /* Common configuration (single run and watch mode) */
-  const karma = {
+  const config = {
     frameworks: [
       "jasmine",
       "fixture"
@@ -71,7 +71,7 @@ module.exports = function(config) {
   }
 
   /* Configuration for single run */
-  if (config.singleRun) {
+  if (karma.singleRun) {
 
     /* Load webpack config and add istanbul loader for code coverage */
     webpack.module.rules.push({
@@ -81,13 +81,13 @@ module.exports = function(config) {
     })
 
     /* Enable short reports and code coverage */
-    karma.reporters = [
+    config.reporters = [
       "dots",
       "coverage-istanbul"
     ]
 
     /* Configuration for code coverage */
-    karma.coverageIstanbulReporter = {
+    config.coverageIstanbulReporter = {
       reports: [
         "text-summary",
         "html"
@@ -95,7 +95,7 @@ module.exports = function(config) {
     }
 
     /* Automatically launch local Chrome */
-    karma.browsers = ["Chrome"]
+    config.browsers = ["Chrome"]
   }
 
   /* Additional configuration for continuous integration */
@@ -145,11 +145,11 @@ module.exports = function(config) {
 
     /* SauceLabs job name */
     const id = process.env.TRAVIS
-      ? `${process.env.TRAVIS_REPO_SLUG} [#${process.env.TRAVIS_BUILD_NUMBER}]`
-      : `~ [#${moniker.choose()}]`
+      ? `${process.env.TRAVIS_REPO_SLUG} #${process.env.TRAVIS_BUILD_NUMBER}`
+      : `~ #${moniker.choose()}`
 
     /* Configure SauceLabs integration */
-    karma.sauceLabs = {
+    config.sauceLabs = {
       build: process.env.TRAVIS_BUILD_NUMBER,
       testName: id,
       tunnelIdentifier: id,
@@ -158,12 +158,11 @@ module.exports = function(config) {
     }
 
     /* Set reporters and browsers */
-    karma.reporters.push("saucelabs")
-    karma.browsers = Object.keys(browsers)
-    karma.customLaunchers = browsers
+    config.reporters.push("saucelabs")
+    config.browsers = Object.keys(browsers)
+    config.customLaunchers = browsers
   }
-  console.log(karma)
 
   /* We're good to go */
-  config.set(karma)
+  karma.set(config)
 }
