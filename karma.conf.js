@@ -28,7 +28,7 @@ const path = require("path")
  * ------------------------------------------------------------------------- */
 
 module.exports = function(karma) {
-  const webpack = require("./webpack.config.js")
+  const webpack = require("./webpack.config.js")()
 
   /* Common configuration (single run and watch mode) */
   const config = {
