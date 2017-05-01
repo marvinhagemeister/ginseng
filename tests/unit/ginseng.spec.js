@@ -28,7 +28,7 @@ import Ginseng from "~/src/ginseng"
  * Declarations
  * ------------------------------------------------------------------------- */
 
- /* Ginseng */
+/* Ginseng */
 describe("Ginseng", () => {
 
   /* Set fixture base path */
@@ -69,24 +69,12 @@ describe("Ginseng", () => {
 
       /* Register spies */
       spyOn(dom, "query").and.returnValue(fixture.el.firstChild)
-      // console.log(window.Spec, "ff")
-      // spyOn(window, "Spec")
-      // window.Spec = function() {
-      //   this.name_ = "foooo"
-      //   this.element_ = fixture.el.firstChild
-      // }
-      // const spec = new Spec("sx")
-      // console.log(spec)
 
-      // spyOn(window, "Spec").and.returnValue({
-      //   element: "foo"
-      // })
+      /* FIXME: For unit tests to be accurate, "Spec" should be mocked.
+         However, researching some hours this seems not to be possible with
+         the current version of webpack and rewire-webpack. We could pass the
+         Spec constructor as a service to Ginseng, but this is really ugly */
     })
-
-    /* Reset monkey-patched spies */
-    // afterEach(() => {
-    //   window.Spec = window.SpecOriginal
-    // })
 
     /* Test: should fail on missing baseline */
     it("should fail on missing baseline",

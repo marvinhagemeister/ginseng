@@ -109,13 +109,13 @@ describe("[Browser]", () => {
 /* Test: #query should accept selector */
 function queryShouldAcceptSelector() {
   expect(dom.query(".query"))
-    .toEqual(document.querySelector(".query"))
+    .toEqual(fixture.el.firstChild)
 }
 
 /* Test: #query should accept element */
 function queryShouldAcceptElement() {
   expect(dom.query(fixture.el.firstChild))
-    .toEqual(document.querySelector(".query"))
+    .toEqual(fixture.el.firstChild)
 }
 
 /* Test: #query should throw on missing argument */

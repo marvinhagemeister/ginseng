@@ -29,7 +29,7 @@ import Spec from "~/src/spec"
  * Declarations
  * ------------------------------------------------------------------------- */
 
- /* Spec */
+/* Spec */
 describe("Spec", () => {
 
   /* Set fixture base path */

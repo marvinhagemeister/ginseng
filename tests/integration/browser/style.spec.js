@@ -84,9 +84,8 @@ describe("[Browser]", () => {
 
 /* Test: #load should return computed styles for element */
 function loadShouldReturnComputedStylesForElement() {
-  const el = document.querySelector(".load")
-  const decl = window.getComputedStyle(el)
-  expect(style.load(el))
+  const decl = window.getComputedStyle(fixture.el.firstChild)
+  expect(style.load(fixture.el.firstChild))
     .toEqual(Object.keys(decl).reduce((result, key) => {
       if (!/^\d+$/.test(key))
         result[key] = decl[key]
@@ -96,9 +95,8 @@ function loadShouldReturnComputedStylesForElement() {
 
 /* Test: #load should return computed styles for element before */
 function loadShouldReturnComputedStylesForElementBefore() {
-  const el = document.querySelector(".load")
-  const decl = window.getComputedStyle(el, "::before")
-  expect(style.load(el, style.PSEUDO_BEFORE))
+  const decl = window.getComputedStyle(fixture.el.firstChild, "::before")
+  expect(style.load(fixture.el.firstChild, style.PSEUDO_BEFORE))
     .toEqual(Object.keys(decl).reduce((result, key) => {
       if (!/^\d+$/.test(key))
         result[key] = decl[key]
@@ -108,9 +106,8 @@ function loadShouldReturnComputedStylesForElementBefore() {
 
 /* Test: #load should return computed styles for element after */
 function loadShouldReturnComputedStylesForElementAfter() {
-  const el = document.querySelector(".load")
-  const decl = window.getComputedStyle(el, "::after")
-  expect(style.load(el, style.PSEUDO_AFTER))
+  const decl = window.getComputedStyle(fixture.el.firstChild, "::after")
+  expect(style.load(fixture.el.firstChild, style.PSEUDO_AFTER))
     .toEqual(Object.keys(decl).reduce((result, key) => {
       if (!/^\d+$/.test(key))
         result[key] = decl[key]
