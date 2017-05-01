@@ -1,127 +1,160 @@
-const webpackConfig = require("./webpack.config.js")
-const path = require("path")
-var browsers = {                                 // 1
-  sl_chrome: {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    platform: 'Windows 7'
-    // version: '58'
-  }
-  // sl_firefox: {
-  //   base: 'SauceLabs',
-  //   browserName: 'firefox',
-  //   version: '30'
-  // },
-  // sl_ios_safari: {
-  //   base: 'SauceLabs',
-  //   browserName: 'iphone',
-  //   platform: 'OS X 10.9',
-  //   version: '7.1'
-  // },
-  // sl_ie_11: {
-  //   base: 'SauceLabs',
-  //   browserName: 'internet explorer',
-  //   platform: 'Windows 8.1',
-  //   version: '11'
-  // }
-}
+/*
+ * Copyright (c) 2017 Martin Donath <martin.donath@squidfunk.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
 
-// Karma configuration
-// Generated on Mon Apr 24 2017 19:44:05 GMT+0200 (CEST)
+const moniker = require("moniker")
+const path = require("path")
+
+/* ----------------------------------------------------------------------------
+ * Configuration
+ * ------------------------------------------------------------------------- */
 
 module.exports = function(config) {
-  webpackConfig.module.rules.push(
+  const webpack = require("./webpack.config.js")
 
-                // instrument only testing sources with Istanbul
-                {
-                    test: /\.js$/,
-                    loader: 'istanbul-instrumenter-loader',
-                    include: path.resolve('src/'),
-                    query: {
-                      esModules: true
-                    }
-                }
+  /* Common configuration (single run and watch mode) */
+  const karma = {
+    frameworks: [
+      "jasmine",
+      "fixture"
+    ],
 
-  )
-  console.log(webpackConfig.module.rules)
-
-  const conf = {
-    basePath: "",
-    frameworks: ["jasmine", "fixture"],
+    /* Include fixtures and tests */
     files: [
       "tests/fixtures/**/*",
-      // "tests/**/*.spec.js",
       "tests/index.js"
     ],
 
-    // list of files to exclude
-    exclude: [
-      "dist"
-    ],
-
-    browserConsoleLogOptions: {
-      terminal: true,
-      level: ""
-    },
-
-    // preprocess matching files before serving them to the browser
+    /* Preprocess fixtures for tests */
     preprocessors: {
-      // "src/**/*.js": ["webpack", "coverage"],
-      // "tests/**/*.spec.js": ["webpack"],
-      "tests/index.js": ["webpack"],
 
-      // Fixtures
-      "**/*.html": ["html2js"],
-      "**/*.json": ["json_fixtures"]
+      /* HTML and JSON Fixtures */
+      "tests/**/*.html": ["html2js"],
+      "tests/**/*.json": ["json_fixtures"],
+
+      /* Single entrypoint for tests in order for istanbul code coverage to
+         work properly in conjunction with babel */
+      "tests/index.js": [
+        "webpack",
+        "sourcemap"
+      ]
     },
 
+    /* Webpack configuration */
+    webpack,
+
+    /* Test reporters */
+    reporters: ["spec"],
+
+    /* Configuration for JSON fixture processor */
     jsonFixturesPreprocessor: {
-      variableName: '__json__'
-    },
-
-    webpack: webpackConfig,
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["spec", "coverage-istanbul"], //"ginseng", "spec"],
-
-    // web server port
-    port: 9876,
-
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
-
-    // level of logging
-    logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any changes
-    autoWatch: true,
-
-    coverageIstanbulReporter: {
-      reports: ['text-summary', "html"],
-      fixWebpackSourcePaths: true
-    },
-    // start these browsers
-    // browsers: ["Chrome"],
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
-
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: Infinity
+      variableName: "__json__"
+    }
   }
 
-  if (process.env.TRAVIS) {
-    conf.sauceLabs = {
-      testName: "Ginseng Test"
-    },
-    conf.reporters = ["saucelabs", "spec"]
-    conf.browsers = Object.keys(browsers)
-    conf.customLaunchers = browsers
-  }
-  config.set(conf)
+  /* Configuration for single run */
+  if (config.singleRun) {
 
+    /* Load webpack config and add istanbul loader for code coverage */
+    webpack.module.rules.push({
+      test: /\.js$/,
+      loader: "istanbul-instrumenter-loader?+esModules",
+      include: path.resolve("src/")
+    })
+
+    /* Enable short reports and code coverage */
+    karma.reporters = [
+      "dots",
+      "coverage-istanbul"
+    ]
+
+    /* Configuration for code coverage */
+    karma.coverageIstanbulReporter = {
+      reports: [
+        "text-summary",
+        "html"
+      ]
+    }
+  }
+
+  /* Additional configuration for continuous integration */
+  if (process.env.CI || process.env.SAUCE) {
+
+    /* Define browsers to run tests on */
+    const browsers = {
+
+      /* Chrome (evergreen) */
+      chrome: {
+        base: "SauceLabs",
+        browserName: "chrome",
+        platform: "Windows 7",
+        screenResolution: "1280x1024"
+      },
+
+      /* Firefox (evergreen) */
+      firefox: {
+        base: "SauceLabs",
+        browserName: "firefox",
+        platform: "Windows 7",
+        screenResolution: "1280x1024"
+      },
+
+      /* Edge (evergreen) */
+      edge: {
+        base: "SauceLabs",
+        browserName: "MicrosoftEdge",
+        platform: "Windows 10",
+        screenResolution: "1280x1024"
+      },
+
+      /* Internet Explorer 11 */
+      ie11: {
+        base: "SauceLabs",
+        browserName: "internet explorer",
+        version: "11.103",
+        platform: "Windows 10",
+        screenResolution: "1280x1024"
+      }
+    }
+
+    /* SauceLabs job name */
+    const id = process.env.TRAVIS
+      ? `Travis #${process.env.TRAVIS_BUILD_NUMBER}`
+      : `Local #${moniker.choose()}`
+
+    /* Configure SauceLabs integration */
+    karma.sauceLabs = {
+      build: process.env.TRAVIS_BUILD_NUMBER,
+      testName: id,
+      tunnelIdentifier: id,
+      recordVideo: false,
+      recordScreenshots: false
+    }
+
+    /* Set reporters and browsers */
+    karma.reporters.push("saucelabs")
+    karma.browsers = Object.keys(browsers)
+    karma.customLaunchers = browsers
+  }
+
+  /* We're good to go */
+  config.set(karma)
 }

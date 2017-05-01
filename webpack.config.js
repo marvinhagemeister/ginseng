@@ -68,5 +68,8 @@ module.exports = {
     extensions: [
       ".js"
     ]
-  }
+  },
+
+  /* Enable sourcemaps */
+  devtool: "inline-source-map"
 }

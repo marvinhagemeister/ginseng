@@ -20,10 +20,13 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-# Check if "yarn" was executed
+# Exit, if one command fails
+set -e
+
+# Check if "yarn install" was executed
 if [[ ! -d "$(yarn bin)" ]]; then
   echo "\"node_modules\" not found:"
-  echo "yarn"
+  echo "yarn install"
   exit 1
 fi
 

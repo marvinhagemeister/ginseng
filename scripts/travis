@@ -23,10 +23,10 @@
 # Exit, if one command fails
 set -e
 
-# Check if "yarn" was executed
+# Check if "yarn install" was executed
 if [[ ! -d "$(yarn bin)" ]]; then
   echo "\"node_modules\" not found:"
-  echo "yarn"
+  echo "yarn install"
   exit 1
 fi
 
