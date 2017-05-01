@@ -25,6 +25,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "scripts/build",
+    "lint": "scripts/lint",
     "test": "scripts/test",
     "travis": "scripts/travis",
     "watch": "scripts/watch"
