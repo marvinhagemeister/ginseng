@@ -146,7 +146,7 @@ module.exports = function(karma) {
     /* SauceLabs job name */
     const id = process.env.TRAVIS
       ? `${process.env.TRAVIS_REPO_SLUG} #${process.env.TRAVIS_BUILD_NUMBER}`
-      : `~ #${moniker.choose()}`
+      : `_ #${moniker.choose()}`
 
     /* Configure SauceLabs integration */
     config.sauceLabs = {

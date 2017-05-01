@@ -32,14 +32,14 @@ import * as style from "./browser/style"
 export default class Spec {
 
   /**
-   * Create a named spec for a selector
+   * Create a specification for a selector
    *
    * @constructor
    *
-   * @property {string} name_ - Spec name
+   * @property {string} name_ - Specification name
    * @property {Element} el_ - Element
    *
-   * @param {string} name - Spec name
+   * @param {string} name - Specification name
    * @param {(string|Element)} selector - Selector or element
    */
   constructor(name, selector) {
@@ -55,7 +55,7 @@ export default class Spec {
   }
 
   /**
-   * Capture spec
+   * Capture specification
    *
    * @param {object?} options - Option overrides                                // TODO: are options needed?
    */
@@ -77,9 +77,9 @@ export default class Spec {
   }
 
   /**
-   * Compare spec data against a baseline
+   * Compare specification data against a baseline
    *
-   * @param {object} baseline - Baseline spec data
+   * @param {object} baseline - Baseline specification data
    * @param {object?} options - Option overrides
    * @return {boolean} Comparison result
    */
@@ -88,18 +88,18 @@ export default class Spec {
   }
 
   /**
-   * Retrieve spec name
+   * Retrieve specification name
    *
-   * @return {string} Spec name
+   * @return {string} Specification name
    */
   get name() {
     return this.name_
   }
 
   /**
-   * Retrieve spec data
+   * Retrieve specification data
    *
-   * @return {object} Spec data
+   * @return {object} Specification data
    */
   get data() {
     return this.data_
