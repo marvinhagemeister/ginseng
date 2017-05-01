@@ -38,10 +38,6 @@ cache:
   directories:
     - node_modules
 
-# Install yarn as Travis doesn't support it out of the box
-before_install:
-  - npm install -g yarn@v0.22.0
-
 # Perform build, tests and release
 script:
   - yarn run travis

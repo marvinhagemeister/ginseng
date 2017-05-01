@@ -110,7 +110,7 @@ module.exports = function(config) {
     const browsers = {
 
       /* Chrome (evergreen) */
-      Chrome: {
+      chrome: {
         base: "SauceLabs",
         browserName: "chrome",
         platform: "Windows 7",
@@ -118,7 +118,7 @@ module.exports = function(config) {
       },
 
       /* Firefox (evergreen) */
-      Firefox: {
+      firefox: {
         base: "SauceLabs",
         browserName: "firefox",
         platform: "Windows 7",
@@ -126,7 +126,7 @@ module.exports = function(config) {
       },
 
       /* Edge (evergreen) */
-      Edge: {
+      edge: {
         base: "SauceLabs",
         browserName: "MicrosoftEdge",
         platform: "Windows 10",
@@ -134,7 +134,7 @@ module.exports = function(config) {
       },
 
       /* Internet Explorer 11 */
-      IE11: {
+      ie11: {
         base: "SauceLabs",
         browserName: "internet explorer",
         version: "11.103",
