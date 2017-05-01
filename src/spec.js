@@ -57,14 +57,10 @@ export default class Spec {
   /**
    * Capture specification
    *
-   * @param {object?} options - Option overrides                                // TODO: are options needed?
+   * @return {object} Specification data
    */
-  capture(options = {}) {
-    if (typeof options !== "object")
-      throw new TypeError(`Invalid options: "${options}"`)
-
-    /* Record styles for element, child nodes and all pseudo elements */
-    this.data_ = dom.traverse(this.el_, (element, children) => {
+  capture() {
+    return this.data_ = dom.traverse(this.el_, (element, children) => {
       return {
         element: style.load(element),
         pseudo: {
@@ -80,11 +76,10 @@ export default class Spec {
    * Compare specification data against a baseline
    *
    * @param {object} baseline - Baseline specification data
-   * @param {object?} options - Option overrides
    * @return {boolean} Comparison result
    */
-  compare(baseline, options = {}) {
-    return equal(baseline, this.record(options))
+  compare(baseline) {
+    return equal(baseline, this.capture())
   }
 
   /**

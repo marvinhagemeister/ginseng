@@ -42,10 +42,7 @@ export const query = selector => {
     ? document.querySelector(selector)
     : selector
   if (!(el instanceof Element))
-    throw new ReferenceError(
-      typeof selector === "string"
-        ? `No match for selector: "${selector}"`
-        : `Invalid element: "${el}"`)
+    throw new ReferenceError(`No match for selector: "${selector}"`)
 
   /* Return resolved element */
   return el

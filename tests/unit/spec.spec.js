@@ -101,14 +101,28 @@ describe("Spec", () => {
       captureShouldTraverseChildNodes
     )
 
+    /* Test: should return data */
+    it("should return data",
+      captureShouldReturnData
+    )
+
     /* Test: should set data */
     it("should set data",
       captureShouldSetData
     )
+  })
 
-    /* Test: should throw on invalid options */
-    it("should throw on invalid options",
-      captureShouldThrowOnInvalidOptions
+  /* #compare */
+  describe("#compare", () => {
+
+    /* Load fixtures */
+    beforeEach(function(){
+      fixture.load("compare.html")
+    })
+
+    /* Test: should capture specification */
+    it("should capture specification",
+      compareShouldCaptureSpecification
     )
   })
 })
@@ -158,10 +172,23 @@ function captureShouldTraverseChildNodes() {
     .toEqual(3)
 }
 
-/* Test: #constructor should set data */
+/* Test: #capture should return data */
+function captureShouldReturnData() {
+  const spec = new Spec("name", ".constructor")
+  expect(spec.capture()).toEqual({
+    element: true,
+    pseudo: {
+      before: true,
+      after: true
+    },
+    children: jasmine.any(Function)
+  })
+}
+
+/* Test: #capture should set data */
 function captureShouldSetData() {
   const spec = new Spec("name", ".constructor")
-  spec.capture()
+  expect(spec.capture()).toEqual(spec.data)
   expect(spec.data).toEqual({
     element: true,
     pseudo: {
@@ -172,10 +199,16 @@ function captureShouldSetData() {
   })
 }
 
-/* Test: #capture: should throw on invalid options */
-function captureShouldThrowOnInvalidOptions() {
-  expect(() => {
-    new Spec("name", ".constructor").capture("invalid")
-  }).toThrow(
-    new TypeError("Invalid options: \"invalid\""))
+/* ----------------------------------------------------------------------------
+ * Definitions: #compare
+ * ------------------------------------------------------------------------- */
+
+/* Test: #compare should capture specification */
+function compareShouldCaptureSpecification() {
+  const spec = new Spec("name", ".compare")
+  spec.compare = jasmine.createSpy("compare").and.callFake(spec.compare)
+  expect(spec.compare(spec.capture()))
+    .toBe(true)
+  expect(spec.compare)
+    .toHaveBeenCalled()
 }
