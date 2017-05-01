@@ -33,12 +33,12 @@ import Spec from "~/src/spec"
 describe("Spec", () => {
 
   /* Set fixture base path */
-  beforeAll(function(){
+  beforeAll(() => {
     fixture.setBase("tests/fixtures/spec")
   })
 
   /* Cleanup fixtures */
-  afterEach(function(){
+  afterEach(() => {
     fixture.cleanup()
   })
 
@@ -46,11 +46,11 @@ describe("Spec", () => {
   describe("#constructor", () => {
 
     /* Load fixtures and register spies */
-    beforeEach(function(){
+    beforeEach(() => {
       fixture.load("constructor.html")
 
       /* Register spies */
-      spyOn(dom, "query")
+      spyOn(dom, "query").and.returnValue(fixture.el.firstChild)
     })
 
     /* Test: should set name */
@@ -58,14 +58,19 @@ describe("Spec", () => {
       constructorShouldSetName
     )
 
-    /* Test: should set data */
-    it("should set data",
-      constructorShouldSetData
+    /* Test: should set element */
+    it("should set element",
+      constructorShouldSetElement
     )
 
     /* Test: should resolve selector */
     it("should resolve selector",
       constructorShouldResolveSelector
+    )
+
+    /* Test: should initialize data */
+    it("should initialize data",
+      constructorShouldInitializeData
     )
 
     /* Test: should throw on invalid name */
@@ -78,7 +83,7 @@ describe("Spec", () => {
   describe("#capture", () => {
 
     /* Load fixtures and register spies */
-    beforeEach(function(){
+    beforeEach(() => {
       fixture.load("capture.html")
 
       /* Register spies */
@@ -115,14 +120,22 @@ describe("Spec", () => {
   /* #compare */
   describe("#compare", () => {
 
-    /* Load fixtures */
-    beforeEach(function(){
+    /* Load fixtures and register spies */
+    beforeEach(() => {
       fixture.load("compare.html")
+
+      /* Register spies */
+      spyOn(dom, "query").and.returnValue(fixture.el)
     })
 
-    /* Test: should capture specification */
-    it("should capture specification",
-      compareShouldCaptureSpecification
+    /* Test: should use captured data */
+    it("should use captured data",
+      compareShouldUseCapturedData
+    )
+
+    /* Test: should capture data if not present */
+    it("should capture data if not present",
+      compareShouldCaptureDataIfNotPresent
     )
   })
 })
@@ -135,13 +148,15 @@ describe("Spec", () => {
 function constructorShouldSetName() {
   const name = `${+new Date}`
   const spec = new Spec(name, ".constructor")
-  expect(spec.name).toEqual(name)
+  expect(spec.name)
+    .toEqual(name)
 }
 
-/* Test: #constructor should set data */
-function constructorShouldSetData() {
+/* Test: #constructor should set element */
+function constructorShouldSetElement() {
   const spec = new Spec("name", ".constructor")
-  expect(spec.data).toBeNull()
+  expect(spec.element)
+    .toEqual(fixture.el.firstChild)
 }
 
 /* Test: #constructor should resolve selector */
@@ -149,6 +164,13 @@ function constructorShouldResolveSelector() {
   new Spec("name", ".constructor")
   expect(dom.query)
     .toHaveBeenCalledWith(".constructor")
+}
+
+/* Test: #constructor should initialize data */
+function constructorShouldInitializeData() {
+  const spec = new Spec("name", ".constructor")
+  expect(spec.data)
+    .toBeNull()
 }
 
 /* Test: #constructor should throw on invalid name */
@@ -203,12 +225,25 @@ function captureShouldSetData() {
  * Definitions: #compare
  * ------------------------------------------------------------------------- */
 
-/* Test: #compare should capture specification */
-function compareShouldCaptureSpecification() {
+/* Test: #compare should use captured data */
+function compareShouldUseCapturedData() {
   const spec = new Spec("name", ".compare")
-  spec.compare = jasmine.createSpy("compare").and.callFake(spec.compare)
-  expect(spec.compare(spec.capture()))
+  spec.capture()
+  spyOn(spec, "capture").and.callThrough()
+  expect(spec.compare(spec.data))
     .toBe(true)
-  expect(spec.compare)
+  expect(spec.capture)
+    .not.toHaveBeenCalled()
+
+}
+
+/* Test: #compare should capture data if not present */
+function compareShouldCaptureDataIfNotPresent() {
+  const data = new Spec("name", ".compare").capture()
+  const spec = new Spec("name", ".compare")
+  spyOn(spec, "capture").and.callThrough()
+  expect(spec.compare(data))
+    .toBe(true)
+  expect(spec.capture)
     .toHaveBeenCalled()
 }

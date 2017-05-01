@@ -42,8 +42,8 @@ export const PSEUDO_AFTER = "::after"
  * Retrieve the computed properties of an element or pseudo element
  *
  * @param {Element} el - Element
- * @param {string?} pseudo - Pseudo qualifier
- * @return {object} Style rules
+ * @param {String?} pseudo - Pseudo qualifier
+ * @return {Object} Style rules
  */
 export const load = (el, pseudo = null) => {
   if (!(el instanceof Element))

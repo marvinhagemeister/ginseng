@@ -30,7 +30,7 @@
  * If a selector is given, it will be passed to document.querySelector which
  * will only query for a single element, ignoring subsequent matches.
  *
- * @param {(string|Element)} selector - Selector or element
+ * @param {(String|Element)} selector - Selector or element
  * @return {Element} Element
  */
 export const query = selector => {
@@ -63,7 +63,7 @@ export const query = selector => {
  *   }
  * }
  *
- * @param {(string|Element)} selector - Selector or element
+ * @param {(String|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
  * @return {*} Return value from callback
  */

@@ -36,11 +36,12 @@ export default class Spec {
    *
    * @constructor
    *
-   * @property {string} name_ - Specification name
+   * @property {String} name_ - Name
    * @property {Element} el_ - Element
+   * @property {Object} data_ - Data
    *
-   * @param {string} name - Specification name
-   * @param {(string|Element)} selector - Selector or element
+   * @param {String} name - Name
+   * @param {(String|Element)} selector - Selector or element
    */
   constructor(name, selector) {
     if (typeof name !== "string" || !name.length)
@@ -57,7 +58,7 @@ export default class Spec {
   /**
    * Capture specification
    *
-   * @return {object} Specification data
+   * @return {Object} Data
    */
   capture() {
     return this.data_ = dom.traverse(this.el_, (element, children) => {
@@ -73,28 +74,37 @@ export default class Spec {
   }
 
   /**
-   * Compare specification data against a baseline
+   * Compare specification data against given baseline
    *
-   * @param {object} baseline - Baseline specification data
-   * @return {boolean} Comparison result
+   * @param {Object} baseline - Baseline data
+   * @return {Boolean} Comparison result
    */
   compare(baseline) {
-    return equal(baseline, this.capture())
+    return equal(baseline, this.data_ || this.capture())
   }
 
   /**
    * Retrieve specification name
    *
-   * @return {string} Specification name
+   * @return {String} Name
    */
   get name() {
     return this.name_
   }
 
   /**
+   * Retrieve captured element
+   *
+   * @return {Element} Element
+   */
+  get element() {
+    return this.el_
+  }
+
+  /**
    * Retrieve specification data
    *
-   * @return {object} Specification data
+   * @return {Object} Data
    */
   get data() {
     return this.data_

@@ -33,12 +33,12 @@ describe("[Browser]", () => {
   describe("style", () => {
 
     /* Set fixture base path */
-    beforeAll(function(){
+    beforeAll(() => {
       fixture.setBase("tests/fixtures/browser/style")
     })
 
     /* Cleanup fixtures */
-    afterEach(function(){
+    afterEach(() => {
       fixture.cleanup()
     })
 
@@ -46,7 +46,7 @@ describe("[Browser]", () => {
     describe("#load", () => {
 
       /* Load fixtures */
-      beforeEach(function(){
+      beforeEach(() => {
         fixture.load("load.html")
       })
 

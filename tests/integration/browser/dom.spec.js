@@ -33,12 +33,12 @@ describe("[Browser]", () => {
   describe("dom", () => {
 
     /* Set fixture base path */
-    beforeAll(function(){
+    beforeAll(() => {
       fixture.setBase("tests/fixtures/browser/dom")
     })
 
     /* Cleanup fixtures */
-    afterEach(function(){
+    afterEach(() => {
       fixture.cleanup()
     })
 
@@ -46,7 +46,7 @@ describe("[Browser]", () => {
     describe("#query", () => {
 
       /* Load fixtures */
-      beforeEach(function(){
+      beforeEach(() => {
         fixture.load("query.html")
       })
 
@@ -80,7 +80,7 @@ describe("[Browser]", () => {
     describe("#traverse", () => {
 
       /* Load fixtures */
-      beforeEach(function(){
+      beforeEach(() => {
         fixture.load("traverse.html", "traverse.json")
       })
 
