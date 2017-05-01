@@ -93,16 +93,24 @@ module.exports = function(config) {
         "html"
       ]
     }
+
+    /* Automatically launch local Chrome */
+    karma.browsers = ["Chrome"]
   }
 
   /* Additional configuration for continuous integration */
   if (process.env.CI || process.env.SAUCE) {
+    if (!process.env.SAUCE_USERNAME ||
+        !process.env.SAUCE_ACCESS_KEY)
+      throw new Error(
+        "SauceConnect: please provide SAUCE_USERNAME " +
+        "and SAUCE_ACCESS_KEY")
 
     /* Define browsers to run tests on */
     const browsers = {
 
       /* Chrome (evergreen) */
-      chrome: {
+      Chrome: {
         base: "SauceLabs",
         browserName: "chrome",
         platform: "Windows 7",
@@ -110,7 +118,7 @@ module.exports = function(config) {
       },
 
       /* Firefox (evergreen) */
-      firefox: {
+      Firefox: {
         base: "SauceLabs",
         browserName: "firefox",
         platform: "Windows 7",
@@ -118,7 +126,7 @@ module.exports = function(config) {
       },
 
       /* Edge (evergreen) */
-      edge: {
+      Edge: {
         base: "SauceLabs",
         browserName: "MicrosoftEdge",
         platform: "Windows 10",
@@ -126,7 +134,7 @@ module.exports = function(config) {
       },
 
       /* Internet Explorer 11 */
-      ie11: {
+      IE11: {
         base: "SauceLabs",
         browserName: "internet explorer",
         version: "11.103",
@@ -137,8 +145,8 @@ module.exports = function(config) {
 
     /* SauceLabs job name */
     const id = process.env.TRAVIS
-      ? `Travis #${process.env.TRAVIS_BUILD_NUMBER}`
-      : `Local #${moniker.choose()}`
+      ? `${process.env.TRAVIS_REPO_SLUG} [#${process.env.TRAVIS_BUILD_NUMBER}]`
+      : `~ [#${moniker.choose()}]`
 
     /* Configure SauceLabs integration */
     karma.sauceLabs = {
