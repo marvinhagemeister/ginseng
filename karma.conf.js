@@ -162,6 +162,7 @@ module.exports = function(config) {
     karma.browsers = Object.keys(browsers)
     karma.customLaunchers = browsers
   }
+  console.log(karma)
 
   /* We're good to go */
   config.set(karma)
