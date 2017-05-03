@@ -42,34 +42,25 @@ export const PSEUDO_AFTER = "::after"
  * Retrieve the computed properties of an element or pseudo element
  *
  * @param {Element} el - Element
- * @param {String?} pseudo - Pseudo qualifier
+ * @param {String?} qualifier - Pseudo qualifier
  * @return {Object} Style rules
  */
-export const load = (el, pseudo = null) => {
+export const load = (el, qualifier = null) => {
   if (!(el instanceof Element))
     throw new ReferenceError(`Invalid element: "${el}"`)
 
   /* Retrieve computed properties */
-  let decl = null
-  switch (pseudo) {
+  switch (qualifier) {
 
     /* Handle pseudo elements */
     case PSEUDO_BEFORE:
     case PSEUDO_AFTER:
-      decl = window.getComputedStyle(el, pseudo)
-      break
+      return window.getComputedStyle(el, qualifier)
 
     /* Handle element */
     default:
-      if (pseudo !== null)
-        throw new TypeError(`Invalid pseudo qualifier: "${pseudo}"`)
-      decl = window.getComputedStyle(el)
+      if (qualifier !== null)
+        throw new TypeError(`Invalid qualifier: "${qualifier}"`)
+      return window.getComputedStyle(el)
   }
-
-  /* Filter numeric keys and convert to object */
-  return Object.keys(decl).reduce((result, key) => {
-    if (!/^\d+$/.test(key))
-      result[key] = decl[key]
-    return result
-  }, {})
 }

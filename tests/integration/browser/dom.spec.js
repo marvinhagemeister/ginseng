@@ -43,7 +43,7 @@ describe("[Browser]", () => {
     })
 
     /* #query */
-    describe("#query", () => {
+    describe("#query ~ integration", () => {
 
       /* Load fixtures */
       beforeEach(() => {

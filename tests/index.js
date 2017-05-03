@@ -25,13 +25,13 @@
  * ------------------------------------------------------------------------- */
 
 /* Strip test types (unit, integration) from path */
-const regexp = new RegExp("(unit|integration)/")
+const regexp = new RegExp("(unit|integration)")
 
-/* Load all tests */
+/* Load unit tests per component first, then integration tests */
 const tests = require.context("./", true, /\.spec\.js$/)
-tests.keys().sort((a, b) => {
-  return a.replace(regexp, "") > b.replace(regexp, "")
-})
+tests.keys()
+  .sort((a, b) => a.split(regexp)[1].localeCompare(b.split(regexp)[1]) * -1)
+  .sort((a, b) => a.split(regexp)[2].localeCompare(b.split(regexp)[2]))
   .forEach(tests)
 
 /* Load all sources */

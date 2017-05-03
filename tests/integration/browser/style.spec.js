@@ -43,7 +43,7 @@ describe("[Browser]", () => {
     })
 
     /* #load */
-    describe("#load", () => {
+    describe("#load ~ integration", () => {
 
       /* Load fixtures */
       beforeEach(() => {
@@ -51,28 +51,18 @@ describe("[Browser]", () => {
       })
 
       /* Test: should return computed styles */
-      it("should return computed styles for element",
-        loadShouldReturnComputedStylesForElement
+      it("should return real computed styles for element",
+        loadShouldReturnRealComputedStylesForElement
       )
 
-      /* Test: should return computed styles for element before */
-      it("should return computed styles for element before",
-        loadShouldReturnComputedStylesForElementBefore
+      /* Test: should return real computed styles for before element */
+      it("should return real computed styles for before element",
+        loadShouldReturnRealComputedStylesForBeforeElement
       )
 
-      /* Test: should return computed styles for element after */
-      it("should return computed styles for element after",
-        loadShouldReturnComputedStylesForElementAfter
-      )
-
-      /* Test: should throw on invalid element */
-      it("should throw on invalid element",
-        loadShouldThrowOnInvalidElement
-      )
-
-      /* Test: should throw on invalid pseudo qualifier */
-      it("should throw on invalid pseudo qualifier",
-        loadShouldThrowOnInvalidPseudoQualifier
+      /* Test: should return real computed styles for after element */
+      it("should return real computed styles for after element",
+        loadShouldReturnRealComputedStylesForAfterElement
       )
     })
   })
@@ -83,53 +73,22 @@ describe("[Browser]", () => {
  * ------------------------------------------------------------------------- */
 
 /* Test: #load should return computed styles for element */
-function loadShouldReturnComputedStylesForElement() {
+function loadShouldReturnRealComputedStylesForElement() {
   const decl = window.getComputedStyle(fixture.el.firstChild)
   expect(style.load(fixture.el.firstChild))
-    .toEqual(Object.keys(decl).reduce((result, key) => {
-      if (!/^\d+$/.test(key))
-        result[key] = decl[key]
-      return result
-    }, {}))
+    .toEqual(decl)
 }
 
-/* Test: #load should return computed styles for element before */
-function loadShouldReturnComputedStylesForElementBefore() {
+/* Test: #load should return real computed styles for before element */
+function loadShouldReturnRealComputedStylesForBeforeElement() {
   const decl = window.getComputedStyle(fixture.el.firstChild, "::before")
   expect(style.load(fixture.el.firstChild, style.PSEUDO_BEFORE))
-    .toEqual(Object.keys(decl).reduce((result, key) => {
-      if (!/^\d+$/.test(key))
-        result[key] = decl[key]
-      return result
-    }, {}))
+    .toEqual(decl)
 }
 
-/* Test: #load should return computed styles for element after */
-function loadShouldReturnComputedStylesForElementAfter() {
+/* Test: #load should return real computed styles for after element */
+function loadShouldReturnRealComputedStylesForAfterElement() {
   const decl = window.getComputedStyle(fixture.el.firstChild, "::after")
   expect(style.load(fixture.el.firstChild, style.PSEUDO_AFTER))
-    .toEqual(Object.keys(decl).reduce((result, key) => {
-      if (!/^\d+$/.test(key))
-        result[key] = decl[key]
-      return result
-    }, {}))
-}
-
-/* Test: #load should throw on invalid element */
-function loadShouldThrowOnInvalidElement() {
-  expect(() => {
-    style.load("invalid")
-  }).toThrow(
-    new ReferenceError("Invalid element: \"invalid\"")
-  )
-}
-
-/* Test: #load should throw on invalid pseudo qualifier */
-function loadShouldThrowOnInvalidPseudoQualifier() {
-  const match = document.querySelector(".load")
-  expect(() => {
-    style.load(match, "invalid")
-  }).toThrow(
-    new TypeError("Invalid pseudo qualifier: \"invalid\"")
-  )
+    .toEqual(decl)
 }
