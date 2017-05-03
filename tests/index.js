@@ -24,8 +24,8 @@
  * Entrypoint
  * ------------------------------------------------------------------------- */
 
-/* Strip test types (unit, integration) from path */
-const regexp = new RegExp("(unit|integration)")
+/* Strip test types (unit, functional) from path */
+const regexp = new RegExp("(unit|functional)")
 
 /* Load unit tests per component first, then integration tests */
 const tests = require.context("./", true, /\.spec\.js$/)

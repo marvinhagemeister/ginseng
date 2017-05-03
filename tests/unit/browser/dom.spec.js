@@ -37,16 +37,6 @@ describe("[Browser]", () => {
       fixture.setBase("tests/fixtures/browser/dom")
     })
 
-    /* Register spies */
-    beforeEach(() => {
-      spyOn(document, "querySelector")
-        .and.callFake(selector => {
-          return selector !== ".no-match"
-            ? fixture.el.firstChild
-            : null
-        })
-    })
-
     /* Cleanup fixtures */
     afterEach(() => {
       fixture.cleanup()
@@ -55,9 +45,17 @@ describe("[Browser]", () => {
     /* #query */
     describe("#query", () => {
 
-      /* Load fixtures */
+      /* Load fixtures and register spies */
       beforeEach(() => {
         fixture.load("query.html")
+
+        /* Register spies */
+        spyOn(document, "querySelector")
+          .and.callFake(selector => {
+            return selector !== ".no-match"
+              ? fixture.el.firstChild
+              : null
+          })
       })
 
       /* Test: should accept selector */
@@ -89,9 +87,17 @@ describe("[Browser]", () => {
     /* #traverse */
     describe("#traverse", () => {
 
-      /* Load fixtures */
+      /* Load fixtures and register spies */
       beforeEach(() => {
         fixture.load("traverse.html", "traverse.json")
+
+        /* Register spies */
+        spyOn(document, "querySelector")
+          .and.callFake(selector => {
+            return selector !== ".no-match"
+              ? fixture.el.firstChild
+              : null
+          })
       })
 
       /* Test: should resolve selector */

@@ -26,16 +26,16 @@ import * as dom from "./browser/dom"
 import * as style from "./browser/style"
 
 /* ----------------------------------------------------------------------------
- * Helpers
+ * Functions
  * ------------------------------------------------------------------------- */
 
 /**
  * Extract the relevant data from an element
  *
  * @param  {Element} element - Element
- * @param  {object} children - Data for child elements
+ * @param  {object} children - Extracted data for child elements
  *
- * @return {object} Data
+ * @return {object} Relevant data
  */
 export const extract = (element, children) => {
   return {
@@ -86,10 +86,6 @@ export default class Spec {
   capture() {
     return this.data_ = dom.traverse(this.el_, extract)
   }
-
-  // TODO: anonym -> named function,
-  // 1. test that callback was called n times
-  // 2. test structure of named function callback (fixture! json)
 
   /**
    * Compare specification data against given baseline

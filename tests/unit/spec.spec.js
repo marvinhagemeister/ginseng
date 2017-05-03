@@ -23,7 +23,7 @@
 import * as dom from "~/src/browser/dom"
 import * as style from "~/src/browser/style"
 
-import Spec from "~/src/spec"
+import { extract, default as Spec } from "~/src/spec"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -37,9 +37,26 @@ describe("Spec", () => {
     fixture.setBase("tests/fixtures/spec")
   })
 
+  /* Register spies */
+  beforeEach(() => {
+    spyOn(dom, "traverse")
+      .and.returnValue("data")
+    spyOn(style, "load")
+      .and.returnValue("style")
+  })
+
   /* Cleanup fixtures */
   afterEach(() => {
     fixture.cleanup()
+  })
+
+  /* #extract */
+  describe("#extract", () => {
+
+    /* Test: should return valid data */
+    it("should return valid data",
+      constructorShouldReturnValidData
+    )
   })
 
   /* #constructor */
@@ -50,7 +67,8 @@ describe("Spec", () => {
       fixture.load("constructor.html")
 
       /* Register spies */
-      spyOn(dom, "query").and.returnValue(fixture.el.firstChild)
+      spyOn(dom, "query")
+        .and.returnValue(fixture.el.firstChild)
     })
 
     /* Test: should set name */
@@ -82,28 +100,14 @@ describe("Spec", () => {
   /* #capture */
   describe("#capture", () => {
 
-    /* Load fixtures and register spies */
+    /* Load fixtures */
     beforeEach(() => {
       fixture.load("capture.html")
-
-      /* Register spies */
-      spyOn(dom, "query").and.returnValue(fixture.el.firstChild)                // TODO: firstChild????
-      spyOn(dom, "traverse").and.callFake((element, children) => {
-        return {
-          element: style.load(element),
-          pseudo: {
-            before: style.load(element, style.PSEUDO_BEFORE),
-            after: style.load(element, style.PSEUDO_AFTER)
-          },
-          children
-        }
-      })
-      spyOn(style, "load").and.returnValue(true)
     })
 
-    /* Test: should traverse child nodes */
-    it("should traverse child nodes",
-      captureShouldTraverseChildNodes
+    /* Test: should traverse child elements */
+    it("should traverse child elements",
+      captureShouldTraverseChildElements
     )
 
     /* Test: should return data */
@@ -120,12 +124,9 @@ describe("Spec", () => {
   /* #compare */
   describe("#compare", () => {
 
-    /* Load fixtures and register spies */
+    /* Load fixtures */
     beforeEach(() => {
       fixture.load("compare.html")
-
-      /* Register spies */
-      spyOn(dom, "query").and.returnValue(fixture.el)
     })
 
     /* Test: should use captured data */
@@ -139,6 +140,25 @@ describe("Spec", () => {
     )
   })
 })
+
+/* ----------------------------------------------------------------------------
+ * Definitions: #extract
+ * ------------------------------------------------------------------------- */
+
+/* Test: #extract should return valid data */
+function constructorShouldReturnValidData() {
+  expect(extract(null, "children"))
+    .toEqual({
+      element: "style",
+      pseudo: {
+        before: "style",
+        after: "style"
+      },
+      children: "children"
+    })
+  expect(style.load.calls.count())
+    .toEqual(3)
+}
 
 /* ----------------------------------------------------------------------------
  * Definitions: #constructor
@@ -179,46 +199,32 @@ function constructorShouldThrowOnInvalidName() {
     new Spec("", ".constructor")
   }).toThrow(
     new TypeError("Invalid name: \"\""))
+  expect(dom.query)
+    .not.toHaveBeenCalled()
 }
 
 /* ----------------------------------------------------------------------------
  * Definitions: #capture
  * ------------------------------------------------------------------------- */
 
-/* Test: #capture should set name */
-function captureShouldTraverseChildNodes() {
+/* Test: #capture should traverse child elements */
+function captureShouldTraverseChildElements() {
   new Spec("name", ".capture").capture()
   expect(dom.traverse)
-    .toHaveBeenCalledWith(jasmine.any(Element), jasmine.any(Function))
-  expect(style.load.calls.count())
-    .toEqual(3)
+    .toHaveBeenCalledWith(jasmine.any(Element), extract)
 }
 
 /* Test: #capture should return data */
 function captureShouldReturnData() {
-  const spec = new Spec("name", ".constructor")
-  expect(spec.capture()).toEqual({
-    element: true,
-    pseudo: {
-      before: true,
-      after: true
-    },
-    children: jasmine.any(Function)
-  })
+  const spec = new Spec("name", ".capture")
+  expect(spec.capture()).toEqual("data")
 }
 
 /* Test: #capture should set data */
 function captureShouldSetData() {
-  const spec = new Spec("name", ".constructor")
+  const spec = new Spec("name", ".capture")
   expect(spec.capture()).toEqual(spec.data)
-  expect(spec.data).toEqual({
-    element: true,
-    pseudo: {
-      before: true,
-      after: true
-    },
-    children: jasmine.any(Function)
-  })
+  expect(spec.data).toEqual("data")
 }
 
 /* ----------------------------------------------------------------------------
@@ -229,21 +235,18 @@ function captureShouldSetData() {
 function compareShouldUseCapturedData() {
   const spec = new Spec("name", ".compare")
   spec.capture()
-  spyOn(spec, "capture").and.callThrough()
   expect(spec.compare(spec.data))
     .toBe(true)
-  expect(spec.capture)
-    .not.toHaveBeenCalled()
-
+  expect(dom.traverse.calls.count())
+    .toEqual(1)
 }
 
 /* Test: #compare should capture data if not present */
 function compareShouldCaptureDataIfNotPresent() {
   const data = new Spec("name", ".compare").capture()
   const spec = new Spec("name", ".compare")
-  spyOn(spec, "capture").and.callThrough()
   expect(spec.compare(data))
     .toBe(true)
-  expect(spec.capture)
-    .toHaveBeenCalled()
+  expect(dom.traverse.calls.count())
+    .toEqual(2)
 }
