@@ -26,6 +26,29 @@ import * as dom from "./browser/dom"
 import * as style from "./browser/style"
 
 /* ----------------------------------------------------------------------------
+ * Helpers
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Extract the relevant data from an element
+ *
+ * @param  {Element} element - Element
+ * @param  {object} children - Data for child elements
+ *
+ * @return {object} Data
+ */
+export const extract = (element, children) => {
+  return {
+    element: style.load(element),
+    pseudo: {
+      before: style.load(element, style.PSEUDO_BEFORE),
+      after: style.load(element, style.PSEUDO_AFTER)
+    },
+    children
+  }
+}
+
+/* ----------------------------------------------------------------------------
  * Class
  * ------------------------------------------------------------------------- */
 
@@ -61,17 +84,12 @@ export default class Spec {
    * @return {Object} Data
    */
   capture() {
-    return this.data_ = dom.traverse(this.el_, (element, children) => {
-      return {
-        element: style.load(element),
-        pseudo: {
-          before: style.load(element, style.PSEUDO_BEFORE),
-          after: style.load(element, style.PSEUDO_AFTER)
-        },
-        children
-      }
-    })
+    return this.data_ = dom.traverse(this.el_, extract)
   }
+
+  // TODO: anonym -> named function,
+  // 1. test that callback was called n times
+  // 2. test structure of named function callback (fixture! json)
 
   /**
    * Compare specification data against given baseline

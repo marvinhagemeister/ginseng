@@ -77,7 +77,7 @@ module.exports = function(karma) {
     webpack.module.rules.push({
       test: /\.js$/,
       loader: "istanbul-instrumenter-loader?+esModules",
-      include: path.resolve("src/")
+      include: path.resolve("./src/")
     })
 
     /* Enable short reports and code coverage */
@@ -152,7 +152,6 @@ module.exports = function(karma) {
     config.sauceLabs = {
       build: process.env.TRAVIS_BUILD_NUMBER,
       testName: id,
-      // tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER || 100, // id,
       recordVideo: false,
       recordScreenshots: false
     }

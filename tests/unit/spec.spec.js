@@ -87,7 +87,7 @@ describe("Spec", () => {
       fixture.load("capture.html")
 
       /* Register spies */
-      spyOn(dom, "query").and.returnValue(fixture.el)
+      spyOn(dom, "query").and.returnValue(fixture.el.firstChild)                // TODO: firstChild????
       spyOn(dom, "traverse").and.callFake((element, children) => {
         return {
           element: style.load(element),

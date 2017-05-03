@@ -24,9 +24,15 @@
  * Entrypoint
  * ------------------------------------------------------------------------- */
 
+/* Strip test types (unit, integration) from path */
+const regexp = new RegExp("(unit|integration)/")
+
 /* Load all tests */
 const tests = require.context("./", true, /\.spec\.js$/)
-tests.keys().forEach(tests)
+tests.keys().sort((a, b) => {
+  return a.replace(regexp, "") > b.replace(regexp, "")
+})
+  .forEach(tests)
 
 /* Load all sources */
 const sources = require.context("../src/", true, /\.js$/)

@@ -50,53 +50,9 @@ describe("[Browser]", () => {
         fixture.load("query.html")
       })
 
-      /* Test: should accept selector */
-      it("should accept selector",
-        queryShouldAcceptSelector
-      )
-
-      /* Test: should accept element */
-      it("should accept element",
-        queryShouldAcceptElement
-      )
-
-      /* Test: should throw on missing argument */
-      it("should throw on missing argument",
-        queryShouldThrowOnMissingArgument
-      )
-
-      /* Test: should throw on empty selector */
-      it("should throw on empty selector",
-        queryShouldThrowOnEmptySelector
-      )
-
-      /* Test: should throw on invalid selector */
-      it("should throw on invalid selector",
-        queryShouldThrowOnInvalidSelector
-      )
-    })
-
-    /* #traverse */
-    describe("#traverse", () => {
-
-      /* Load fixtures */
-      beforeEach(() => {
-        fixture.load("traverse.html", "traverse.json")
-      })
-
       /* Test: should resolve selector */
       it("should resolve selector",
-        traverseShouldResolveSelector
-      )
-
-      /* Test: should apply callback to all child nodes */
-      it("should apply callback to all child nodes",
-        traverseShouldApplyCallbackToAllChildNodes
-      )
-
-      /* Test: should throw on invalid callback */
-      it("should throw on invalid callback",
-        traverseShouldThrowOnInvalidCallback
+        queryShouldResolveSelector
       )
     })
   })
@@ -106,68 +62,8 @@ describe("[Browser]", () => {
  * Definitions: #query
  * ------------------------------------------------------------------------- */
 
-/* Test: #query should accept selector */
-function queryShouldAcceptSelector() {
+/* Test: #query should resolve selector */
+function queryShouldResolveSelector() {
   expect(dom.query(".query"))
     .toEqual(fixture.el.firstChild)
-}
-
-/* Test: #query should accept element */
-function queryShouldAcceptElement() {
-  expect(dom.query(fixture.el.firstChild))
-    .toEqual(fixture.el.firstChild)
-}
-
-/* Test: #query should throw on missing argument */
-function queryShouldThrowOnMissingArgument() {
-  expect(() => {
-    dom.query()
-  }).toThrow(
-    new ReferenceError("Invalid selector or element: \"undefined\"")
-  )
-}
-
-/* Test: #query should throw on empty selector */
-function queryShouldThrowOnEmptySelector() {
-  expect(() => {
-    dom.query("")
-  }).toThrow(
-    new ReferenceError("No match for selector: \"\"")
-  )
-}
-
-/* Test: #query should throw on invalid selector */
-function queryShouldThrowOnInvalidSelector() {
-  expect(() => {
-    dom.query(".no-match")
-  }).toThrow(
-    new ReferenceError("No match for selector: \".no-match\"")
-  )
-}
-
-/* ----------------------------------------------------------------------------
- * Definitions: #traverse
- * ------------------------------------------------------------------------- */
-
-/* Test: #traverse should resolve selector */
-function traverseShouldResolveSelector() {
-  expect(() => {
-    dom.traverse(".traverse", () => {})
-  }).not.toThrow(
-    jasmine.any(TypeError))
-}
-
-/* Test: #traverse should apply callback on all child nodes */
-function traverseShouldApplyCallbackToAllChildNodes() {
-  expect(dom.traverse(".traverse", (node, children) => {
-    return { tag: node.tagName, children }
-  })).toEqual(fixture.json[0])
-}
-
-/* Test: #traverse should throw on invalid callback */
-function traverseShouldThrowOnInvalidCallback() {
-  expect(() => {
-    dom.traverse(".traverse", "")
-  }).toThrow(
-    new TypeError("Invalid callback"))
 }
