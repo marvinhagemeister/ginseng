@@ -172,25 +172,25 @@ module.exports = function(karma) {
         version: "9",
         platform: "Windows 7",
         screenResolution: "1280x1024"
-      },
-
-      /* Android Emulator */
-      ios: {
-        base: "SauceLabs",
-        browserName: "iphone",
-        version: "10.0",
-        platform: "iPhone 7 Simulator",
-        screenResolution: "1024x768"
-      },
-
-      /* Android Emulator */
-      android: {
-        base: "SauceLabs",
-        browserName: "android",
-        version: "6.0",
-        platform: "Android Emulator",
-        screenResolution: "1024x768"
       }
+
+      // /* iPhone Simulator */
+      // ios: {
+      //   base: "SauceLabs",
+      //   browserName: "iphone",
+      //   version: "10.0",
+      //   platform: "iPhone 7 Simulator",
+      //   screenResolution: "1024x768"
+      // },
+
+      // /* Android Emulator */
+      // android: {
+      //   base: "SauceLabs",
+      //   browserName: "android",
+      //   version: "6.0",
+      //   platform: "Android Emulator",
+      //   screenResolution: "1024x768"
+      // }
     }
 
     /* SauceLabs job name */
