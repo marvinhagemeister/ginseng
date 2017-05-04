@@ -29,9 +29,7 @@ fi
 FILES=$(git diff --cached --name-only)
 
 # Resolve the patterns we want to skip
-BLACKLIST=$(< grep -v -E "^(\s*#|$)" .travisignore)
-
-echo $BLACKLIST
+BLACKLIST=$(grep -v -E "^(\s*#|$)" .travisignore)
 
 # Remove the pattern from the list of changes
 for f in $BLACKLIST; do
