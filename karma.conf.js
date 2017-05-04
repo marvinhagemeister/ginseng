@@ -90,7 +90,8 @@ module.exports = function(karma) {
     config.coverageIstanbulReporter = {
       reports: [
         "text-summary",
-        "html"
+        "html",
+        "lcovonly"
       ]
     }
 

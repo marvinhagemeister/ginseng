@@ -42,3 +42,6 @@ rm -rf dist
 
 # Start test runner
 "$(yarn bin)"/karma start --single-run
+
+# Upload coverage reports
+"$(yarn bin)"/codecov
