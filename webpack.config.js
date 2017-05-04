@@ -50,6 +50,7 @@ module.exports = function() {
     output: {
       path: path.resolve(__dirname, "./dist"),
       filename: "index.js",
+      libraryTarget: "window",
       pathinfo: true
     },
 
