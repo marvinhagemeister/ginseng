@@ -26,9 +26,24 @@
 /npm-debug.log*
 /yarn-error.log
 
-# Distribution files
-/dist
-/package
+# Build-related
+/scripts
+/src
+/tests
 
 # Coverage reports
 /coverage
+
+# Configuration
+.babelrc
+.editorconfig
+.eslintignore
+.eslintrc
+.gitignore
+.npmignore
+.travis.yml
+karma.conf.js
+webpack.config.js
+
+# Git hooks
+/.githooks
