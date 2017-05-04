@@ -206,6 +206,9 @@ module.exports = function(karma) {
       recordScreenshots: false
     }
 
+    /* Configuration for code coverage */
+    config.coverageIstanbulReporter.reports = ["lcovonly"]
+
     /* Set reporters and browsers */
     config.reporters.push("saucelabs")
     config.browsers = Object.keys(browsers)
