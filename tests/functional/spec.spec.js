@@ -100,9 +100,9 @@ function constructorShouldThrowOnInvalidSelector() {
 function captureShouldCaptureElementAndChildElements() {
   const data = new Spec("test", ".capture").capture()
   const validate = item => {
-    return item.element.display &&
-      item.pseudo.before.display &&
-      item.pseudo.after.display &&
+    return typeof item.element.display === "string" &&
+      typeof item.pseudo.before.display === "string" &&
+      typeof item.pseudo.after.display === "string" &&
       item.children.reduce((result, element) => {
         return result && validate(element)
       }, true)
