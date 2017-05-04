@@ -107,7 +107,8 @@ module.exports = function(karma) {
         "SauceConnect: please provide SAUCE_USERNAME " +
         "and SAUCE_ACCESS_KEY")
 
-    /* Define browsers to run tests on */
+    /* Define browsers to run tests on, see
+       https://wiki.saucelabs.com/display/DOCS/Platform+Configurator */
     const browsers = {
 
       /* Chrome (evergreen) */
@@ -115,7 +116,8 @@ module.exports = function(karma) {
         base: "SauceLabs",
         browserName: "chrome",
         platform: "Windows 7",
-        screenResolution: "1280x1024"
+        screenResolution: "1280x1024",
+        version: "latest"
       },
 
       /* Firefox (evergreen) */
@@ -138,8 +140,26 @@ module.exports = function(karma) {
       ie11: {
         base: "SauceLabs",
         browserName: "internet explorer",
-        version: "11.103",
+        version: "11",
         platform: "Windows 10",
+        screenResolution: "1280x1024"
+      },
+
+      /* Internet Explorer 10 */
+      ie10: {
+        base: "SauceLabs",
+        browserName: "internet explorer",
+        version: "10",
+        platform: "Windows 10",
+        screenResolution: "1280x1024"
+      },
+
+      /* Internet Explorer 9 */
+      ie9: {
+        base: "SauceLabs",
+        browserName: "internet explorer",
+        version: "9",
+        platform: "Windows 7",
         screenResolution: "1280x1024"
       }
     }
