@@ -21,6 +21,7 @@
  */
 
 import * as dom from "~/src/browser/dom"
+import * as spec from "~/src/spec"
 
 import Ginseng from "~/src/ginseng"
 
@@ -68,12 +69,19 @@ describe("Ginseng", () => {
       fixture.load("capture.html")
 
       /* Register spies */
-      spyOn(dom, "query").and.returnValue(fixture.el.firstChild)
-
-      /* FIXME: For unit tests to be accurate, "Spec" should be mocked.
-         However, researching some hours this seems not to be possible with
-         the current version of webpack and rewire-webpack. We could pass the   // TODO: see factfindernode
-         Spec constructor as a service to Ginseng, but this is really ugly */
+      spyOn(dom, "query").and.callFake(selector => {
+        return selector === ".capture"
+          ? fixture.el.firstChild
+          : fixture.el.firstChild.nextElementSibling
+      })
+      spyOn(spec, "default").and.returnValue({
+        name: "test",
+        element: fixture.el.firstChild,
+        data: null,
+        capture: jasmine.createSpy("capture").and.returnValue(null),
+        compare: jasmine.createSpy("compare")
+          .and.callFake(baseline => baseline.data === true)
+      })
     })
 
     /* Test: should fail on missing baseline */
@@ -86,10 +94,15 @@ describe("Ginseng", () => {
       captureShouldSucceedOnMatchingBaseline
     )
 
-    /* Test: should overwrite earlier capture */
-    // it("should overwrite earlier capture",
-    //   captureShouldOverwriteEarlierCapture
-    // )
+    /* Test: should update earlier capture */
+    it("should update earlier capture",
+      captureShouldUpdateEarlierCapture
+    )
+
+    /* Test: should throw on name-selector deviation */
+    it("should throw on name-selector deviation",
+      captureShouldThrowOnNameSelectorDeviation
+    )
   })
 })
 
@@ -99,10 +112,10 @@ describe("Ginseng", () => {
 
 /* Test: #constructor should set baseline */
 function constructorShouldSetBaseline() {
-  expect(() => {
-    new Ginseng({})
-  }).not.toThrow(
-    jasmine.any(TypeError))
+  const baseline = { test: { data: true } }
+  const ginseng = new Ginseng(baseline)
+  expect(ginseng.baseline)
+    .toEqual(baseline)
 }
 
 /* Test: #constructor should initialize specifications */
@@ -125,37 +138,43 @@ function constructorShouldThrowOnInvalidBaseline() {
 
 /* Test: #capture should fail on missing baseline */
 function captureShouldFailOnMissingBaseline() {
-  expect(new Ginseng().capture("name", ".capture"))
+  const ginseng = new Ginseng()
+  expect(ginseng.capture("test", ".capture"))
     .toBe(false)
+  expect(ginseng.specs.test.compare)
+    .toHaveBeenCalledWith({})
 }
 
 /* Test: #capture should succeed on matching baseline */
 function captureShouldSucceedOnMatchingBaseline() {
-  const name = `${+new Date}`
-  const temp = new Ginseng()
-  temp.capture(name, ".capture")
-
-  /* Create baseline */
-  const baseline = {}
-  baseline[name] = temp.specs[name].data
-
-  /* Capture elements and compare to baseline */
-  expect(new Ginseng(baseline).capture(name, ".capture"))
+  const baseline = { test: { data: true } }
+  const ginseng = new Ginseng(baseline)
+  expect(ginseng.capture("test", ".capture"))
     .toBe(true)
+  expect(ginseng.specs.test.compare)
+    .toHaveBeenCalledWith(baseline.test)
 }
 
-/* Test: #capture should overwrite earlier capture */
-// function captureShouldOverwriteEarlierCapture() {
-//   const name = `${+new Date}`
-//   const temp = new Ginseng()
-//   temp.capture(name, ".capture")
-//
-//   /* Create baseline */
-//   const baseline = {}
-//   baseline[name] = temp.specs[name].data
-//
-//
-//   const ginseng =
-//   expect(new Ginseng(baseline).capture(name, ".capture"))
-//     .toBe(true)
-// }
+/* Test: #capture should update earlier capture */
+function captureShouldUpdateEarlierCapture() {
+  const baseline = { test: { data: true } }
+  const ginseng = new Ginseng(baseline)
+  expect(ginseng.capture("test", ".capture"))
+    .toBe(true)
+  expect(ginseng.capture("test", ".capture"))
+    .toBe(true)
+  expect(spec.default.calls.count())
+    .toEqual(1)
+}
+
+/* Test: #capture should throw on name-selector deviation */
+function captureShouldThrowOnNameSelectorDeviation() {
+  const ginseng = new Ginseng()
+  expect(ginseng.capture("test", ".capture"))
+    .toBe(false)
+  expect(() => {
+    ginseng.capture("test", ".capture-again")
+  }).toThrow(
+    new ReferenceError(
+      "\"test\" was already registered with another selector"))
+}

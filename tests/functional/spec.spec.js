@@ -79,7 +79,7 @@ describe("Spec", () => {
 
 /* Test: #constructor should resolve selector */
 function constructorShouldResolveSelector() {
-  const spec = new Spec("name", ".constructor")
+  const spec = new Spec("test", ".constructor")
   expect(spec.element)
     .toEqual(fixture.el.firstChild)
 }
@@ -87,7 +87,7 @@ function constructorShouldResolveSelector() {
 /* Test: #constructor should throw on invalid selector */
 function constructorShouldThrowOnInvalidSelector() {
   expect(() => {
-    new Spec("name", ".no-match")
+    new Spec("test", ".no-match")
   }).toThrow(
     new ReferenceError("No match for selector: \".no-match\""))
 }
@@ -98,7 +98,7 @@ function constructorShouldThrowOnInvalidSelector() {
 
 /* Test: #capture should capture element and child elements */
 function captureShouldCaptureElementAndChildElements() {
-  const data = new Spec("name", ".capture").capture()
+  const data = new Spec("test", ".capture").capture()
   const validate = item => {
     return item.element.display &&
       item.pseudo.before.display &&

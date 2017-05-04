@@ -174,21 +174,21 @@ function constructorShouldSetName() {
 
 /* Test: #constructor should set element */
 function constructorShouldSetElement() {
-  const spec = new Spec("name", ".constructor")
+  const spec = new Spec("test", ".constructor")
   expect(spec.element)
     .toEqual(fixture.el.firstChild)
 }
 
 /* Test: #constructor should resolve selector */
 function constructorShouldResolveSelector() {
-  new Spec("name", ".constructor")
+  new Spec("test", ".constructor")
   expect(dom.query)
     .toHaveBeenCalledWith(".constructor")
 }
 
 /* Test: #constructor should initialize data */
 function constructorShouldInitializeData() {
-  const spec = new Spec("name", ".constructor")
+  const spec = new Spec("test", ".constructor")
   expect(spec.data)
     .toBeNull()
 }
@@ -209,20 +209,20 @@ function constructorShouldThrowOnInvalidName() {
 
 /* Test: #capture should traverse child elements */
 function captureShouldTraverseChildElements() {
-  new Spec("name", ".capture").capture()
+  new Spec("test", ".capture").capture()
   expect(dom.traverse)
     .toHaveBeenCalledWith(fixture.el.firstChild, extract)
 }
 
 /* Test: #capture should return data */
 function captureShouldReturnData() {
-  const spec = new Spec("name", ".capture")
+  const spec = new Spec("test", ".capture")
   expect(spec.capture()).toEqual("data")
 }
 
 /* Test: #capture should set data */
 function captureShouldSetData() {
-  const spec = new Spec("name", ".capture")
+  const spec = new Spec("test", ".capture")
   expect(spec.capture()).toEqual(spec.data)
   expect(spec.data).toEqual("data")
 }
@@ -233,7 +233,7 @@ function captureShouldSetData() {
 
 /* Test: #compare should use captured data */
 function compareShouldUseCapturedData() {
-  const spec = new Spec("name", ".compare")
+  const spec = new Spec("test", ".compare")
   spec.capture()
   expect(spec.compare(spec.data))
     .toBe(true)
@@ -243,8 +243,8 @@ function compareShouldUseCapturedData() {
 
 /* Test: #compare should capture data if not present */
 function compareShouldCaptureDataIfNotPresent() {
-  const data = new Spec("name", ".compare").capture()
-  const spec = new Spec("name", ".compare")
+  const data = new Spec("test", ".compare").capture()
+  const spec = new Spec("test", ".compare")
   expect(spec.compare(data))
     .toBe(true)
   expect(dom.traverse.calls.count())
