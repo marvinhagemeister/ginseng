@@ -4,6 +4,7 @@
 [![Codecov][codecov-image]][codecov-link]
 [![Gitter][gitter-image]][gitter-link]
 [![Codacy][codacy-image]][codacy-link]
+[![npm][npm-image]][npm-link]
 
   [travis-image]: https://travis-ci.org/squidfunk/ginseng.svg?branch=master
   [travis-link]: https://travis-ci.org/squidfunk/ginseng
@@ -13,6 +14,8 @@
   [gitter-link]: https://gitter.im/squidfunk/ginseng
   [codacy-image]: https://api.codacy.com/project/badge/Grade/7f26578f604942258a1dab0c8bfe6356
   [codacy-link]: https://www.codacy.com/app/squidfunk/ginseng?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=squidfunk/ginseng&amp;utm_campaign=Badge_Grade
+  [npm-image]: https://img.shields.io/npm/v/ginseng.svg
+  [npm-link]: https://npmjs.com/packages/ginseng
 
 ## Browser support
 
