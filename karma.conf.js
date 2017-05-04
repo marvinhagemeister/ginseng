@@ -120,11 +120,29 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
+      /* Chrome (latest - 1) */
+      chrome1: {
+        base: "SauceLabs",
+        browserName: "chrome",
+        version: "latest - 1",
+        platform: "Windows 7",
+        screenResolution: "1280x1024"
+      },
+
       /* Firefox (latest) */
       firefox: {
         base: "SauceLabs",
         browserName: "firefox",
         version: "latest",
+        platform: "Windows 7",
+        screenResolution: "1280x1024"
+      },
+
+      /* Firefox (latest - 1) */
+      firefox1: {
+        base: "SauceLabs",
+        browserName: "firefox",
+        version: "latest-1",
         platform: "Windows 7",
         screenResolution: "1280x1024"
       },
@@ -138,11 +156,29 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
-      /* Opera (llatest) */
+      /* Edge (latest - 1) */
+      edge1: {
+        base: "SauceLabs",
+        browserName: "MicrosoftEdge",
+        version: "latest-1",
+        platform: "Windows 10",
+        screenResolution: "1280x1024"
+      },
+
+      /* Opera (latest) */
       opera: {
         base: "SauceLabs",
         browserName: "opera",
         version: "latest",
+        platform: "Windows 2008",
+        screenResolution: "1280x1024"
+      },
+
+      /* Opera (latest - 1) */
+      opera1: {
+        base: "SauceLabs",
+        browserName: "opera",
+        version: "latest-1",
         platform: "Windows 2008",
         screenResolution: "1280x1024"
       },
