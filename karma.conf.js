@@ -111,28 +111,39 @@ module.exports = function(karma) {
        https://wiki.saucelabs.com/display/DOCS/Platform+Configurator */
     const browsers = {
 
-      /* Chrome (evergreen) */
+      /* Chrome (latest) */
       chrome: {
         base: "SauceLabs",
         browserName: "chrome",
-        platform: "Windows 7",
-        screenResolution: "1280x1024",
-        version: "latest"
-      },
-
-      /* Firefox (evergreen) */
-      firefox: {
-        base: "SauceLabs",
-        browserName: "firefox",
+        version: "latest",
         platform: "Windows 7",
         screenResolution: "1280x1024"
       },
 
-      /* Edge (evergreen) */
+      /* Firefox (latest) */
+      firefox: {
+        base: "SauceLabs",
+        browserName: "firefox",
+        version: "latest",
+        platform: "Windows 7",
+        screenResolution: "1280x1024"
+      },
+
+      /* Edge (latest) */
       edge: {
         base: "SauceLabs",
         browserName: "MicrosoftEdge",
+        version: "latest",
         platform: "Windows 10",
+        screenResolution: "1280x1024"
+      },
+
+      /* Opera (llatest) */
+      opera: {
+        base: "SauceLabs",
+        browserName: "opera",
+        version: "latest",
+        platform: "Windows 2008",
         screenResolution: "1280x1024"
       },
 
@@ -163,12 +174,22 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
-      /* Opera 12 */
-      opera: {
+      /* Android Emulator */
+      ios: {
         base: "SauceLabs",
-        browserName: "opera",
-        platform: "Windows 2008",
-        screenResolution: "1280x1024"
+        browserName: "iphone",
+        version: "10.0",
+        platform: "iPhone 7 Simulator",
+        screenResolution: "1024x768"
+      },
+
+      /* Android Emulator */
+      android: {
+        base: "SauceLabs",
+        browserName: "android",
+        version: "6.0",
+        platform: "Android Emulator",
+        screenResolution: "1024x768"
       }
     }
 
