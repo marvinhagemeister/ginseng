@@ -72,7 +72,7 @@ describe("Ginseng", () => {
 
       /* FIXME: For unit tests to be accurate, "Spec" should be mocked.
          However, researching some hours this seems not to be possible with
-         the current version of webpack and rewire-webpack. We could pass the
+         the current version of webpack and rewire-webpack. We could pass the   // TODO: see factfindernode
          Spec constructor as a service to Ginseng, but this is really ugly */
     })
 

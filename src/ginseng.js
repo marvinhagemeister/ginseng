@@ -76,6 +76,15 @@ export default class Ginseng {
   }
 
   /**
+   * Retrieve baseline data
+   *
+   * @return {Object<String, Spec>} Baseline data
+   */
+  get baseline() {
+    return this.baseline_
+  }
+
+  /**
    * Retrieve captured specifications
    *
    * @return {Object<String, Spec>} Captured specifications
