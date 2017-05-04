@@ -1,3 +1,7 @@
+ginseng-0.2.1 (2017-05-05)
+
+  * Fixed wrong webpack export due to missing library target
+
 ginseng-0.2.0 (2017-05-05)
 
   * Finished implementation of basic functionality

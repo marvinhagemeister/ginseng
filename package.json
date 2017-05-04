@@ -1,6 +1,6 @@
 {
   "name": "ginseng",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A property-based CSS unit testing framework",
   "keywords": [
     "unit",
