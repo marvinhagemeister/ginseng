@@ -176,5 +176,5 @@ function captureShouldThrowOnNameSelectorDeviation() {
     ginseng.capture("test", ".capture-again")
   }).toThrow(
     new ReferenceError(
-      "\"test\" was already registered with another selector"))
+      "\"test\" was already registered with another element"))
 }

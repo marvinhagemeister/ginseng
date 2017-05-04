@@ -32,28 +32,32 @@ describe("[Browser]", () => {
   /* dom */
   describe("dom", () => {
 
-    /* Set fixture base path */
-    beforeAll(() => {
-      fixture.setBase("tests/fixtures/browser/dom")
-    })
+    /* Functional tests */
+    describe("_functional", () => {
 
-    /* Cleanup fixtures */
-    afterEach(() => {
-      fixture.cleanup()
-    })
-
-    /* #query */
-    describe("#query.functional", () => {
-
-      /* Load fixtures */
-      beforeEach(() => {
-        fixture.load("query.html")
+      /* Set fixture base path */
+      beforeAll(() => {
+        fixture.setBase("tests/fixtures/browser/dom")
       })
 
-      /* Test: should resolve selector */
-      it("should resolve selector",
-        queryShouldResolveSelector
-      )
+      /* Cleanup fixtures */
+      afterEach(() => {
+        fixture.cleanup()
+      })
+
+      /* #query */
+      describe("#query", () => {
+
+        /* Load fixtures */
+        beforeEach(() => {
+          fixture.load("query.html")
+        })
+
+        /* Test: should resolve selector */
+        it("should resolve selector",
+          queryShouldResolveSelector
+        )
+      })
     })
   })
 })

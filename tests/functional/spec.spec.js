@@ -39,37 +39,41 @@ describe("Spec", () => {
     fixture.cleanup()
   })
 
-  /* #constructor */
-  describe("#constructor.functional", () => {
+  /* Functional tests */
+  describe("_functional", () => {
 
-    /* Load fixtures */
-    beforeEach(() => {
-      fixture.load("constructor.html")
+    /* #constructor */
+    describe("#constructor", () => {
+
+      /* Load fixtures */
+      beforeEach(() => {
+        fixture.load("constructor.html")
+      })
+
+      /* Test: should resolve selector */
+      it("should resolve selector",
+        constructorShouldResolveSelector
+      )
+
+      /* Test: should throw on invalid selector */
+      it("should throw on invalid selector",
+        constructorShouldThrowOnInvalidSelector
+      )
     })
 
-    /* Test: should resolve selector */
-    it("should resolve selector",
-      constructorShouldResolveSelector
-    )
+    /* #capture */
+    describe("#capture", () => {
 
-    /* Test: should throw on invalid selector */
-    it("should throw on invalid selector",
-      constructorShouldThrowOnInvalidSelector
-    )
-  })
+      /* Load fixtures */
+      beforeEach(() => {
+        fixture.load("capture.html")
+      })
 
-  /* #capture */
-  describe("#capture.functional", () => {
-
-    /* Load fixtures */
-    beforeEach(() => {
-      fixture.load("capture.html")
+      /* Test: should capture element and child elements */
+      it("should capture element and child elements",
+        captureShouldCaptureElementAndChildElements
+      )
     })
-
-    /* Test: should capture element and child elements */
-    it("should capture element and child elements",
-      captureShouldCaptureElementAndChildElements
-    )
   })
 })
 

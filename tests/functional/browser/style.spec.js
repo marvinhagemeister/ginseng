@@ -32,38 +32,42 @@ describe("[Browser]", () => {
   /* style */
   describe("style", () => {
 
-    /* Set fixture base path */
-    beforeAll(() => {
-      fixture.setBase("tests/fixtures/browser/style")
-    })
+    /* Functional tests */
+    describe("_functional", () => {
 
-    /* Cleanup fixtures */
-    afterEach(() => {
-      fixture.cleanup()
-    })
-
-    /* #load */
-    describe("#load.functional", () => {
-
-      /* Load fixtures */
-      beforeEach(() => {
-        fixture.load("load.html")
+      /* Set fixture base path */
+      beforeAll(() => {
+        fixture.setBase("tests/fixtures/browser/style")
       })
 
-      /* Test: should return computed styles */
-      it("should return real computed styles for element",
-        loadShouldReturnRealComputedStylesForElement
-      )
+      /* Cleanup fixtures */
+      afterEach(() => {
+        fixture.cleanup()
+      })
 
-      /* Test: should return real computed styles for before element */
-      it("should return real computed styles for before element",
-        loadShouldReturnRealComputedStylesForBeforeElement
-      )
+      /* #load */
+      describe("#load", () => {
 
-      /* Test: should return real computed styles for after element */
-      it("should return real computed styles for after element",
-        loadShouldReturnRealComputedStylesForAfterElement
-      )
+        /* Load fixtures */
+        beforeEach(() => {
+          fixture.load("load.html")
+        })
+
+        /* Test: should return computed styles */
+        it("should return computed styles for element",
+          loadShouldReturnComputedStylesForElement
+        )
+
+        /* Test: should return computed styles for before element */
+        it("should return computed styles for before element",
+          loadShouldReturnComputedStylesForBeforeElement
+        )
+
+        /* Test: should return computed styles for after element */
+        it("should return computed styles for after element",
+          loadShouldReturnComputedStylesForAfterElement
+        )
+      })
     })
   })
 })
@@ -73,21 +77,21 @@ describe("[Browser]", () => {
  * ------------------------------------------------------------------------- */
 
 /* Test: #load should return computed styles for element */
-function loadShouldReturnRealComputedStylesForElement() {
+function loadShouldReturnComputedStylesForElement() {
   const decl = window.getComputedStyle(fixture.el.firstChild)
   expect(style.load(fixture.el.firstChild))
     .toEqual(decl)
 }
 
-/* Test: #load should return real computed styles for before element */
-function loadShouldReturnRealComputedStylesForBeforeElement() {
+/* Test: #load should return computed styles for before element */
+function loadShouldReturnComputedStylesForBeforeElement() {
   const decl = window.getComputedStyle(fixture.el.firstChild, "::before")
   expect(style.load(fixture.el.firstChild, style.PSEUDO_BEFORE))
     .toEqual(decl)
 }
 
-/* Test: #load should return real computed styles for after element */
-function loadShouldReturnRealComputedStylesForAfterElement() {
+/* Test: #load should return computed styles for after element */
+function loadShouldReturnComputedStylesForAfterElement() {
   const decl = window.getComputedStyle(fixture.el.firstChild, "::after")
   expect(style.load(fixture.el.firstChild, style.PSEUDO_AFTER))
     .toEqual(decl)

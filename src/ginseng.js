@@ -68,7 +68,7 @@ export default class Ginseng {
     /* Ensure that we're not overwriting a previous capture */
     if (dom.query(selector) !== spec.element)
       throw new ReferenceError(
-        `"${name}" was already registered with another selector`)
+        `"${name}" was already registered with another element`)
 
     /* Append, capture and compare specification */
     this.specs_[name] = spec
