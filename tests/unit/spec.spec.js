@@ -211,7 +211,7 @@ function constructorShouldThrowOnInvalidName() {
 function captureShouldTraverseChildElements() {
   new Spec("name", ".capture").capture()
   expect(dom.traverse)
-    .toHaveBeenCalledWith(jasmine.any(Element), extract)
+    .toHaveBeenCalledWith(fixture.el.firstChild, extract)
 }
 
 /* Test: #capture should return data */

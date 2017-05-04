@@ -150,7 +150,7 @@ module.exports = function(karma) {
         base: "SauceLabs",
         browserName: "internet explorer",
         version: "10",
-        platform: "Windows 10",
+        platform: "Windows 8",
         screenResolution: "1280x1024"
       },
 
@@ -160,6 +160,14 @@ module.exports = function(karma) {
         browserName: "internet explorer",
         version: "9",
         platform: "Windows 7",
+        screenResolution: "1280x1024"
+      },
+
+      /* Opera 12 */
+      opera: {
+        base: "SauceLabs",
+        browserName: "opera",
+        platform: "Windows 2008",
         screenResolution: "1280x1024"
       }
     }
