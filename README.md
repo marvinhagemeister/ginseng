@@ -8,7 +8,7 @@
 
   [travis-image]: https://travis-ci.org/squidfunk/ginseng.svg?branch=master
   [travis-link]: https://travis-ci.org/squidfunk/ginseng
-  [codecov-image]: https://codecov.io/gh/squidfunk/ginseng/branch/master/graph/badge.svg
+  [codecov-image]: https://img.shields.io/codecov/c/github/squidfunk/ginseng/master.svg
   [codecov-link]: https://codecov.io/gh/squidfunk/ginseng
   [gitter-image]: https://img.shields.io/gitter/room/squidfunk/ginseng.svg
   [gitter-link]: https://gitter.im/squidfunk/ginseng

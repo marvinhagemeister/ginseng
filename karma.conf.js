@@ -120,11 +120,11 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
-      /* Chrome (latest - 1) */
+      /* Chrome 56 - latest - 1 doesn't work here */
       chrome1: {
         base: "SauceLabs",
         browserName: "chrome",
-        version: "latest - 1",
+        version: "56",
         platform: "Windows 7",
         screenResolution: "1280x1024"
       },
@@ -147,24 +147,6 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
-      /* Edge (latest) */
-      edge: {
-        base: "SauceLabs",
-        browserName: "MicrosoftEdge",
-        version: "latest",
-        platform: "Windows 10",
-        screenResolution: "1280x1024"
-      },
-
-      /* Edge (latest - 1) */
-      edge1: {
-        base: "SauceLabs",
-        browserName: "MicrosoftEdge",
-        version: "latest-1",
-        platform: "Windows 10",
-        screenResolution: "1280x1024"
-      },
-
       /* Opera (latest) */
       opera: {
         base: "SauceLabs",
@@ -180,6 +162,24 @@ module.exports = function(karma) {
         browserName: "opera",
         version: "latest-1",
         platform: "Windows 2008",
+        screenResolution: "1280x1024"
+      },
+
+      /* Edge 14 */
+      edge14: {
+        base: "SauceLabs",
+        browserName: "MicrosoftEdge",
+        version: "14",
+        platform: "Windows 10",
+        screenResolution: "1280x1024"
+      },
+
+      /* Edge 13 */
+      edge13: {
+        base: "SauceLabs",
+        browserName: "MicrosoftEdge",
+        version: "13",
+        platform: "Windows 10",
         screenResolution: "1280x1024"
       },
 
