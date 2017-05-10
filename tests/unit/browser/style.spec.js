@@ -91,19 +91,19 @@ describe("[Browser]", () => {
 function loadShouldReturnComputedStylesForElement() {
   style.load(fixture.el.firstChild)
   expect(window.getComputedStyle)
-    .toHaveBeenCalledWith(fixture.el.firstChild)
+    .toHaveBeenCalledWith(fixture.el.firstChild, null)
 }
 
 /* Test: #load should return computed styles for before element */
 function loadShouldReturnComputedStylesForBeforeElement() {
-  style.load(fixture.el.firstChild, style.PSEUDO_BEFORE)
+  style.load(fixture.el.firstChild, "::before")
   expect(window.getComputedStyle)
     .toHaveBeenCalledWith(fixture.el.firstChild, "::before")
 }
 
 /* Test: #load should return computed styles for after element */
 function loadShouldReturnComputedStylesForAfterElement() {
-  style.load(fixture.el.firstChild, style.PSEUDO_AFTER)
+  style.load(fixture.el.firstChild, "::after")
   expect(window.getComputedStyle)
     .toHaveBeenCalledWith(fixture.el.firstChild, "::after")
 }

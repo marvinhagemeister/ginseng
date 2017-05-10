@@ -31,7 +31,7 @@ import Spec from "./spec"
 export default class Ginseng {
 
   /**
-   * Create ginseng test suite
+   * Create Ginseng test suite
    *
    * @constructor
    *

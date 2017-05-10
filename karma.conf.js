@@ -33,8 +33,8 @@ module.exports = function(karma) {
   /* Common configuration (single run and watch mode) */
   const config = {
     frameworks: [
-      "jasmine",
-      "fixture"
+      "fixture",
+      "jasmine"
     ],
 
     /* Include fixtures and tests */

@@ -78,21 +78,33 @@ describe("[Browser]", () => {
 
 /* Test: #load should return computed styles for element */
 function loadShouldReturnComputedStylesForElement() {
-  const decl = window.getComputedStyle(fixture.el.firstChild)
-  expect(style.load(fixture.el.firstChild))
-    .toEqual(decl)
+  const raw = window.getComputedStyle(fixture.el.firstChild)
+  const properties = style.load(fixture.el.firstChild)
+  expect(Object.keys(properties).length)
+    .toBeGreaterThan(200)
+  Object.keys(properties).forEach(property => {
+    expect(properties[property]).toEqual(raw[property])
+  })
 }
 
 /* Test: #load should return computed styles for before element */
 function loadShouldReturnComputedStylesForBeforeElement() {
-  const decl = window.getComputedStyle(fixture.el.firstChild, "::before")
-  expect(style.load(fixture.el.firstChild, style.PSEUDO_BEFORE))
-    .toEqual(decl)
+  const raw = window.getComputedStyle(fixture.el.firstChild, "::before")
+  const properties = style.load(fixture.el.firstChild, "::before")
+  expect(Object.keys(properties).length)
+    .toBeGreaterThan(200)
+  Object.keys(properties).forEach(property => {
+    expect(properties[property]).toEqual(raw[property])
+  })
 }
 
 /* Test: #load should return computed styles for after element */
 function loadShouldReturnComputedStylesForAfterElement() {
-  const decl = window.getComputedStyle(fixture.el.firstChild, "::after")
-  expect(style.load(fixture.el.firstChild, style.PSEUDO_AFTER))
-    .toEqual(decl)
+  const raw = window.getComputedStyle(fixture.el.firstChild, "::after")
+  const properties = style.load(fixture.el.firstChild, "::after")
+  expect(Object.keys(properties).length)
+    .toBeGreaterThan(200)
+  Object.keys(properties).forEach(property => {
+    expect(properties[property]).toEqual(raw[property])
+  })
 }

@@ -46,7 +46,7 @@ module.exports = function() {
       ]
     },
 
-    /* Output */
+    /* Export class constructor as entrypoint */
     output: {
       path: path.resolve(__dirname, "./dist"),
       filename: "index.js",

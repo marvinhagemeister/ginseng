@@ -25,18 +25,14 @@
  * ------------------------------------------------------------------------- */
 
 /**
- * Pseudo qualifier "::before"
+ * Available qualifiers
  *
- * @type {String} Qualifier
+ * @type {Array<String>} Qualifiers
  */
-export const PSEUDO_BEFORE = "::before"
-
-/**
- * Pseudo qualifier "::after"
- *
- * @type {String} Qualifier
- */
-export const PSEUDO_AFTER = "::after"
+export const qualifiers = [
+  "::before",
+  "::after"
+]
 
 /**
  * Retrieve the computed properties of an element or pseudo element
@@ -48,19 +44,24 @@ export const PSEUDO_AFTER = "::after"
 export const load = (el, qualifier = null) => {
   if (!(el instanceof Element))
     throw new ReferenceError(`Invalid element: "${el}"`)
+  if (qualifier && qualifiers.indexOf(qualifier) === -1)
+    throw new TypeError(`Invalid qualifier: "${qualifier}"`)
 
-  /* Retrieve computed properties */
-  switch (qualifier) {
+  /* Retrieve raw computed properties */
+  const raw = window.getComputedStyle(el, qualifier)
 
-    /* Handle pseudo elements */
-    case PSEUDO_BEFORE:
-    case PSEUDO_AFTER:
-      return window.getComputedStyle(el, qualifier)
+  /* Create a copy, as the CSS declaration object gets garbage collected the
+     moment it's out of scope in some browsers, i.e., of course IE */
+  const style = {}
+  for (const property in raw) {
+    const value = raw[property]
 
-    /* Handle element */
-    default:
-      if (qualifier !== null)
-        throw new TypeError(`Invalid qualifier: "${qualifier}"`)
-      return window.getComputedStyle(el)
+    /* We cannot check properties with hasOwnProperty/1, because in IE the
+       CSS declaration will always return false */
+    if (!/^\d+$/.test(property) && typeof value !== "function")
+      style[property] = value
   }
+
+  /* Return computed properties */
+  return style
 }
