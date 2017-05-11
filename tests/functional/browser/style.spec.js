@@ -81,7 +81,7 @@ function loadShouldReturnComputedStylesForElement() {
   const raw = window.getComputedStyle(fixture.el.firstChild)
   const properties = style.load(fixture.el.firstChild)
   expect(Object.keys(properties).length)
-    .toBeGreaterThan(200)
+    .toBeGreaterThan(151) // IE9 has 152 properties
   Object.keys(properties).forEach(property => {
     expect(properties[property]).toEqual(raw[property])
   })
@@ -92,7 +92,7 @@ function loadShouldReturnComputedStylesForBeforeElement() {
   const raw = window.getComputedStyle(fixture.el.firstChild, "::before")
   const properties = style.load(fixture.el.firstChild, "::before")
   expect(Object.keys(properties).length)
-    .toBeGreaterThan(200)
+    .toBeGreaterThan(151) // IE9 has 152 properties
   Object.keys(properties).forEach(property => {
     expect(properties[property]).toEqual(raw[property])
   })
@@ -103,7 +103,7 @@ function loadShouldReturnComputedStylesForAfterElement() {
   const raw = window.getComputedStyle(fixture.el.firstChild, "::after")
   const properties = style.load(fixture.el.firstChild, "::after")
   expect(Object.keys(properties).length)
-    .toBeGreaterThan(200)
+    .toBeGreaterThan(151) // IE9 has 152 properties
   Object.keys(properties).forEach(property => {
     expect(properties[property]).toEqual(raw[property])
   })
