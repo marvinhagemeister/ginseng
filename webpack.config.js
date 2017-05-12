@@ -30,8 +30,14 @@ const webpack = require("webpack")
 module.exports = function() {
   const config = {
 
-    /* Entrypoint */
+    /* Entrypoints */
     entry: [
+
+      /* Polyfills */
+      "core-js/fn/promise",
+      "whatwg-fetch",
+
+      /* Main entrypoint */
       path.resolve(__dirname, "./src/ginseng/index.js")
     ],
 

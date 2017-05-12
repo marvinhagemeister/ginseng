@@ -164,6 +164,8 @@ function postShouldThrowOnEmptyUrl() {
     new TypeError("Invalid URL: \"\""))
   expect(window.fetch)
     .not.toHaveBeenCalled()
+  expect(JSON.stringify)
+    .not.toHaveBeenCalled()
 }
 
 /* Test: #post should throw on invalid url */
@@ -174,6 +176,8 @@ function postShouldThrowOnInvalidUrl() {
     new TypeError("Invalid URL: \"null\""))
   expect(window.fetch)
     .not.toHaveBeenCalled()
+  expect(JSON.stringify)
+    .not.toHaveBeenCalled()
 }
 
 /* Test: #post should throw on invalid data */
@@ -182,4 +186,8 @@ function postShouldThrowOnInvalidData() {
     request.post("url", null)
   }).toThrow(
     new TypeError("Invalid data: \"null\""))
+  expect(window.fetch)
+    .not.toHaveBeenCalled()
+  expect(JSON.stringify)
+    .not.toHaveBeenCalled()
 }
