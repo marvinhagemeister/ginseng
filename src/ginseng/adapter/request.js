@@ -20,54 +20,50 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/ginseng/browser/dom"
-
 /* ----------------------------------------------------------------------------
- * Declarations
+ * Functions
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/**
+ * Perform a GET request
+ *
+ * @param {String} url - URL
+ * @return {Response} Response
+ */
+export const get = url => {
+  if (typeof url !== "string" || !url.length)
+    throw new TypeError(`Invalid URL: "${url}"`)
 
-  /* dom */
-  describe("dom", () => {
-
-    /* Functional tests */
-    describe("_functional", () => {
-
-      /* Set fixture base path */
-      beforeAll(() => {
-        fixture.setBase("tests/fixtures/browser/dom")
-      })
-
-      /* Cleanup fixtures */
-      afterEach(() => {
-        fixture.cleanup()
-      })
-
-      /* #query */
-      describe("#query", () => {
-
-        /* Load fixtures */
-        beforeEach(() => {
-          fixture.load("query.html")
-        })
-
-        /* Test: should resolve selector */
-        it("should resolve selector",
-          queryShouldResolveSelector
-        )
-      })
-    })
+  /* Perform request and return Promise */
+  return fetch(url, {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      "Accept": "application/json"
+    }
   })
-})
+}
 
-/* ----------------------------------------------------------------------------
- * Definitions: #query
- * ------------------------------------------------------------------------- */
+/**
+ * Perform a POST request
+ *
+ * @param {String} url - URL
+ * @param {Object} data - Payload
+ * @return {Response} Response
+ */
+export const post = (url, data) => {
+  if (typeof url !== "string" || !url.length)
+    throw new TypeError(`Invalid URL: "${url}"`)
+  if (!data || typeof data !== "object")
+    throw new TypeError(`Invalid data: "${data}"`)
 
-/* Test: #query should resolve selector */
-function queryShouldResolveSelector() {
-  expect(dom.query(".query"))
-    .toEqual(fixture.el.firstChild)
+  /* Perform request and return Promise */
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
 }

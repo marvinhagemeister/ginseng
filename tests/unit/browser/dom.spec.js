@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/browser/dom"
+import * as dom from "~/src/ginseng/browser/dom"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -105,14 +105,14 @@ describe("[Browser]", () => {
         traverseShouldResolveSelector
       )
 
-      /* Test: should apply callback to element */
-      it("should apply callback to element",
-        traverseShouldApplyCallbackToElement
+      /* Test: should invoke callback on element */
+      it("should invoke callback to element",
+        traverseShouldInvokeCallbackToElement
       )
 
-      /* Test: should apply callback to all child elements */
-      it("should apply callback to all child elements",
-        traverseShouldApplyCallbackToAllChildElements
+      /* Test: should invoke callback on all child elements */
+      it("should invoke callback on all child elements",
+        traverseShouldInvokeCallbackToAllChildElements
       )
 
       /* Test: should throw on invalid callback */
@@ -187,8 +187,8 @@ function traverseShouldResolveSelector() {
     .toHaveBeenCalled()
 }
 
-/* Test: #traverse should apply callback to element */
-function traverseShouldApplyCallbackToElement() {
+/* Test: #traverse should invoke callback to element */
+function traverseShouldInvokeCallbackToElement() {
   const cb = jasmine.createSpy("callback")
   expect(() => {
     dom.traverse(".traverse", cb)
@@ -198,8 +198,8 @@ function traverseShouldApplyCallbackToElement() {
     .toHaveBeenCalled()
 }
 
-/* Test: #traverse should apply callback on all child elements */
-function traverseShouldApplyCallbackToAllChildElements() {
+/* Test: #traverse should invoke callback on all child elements */
+function traverseShouldInvokeCallbackToAllChildElements() {
   expect(dom.traverse(".traverse", (node, children) => {
     return { tag: node.tagName, children }
   })).toEqual(fixture.json[0])

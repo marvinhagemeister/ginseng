@@ -20,10 +20,10 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/browser/dom"
-import * as style from "~/src/browser/style"
+import * as dom from "~/src/ginseng/browser/dom"
+import * as style from "~/src/ginseng/browser/style"
 
-import { extract, default as Spec } from "~/src/spec"
+import { extract, default as Spec } from "~/src/ginseng/spec"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -89,6 +89,11 @@ describe("Spec", () => {
     /* Test: should initialize data */
     it("should initialize data",
       constructorShouldInitializeData
+    )
+
+    /* Test: should throw on empty name */
+    it("should throw on empty name",
+      constructorShouldThrowOnEmptyName
     )
 
     /* Test: should throw on invalid name */
@@ -193,12 +198,22 @@ function constructorShouldInitializeData() {
     .toBeNull()
 }
 
-/* Test: #constructor should throw on invalid name */
-function constructorShouldThrowOnInvalidName() {
+/* Test: #constructor should throw on empty name */
+function constructorShouldThrowOnEmptyName() {
   expect(() => {
     new Spec("", ".constructor")
   }).toThrow(
     new TypeError("Invalid name: \"\""))
+  expect(dom.query)
+    .not.toHaveBeenCalled()
+}
+
+/* Test: #constructor should throw on invalid name */
+function constructorShouldThrowOnInvalidName() {
+  expect(() => {
+    new Spec(null, ".constructor")
+  }).toThrow(
+    new TypeError("Invalid name: \"null\""))
   expect(dom.query)
     .not.toHaveBeenCalled()
 }

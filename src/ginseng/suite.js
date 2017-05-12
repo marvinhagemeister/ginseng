@@ -28,25 +28,34 @@ import Spec from "./spec"
  * Class
  * ------------------------------------------------------------------------- */
 
-export default class Ginseng {
+export default class Suite {
 
   /**
-   * Create Ginseng test suite
+   * Create a test suite
    *
    * @constructor
    *
+   * @property {string} name_ - Suite name
    * @property {Object<String, Spec>} baseline_ - Baseline data
    * @property {Object<String, Spec>} specs_ - Captured specifications
+   * @property {Object<Suite>} suites_ - Nested test suites
    *
+   * @param {String} name - Suite name
    * @param {Object<String, Spec>?} baseline - Baseline data
    */
-  constructor(baseline = {}) {
+  constructor(name, baseline = {}) {
+    if (typeof name !== "string" || !name.length)
+      throw new TypeError(`Invalid name: "${name}"`)
     if (typeof baseline !== "object")
       throw new TypeError(`Invalid baseline: "${baseline}"`)
 
-    /* Set baseline and initialize specifications */
+    /* Set name, baseline and initialize specifications */
+    this.name_ = name
     this.baseline_ = baseline                                                   // TODO: validate baseline format
     this.specs_ = {}
+
+    /* Nested test suites */
+    this.suites_ = {}
   }
 
   /**
@@ -61,6 +70,10 @@ export default class Ginseng {
    * @return {Boolean} Comparison result
    */
   capture(name, selector) {
+    if (typeof name !== "string" || !name.length)
+      throw new TypeError(`Invalid name: "${name}"`)
+
+    /* Initialize specification, if not already done */
     const spec = this.specs_[name]
       ? this.specs_[name]
       : new Spec(name, selector)
@@ -73,6 +86,42 @@ export default class Ginseng {
     /* Append, capture and compare specification */
     this.specs_[name] = spec
     return spec.compare(this.baseline_[name] || {})
+  }
+
+  /**
+   * Initialize a nested test suite
+   *
+   * @param {string} name - Suite name
+   * @param {Object<String, Spec>?} baseline - Baseline data
+   * @param {Function?} cb - Optional callback for nested handling
+   *
+   * @return {Suite} Nested test suite
+   */
+  suite(name, baseline = {}, cb = null) {
+    if (typeof name !== "string" || !name.length)
+      throw new TypeError(`Invalid name: "${name}"`)
+    if (cb !== null && typeof cb !== "function")
+      throw new TypeError("Invalid callback")
+
+    /* Initialize nested suite, if not already done */
+    const suite = this.suites_[name]
+      ? this.suites_[name]
+      : new Suite(name, baseline)
+
+    /* Append and return or pass suite to callback */
+    this.suites_[name] = suite
+    return cb
+      ? cb(suite)
+      : suite
+  }
+
+  /**
+   * Retrieve suite name
+   *
+   * @return {String} Suite name
+   */
+  get name() {
+    return this.name_
   }
 
   /**
@@ -91,5 +140,14 @@ export default class Ginseng {
    */
   get specs() {
     return this.specs_
+  }
+
+  /**
+   * Retrieve nested test suites
+   *
+   * @return {Object<Suite>} Nested test suites
+   */
+  get suites() {
+    return this.suites_
   }
 }

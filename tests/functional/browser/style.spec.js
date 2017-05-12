@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-import * as style from "~/src/browser/style"
+import * as style from "~/src/ginseng/browser/style"
 
 /* ----------------------------------------------------------------------------
  * Declarations

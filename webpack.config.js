@@ -32,7 +32,7 @@ module.exports = function() {
 
     /* Entrypoint */
     entry: [
-      path.resolve(__dirname, "./src/index.js")
+      path.resolve(__dirname, "./src/ginseng/index.js")
     ],
 
     /* Loaders */
@@ -48,7 +48,7 @@ module.exports = function() {
 
     /* Export class constructor as entrypoint */
     output: {
-      path: path.resolve(__dirname, "./dist"),
+      path: path.resolve(__dirname, "./dist/ginseng"),
       filename: "index.js",
       libraryTarget: "window",
       pathinfo: true

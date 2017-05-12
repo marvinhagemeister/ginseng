@@ -20,19 +20,19 @@
  * IN THE SOFTWARE.
  */
 
-import Ginseng from "~/src/ginseng"
-import Spec from "~/src/spec"
+import Spec from "~/src/ginseng/spec"
+import Suite from "~/src/ginseng/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* Ginseng */
-describe("Ginseng", () => {
+/* Suite */
+describe("Suite", () => {
 
   /* Set fixture base path */
   beforeAll(() => {
-    fixture.setBase("tests/fixtures/ginseng")
+    fixture.setBase("tests/fixtures/suite")
   })
 
   /* Cleanup fixtures */
@@ -51,14 +51,14 @@ describe("Ginseng", () => {
         fixture.load("capture.html")
       })
 
-      /* Test: should fail on missing baseline */
-      it("should fail on missing baseline",
-        captureShouldFailOnMissingBaseline
-      )
-
       /* Test: should succeed on matching baseline */
       it("should succeed on matching baseline",
         captureShouldSucceedOnMatchingBaseline
+      )
+
+      /* Test: should fail on missing baseline */
+      it("should fail on missing baseline",
+        captureShouldFailOnMissingBaseline
       )
 
       /* Test: should throw on invalid selector */
@@ -73,24 +73,24 @@ describe("Ginseng", () => {
  * Definitions: #capture
  * ------------------------------------------------------------------------- */
 
-/* Test: #capture should fail on missing baseline */
-function captureShouldFailOnMissingBaseline() {
-  expect(new Ginseng().capture("test", ".capture"))
-    .toBe(false)
-}
-
 /* Test: #capture should succeed on matching baseline */
 function captureShouldSucceedOnMatchingBaseline() {
-  expect(new Ginseng({
+  expect(new Suite("test", {
     test: new Spec("test", ".capture").capture()
   }).capture("test", ".capture"))
     .toBe(true)
 }
 
+/* Test: #capture should fail on missing baseline */
+function captureShouldFailOnMissingBaseline() {
+  expect(new Suite("test").capture("test", ".capture"))
+    .toBe(false)
+}
+
 /* Test: #capture should throw on invalid selector */
 function captureShouldThrowOnInvalidSelector() {
   expect(() => {
-    new Ginseng().capture("test", ".no-match")
+    new Suite("test").capture("test", ".no-match")
   }).toThrow(
     new ReferenceError("No match for selector: \".no-match\""))
 }
