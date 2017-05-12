@@ -75,6 +75,11 @@ describe("[Adapter]", () => {
         postShouldFetchData
       )
 
+      /* Test: should fetch json data */
+      it("should fetch json data",
+        postShouldFetchJsonData
+      )
+
       /* Test: should throw on empty url */
       it("should throw on empty url",
         postShouldThrowOnEmptyUrl
@@ -83,11 +88,6 @@ describe("[Adapter]", () => {
       /* Test: should throw on invalid url */
       it("should throw on invalid url",
         postShouldThrowOnInvalidUrl
-      )
-
-      /* Test: should throw on invalid data */
-      it("should throw on invalid data",
-        postShouldThrowOnInvalidData
       )
     })
   })
@@ -104,10 +104,7 @@ function getShouldFetchData(done) {
     expect(window.fetch)
       .toHaveBeenCalledWith("url", {
         method: "GET",
-        mode: "cors",
-        headers: {
-          "Accept": "application/json"
-        }
+        mode: "cors"
       })
     done()
   })
@@ -139,13 +136,30 @@ function getShouldThrowOnInvalidUrl() {
 
 /* Test: #post should fetch data */
 function postShouldFetchData(done) {
+  request.post("url", "test").then(res => {
+    expect(res).toEqual({ ok: true })
+    expect(window.fetch)
+      .toHaveBeenCalledWith("url", {
+        method: "POST",
+        mode: "cors",
+        body: "test",
+        headers: {}
+      })
+    done()
+    expect(JSON.stringify)
+      .not.toHaveBeenCalledWith({ data: true })
+  })
+}
+
+/* Test: #post should fetch json data */
+function postShouldFetchJsonData(done) {
   request.post("url", { data: true }).then(res => {
     expect(res).toEqual({ ok: true })
     expect(window.fetch)
       .toHaveBeenCalledWith("url", {
         method: "POST",
-        body: "{ data: true }",
         mode: "cors",
+        body: "{ data: true }",
         headers: {
           "Content-Type": "application/json"
         }
@@ -174,18 +188,6 @@ function postShouldThrowOnInvalidUrl() {
     request.post(null)
   }).toThrow(
     new TypeError("Invalid URL: \"null\""))
-  expect(window.fetch)
-    .not.toHaveBeenCalled()
-  expect(JSON.stringify)
-    .not.toHaveBeenCalled()
-}
-
-/* Test: #post should throw on invalid data */
-function postShouldThrowOnInvalidData() {
-  expect(() => {
-    request.post("url", null)
-  }).toThrow(
-    new TypeError("Invalid data: \"null\""))
   expect(window.fetch)
     .not.toHaveBeenCalled()
   expect(JSON.stringify)

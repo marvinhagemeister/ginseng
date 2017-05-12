@@ -28,6 +28,7 @@
  * Perform a GET request
  *
  * @param {String} url - URL
+ *
  * @return {Response} Response
  */
 export const get = url => {
@@ -37,10 +38,7 @@ export const get = url => {
   /* Perform request and return Promise */
   return fetch(url, {
     method: "GET",
-    mode: "cors",
-    headers: {
-      "Accept": "application/json"
-    }
+    mode: "cors"
   })
 }
 
@@ -48,22 +46,29 @@ export const get = url => {
  * Perform a POST request
  *
  * @param {String} url - URL
- * @param {Object} data - Payload
+ * @param {(String|Object)} data - Payload
+ *
  * @return {Response} Response
  */
 export const post = (url, data) => {
   if (typeof url !== "string" || !url.length)
     throw new TypeError(`Invalid URL: "${url}"`)
-  if (!data || typeof data !== "object")
-    throw new TypeError(`Invalid data: "${data}"`)
+
+  /* Serialize data, if necessary */
+  const body = typeof data === "object"
+    ? JSON.stringify(data)
+    : data
+
+  /* Set correct content type for JSON data */
+  const headers = typeof data === "object"
+    ? { "Content-Type": "application/json" }
+    : {}
 
   /* Perform request and return Promise */
   return fetch(url, {
     method: "POST",
-    body: JSON.stringify(data),
     mode: "cors",
-    headers: {
-      "Content-Type": "application/json"
-    }
+    body,
+    headers
   })
 }

@@ -120,11 +120,11 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
-      /* Chrome 56 - latest - 1 doesn't work here */
+      /* Chrome 57 - latest - 1 doesn't work here */
       chrome1: {
         base: "SauceLabs",
         browserName: "chrome",
-        version: "56",
+        version: "57",
         platform: "Windows 7",
         screenResolution: "1280x1024"
       },
