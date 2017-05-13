@@ -35,4 +35,4 @@ rm -rf dist
 
 # Build library for production
 "$(yarn bin)"/cross-env NODE_ENV=production \
-  "$(yarn bin)"/webpack
+  "$(yarn bin)"/webpack "$@"

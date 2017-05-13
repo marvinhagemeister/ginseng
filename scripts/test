@@ -31,4 +31,4 @@ if [[ ! -d "$(yarn bin)" ]]; then
 fi
 
 # Start test runner
-"$(yarn bin)"/karma start --single-run
+"$(yarn bin)"/karma start --single-run "$@"

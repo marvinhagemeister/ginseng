@@ -31,4 +31,4 @@ if [[ ! -d "$(yarn bin)" ]]; then
 fi
 
 # Start test runner in watch mode
-"$(yarn bin)"/karma start
+"$(yarn bin)"/karma start "$@"

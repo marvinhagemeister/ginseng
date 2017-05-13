@@ -162,6 +162,11 @@ export default class Suite {
  * This factory function creates a set of nested suites by recursing through
  * the given data. Every suite and nested suite is expected to have a baseline.
  *
+ * Theoretically, we could use for ... of, but this creates problems with
+ * compatibility in Internet Explorer and Opera due to the dependency on Symbol
+ * and Symbol.iterator. We could polyfill both, but this would increase the
+ * size drastically and is pretty unnecessary to achieve the same outcome.
+ *
  * @param {String} name - Suite name
  * @param {Object} data - Baseline data
  *
@@ -169,8 +174,10 @@ export default class Suite {
  */
 export const factory = (name, data) => {
   const init = (suite, suites) => {
-    for (const s of Object.keys(suites))
-      init(suite.suite(s, suites[s].baseline), suites[s].suites || {})
+    Object.keys(suites).reduce((result, s) => {
+      init(result.suite(s, suites[s].baseline), suites[s].suites || {})
+      return result
+    }, suite)
     return suite
   }
 

@@ -34,8 +34,7 @@ module.exports = function() {
     entry: [
 
       /* Polyfills */
-      "core-js/fn/promise",
-      "es-symbol",
+      "core-js/modules/es6.promise",
       "whatwg-fetch",
 
       /* Main entrypoint */
