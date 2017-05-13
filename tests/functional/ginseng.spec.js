@@ -20,54 +20,68 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/ginseng/browser/dom"
+import Ginseng from "~/src/ginseng/ginseng"
+import Suite from "~/src/ginseng/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/* Ginseng */
+describe("Ginseng", () => {
 
-  /* dom */
-  describe("dom", () => {
+  /* Functional tests */
+  describe("_functional", () => {
 
-    /* Functional tests */
-    describe("_functional", () => {
+    /* #fetch */
+    describe("#fetch", () => {
 
-      /* Set fixture base path */
-      beforeAll(() => {
-        fixture.setBase("tests/fixtures/browser/dom")
-      })
+      /* Test: should fetch baseline from url */
+      it("should fetch baseline from url",
+        fetchShouldFetchBaselineFromUrl
+      )
+    })
 
-      /* Cleanup fixtures */
-      afterEach(() => {
-        fixture.cleanup()
-      })
+    /* #suite */
+    describe("#suite", () => {
 
-      /* .query */
-      describe(".query", () => {
+      /* Test: should return top-level suite */
+      it("should return top-level suite",
+        suiteShouldReturnTopLevelSuite
+      )
 
-        /* Load fixtures */
-        beforeEach(() => {
-          fixture.load("query.html")
-        })
-
-        /* Test: should resolve selector */
-        it("should resolve selector",
-          queryShouldResolveSelector
-        )
-      })
+      /* Test: should return existing top-level suite */
+      it("should return existing top-level suite",
+        suiteShouldReturnExistingTopLevelSuite
+      )
     })
   })
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions: .query
+ * Definitions: #fetch
  * ------------------------------------------------------------------------- */
 
-/* Test: .query should resolve selector */
-function queryShouldResolveSelector() {
-  expect(dom.query(".query"))
-    .toEqual(fixture.el.firstChild)
+/* Test: #fetch should fetch baseline from url */
+function fetchShouldFetchBaselineFromUrl() {
+  pending()
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: #suite
+ * ------------------------------------------------------------------------- */
+
+/* Test: #suite should return top-level suite */
+function suiteShouldReturnTopLevelSuite() {
+  const ginseng = new Ginseng()
+  expect(ginseng.suite())
+    .toEqual(jasmine.any(Suite))
+}
+
+/* Test: #suite should return existing top level suite */
+function suiteShouldReturnExistingTopLevelSuite() {
+  const ginseng = new Ginseng()
+  const parent = ginseng.suite()
+  expect(parent)
+    .toBe(ginseng.suite())
 }

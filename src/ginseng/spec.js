@@ -41,8 +41,8 @@ export const extract = (element, children) => {
   return {
     element: style.load(element),
     pseudo: {
-      before: style.load(element, style.PSEUDO_BEFORE),
-      after: style.load(element, style.PSEUDO_AFTER)
+      before: style.load(element, "::before"),
+      after: style.load(element, "::after")
     },
     children
   }

@@ -20,20 +20,20 @@
  * IN THE SOFTWARE.
  */
 
-import * as request from "~/src/ginseng/adapter/request"
+import * as request from "~/src/ginseng/browser/request"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* [Adapter] */
-describe("[Adapter]", () => {
+/* [Browser] */
+describe("[Browser]", () => {
 
   /* request */
   describe("request", () => {
 
-    /* #get */
-    describe("#get", () => {
+    /* .get */
+    describe(".get", () => {
 
       /* Register spies */
       beforeEach(() => {
@@ -42,7 +42,12 @@ describe("[Adapter]", () => {
             Promise.resolve({ ok: true }))
       })
 
-      /* Test: should fetch data */
+      /* Test: should return promise */
+      it("should return promise",
+        getShouldReturnPromise
+      )
+
+      /* Test: should get data */
       it("should fetch data",
         getShouldFetchData
       )
@@ -58,8 +63,8 @@ describe("[Adapter]", () => {
       )
     })
 
-    /* #post */
-    describe("#post", () => {
+    /* .post */
+    describe(".post", () => {
 
       /* Register spies */
       beforeEach(() => {
@@ -70,14 +75,19 @@ describe("[Adapter]", () => {
           .and.returnValue("{ data: true }")
       })
 
-      /* Test: should fetch data */
-      it("should fetch data",
-        postShouldFetchData
+      /* Test: should return promise */
+      it("should return promise",
+        postShouldReturnPromise
       )
 
-      /* Test: should fetch json data */
-      it("should fetch json data",
-        postShouldFetchJsonData
+      /* Test: should store data */
+      it("should store data",
+        postShouldStoreData
+      )
+
+      /* Test: should store json data */
+      it("should store json data",
+        postShouldStoreJsonData
       )
 
       /* Test: should throw on empty url */
@@ -94,13 +104,20 @@ describe("[Adapter]", () => {
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions: #get
+ * Definitions: .get
  * ------------------------------------------------------------------------- */
 
-/* Test: #get should fetch data */
+/* Test: .get should return promise */
+function getShouldReturnPromise() {
+  expect(request.get("url"))
+    .toEqual(jasmine.any(Promise))
+}
+
+/* Test: .get should fetch data */
 function getShouldFetchData(done) {
   request.get("url").then(data => {
-    expect(data).toEqual({ ok: true })
+    expect(data)
+      .toEqual({ ok: true })
     expect(window.fetch)
       .toHaveBeenCalledWith("url", {
         method: "GET",
@@ -110,7 +127,7 @@ function getShouldFetchData(done) {
   })
 }
 
-/* Test: #get should throw on empty url */
+/* Test: .get should throw on empty url */
 function getShouldThrowOnEmptyUrl() {
   expect(() => {
     request.get("")
@@ -120,7 +137,7 @@ function getShouldThrowOnEmptyUrl() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: #get should throw on invalid url */
+/* Test: .get should throw on invalid url */
 function getShouldThrowOnInvalidUrl() {
   expect(() => {
     request.get(null)
@@ -131,13 +148,20 @@ function getShouldThrowOnInvalidUrl() {
 }
 
 /* ----------------------------------------------------------------------------
- * Definitions: #post
+ * Definitions: .post
  * ------------------------------------------------------------------------- */
 
-/* Test: #post should fetch data */
-function postShouldFetchData(done) {
+/* Test: .post should return promise */
+function postShouldReturnPromise() {
+  expect(request.post("url", "test"))
+    .toEqual(jasmine.any(Promise))
+}
+
+/* Test: .post should store data */
+function postShouldStoreData(done) {
   request.post("url", "test").then(res => {
-    expect(res).toEqual({ ok: true })
+    expect(res)
+      .toEqual({ ok: true })
     expect(window.fetch)
       .toHaveBeenCalledWith("url", {
         method: "POST",
@@ -151,10 +175,11 @@ function postShouldFetchData(done) {
   })
 }
 
-/* Test: #post should fetch json data */
-function postShouldFetchJsonData(done) {
+/* Test: .post should store json data */
+function postShouldStoreJsonData(done) {
   request.post("url", { data: true }).then(res => {
-    expect(res).toEqual({ ok: true })
+    expect(res)
+      .toEqual({ ok: true })
     expect(window.fetch)
       .toHaveBeenCalledWith("url", {
         method: "POST",
@@ -170,7 +195,7 @@ function postShouldFetchJsonData(done) {
   })
 }
 
-/* Test: #post should throw on empty url */
+/* Test: .post should throw on empty url */
 function postShouldThrowOnEmptyUrl() {
   expect(() => {
     request.post("")
@@ -182,7 +207,7 @@ function postShouldThrowOnEmptyUrl() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: #post should throw on invalid url */
+/* Test: .post should throw on invalid url */
 function postShouldThrowOnInvalidUrl() {
   expect(() => {
     request.post(null)

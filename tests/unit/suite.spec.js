@@ -20,10 +20,9 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/ginseng/browser/dom"
 import * as spec from "~/src/ginseng/spec"
 
-import Suite from "~/src/ginseng/suite"
+import { factory, default as Suite } from "~/src/ginseng/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -84,19 +83,15 @@ describe("Suite", () => {
       fixture.load("capture.html")
 
       /* Register spies */
-      spyOn(dom, "query").and.callFake(selector => {
-        return selector === ".capture"
-          ? fixture.el.firstChild
-          : fixture.el.firstChild.nextElementSibling
-      })
-      spyOn(spec, "default").and.returnValue({
-        name: "test",
-        element: fixture.el.firstChild,
-        data: null,
-        capture: jasmine.createSpy("capture").and.returnValue(null),
-        compare: jasmine.createSpy("compare")
-          .and.callFake(baseline => baseline.data === true)
-      })
+      spyOn(spec, "default")
+        .and.returnValue({
+          name: "test",
+          element: fixture.el.firstChild,
+          data: null,
+          capture: jasmine.createSpy("capture").and.returnValue(null),
+          compare: jasmine.createSpy("compare")
+            .and.callFake(baseline => baseline.data === true)
+        })
     })
 
     /* Test: should succeed on matching baseline */
@@ -171,6 +166,20 @@ describe("Suite", () => {
     /* Test: should throw on invalid callback */
     it("should throw on invalid callback",
       suiteShouldThrowOnInvalidCallback
+    )
+  })
+
+  /* .factory */
+  describe(".factory", () => {
+
+    /* Test: should initialize suite */
+    it("should initialize suite",
+      factoryShouldInitializeSuite
+    )
+
+    /* Test: should initialize suite and nested suites */
+    it("should initialize suite and nested suites",
+      factoryShouldInitializeSuiteAndNestedSuites
     )
   })
 })
@@ -360,4 +369,54 @@ function suiteShouldThrowOnInvalidCallback() {
     new Suite("test").suite("test2", {}, "")
   }).toThrow(
     new TypeError("Invalid callback"))
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .factory
+ * ------------------------------------------------------------------------- */
+
+/* Test: should initialize suite */
+function factoryShouldInitializeSuite() {
+  const data = {
+    baseline: { data: true }
+  }
+  const suite = factory("test", data)
+  expect(suite.baseline)
+    .toBe(suite.baseline)
+  expect(suite.suites)
+    .toEqual({})
+}
+
+/* Test: should initialize suite and nested suites */
+function factoryShouldInitializeSuiteAndNestedSuites() {
+  const data = {
+    baseline: { data: true },
+    suites: {
+      test: {
+        baseline: { data: true },
+        suites: {
+          test: {
+            baseline: { data: true }
+          }
+        }
+      }
+    }
+  }
+  const suite = factory("test", data)
+  expect(suite.baseline)
+    .toBe(suite.baseline)
+  expect(suite.suites.test)
+    .toEqual(jasmine.any(Suite))
+  expect(suite.suites.test.name)
+    .toEqual("test")
+  expect(suite.suites.test.baseline)
+    .toBe(data.suites.test.baseline)
+  expect(suite.suites.test.suites.test)
+    .toEqual(jasmine.any(Suite))
+  expect(suite.suites.test.suites.test.name)
+    .toEqual("test")
+  expect(suite.suites.test.suites.test.baseline)
+    .toBe(data.suites.test.suites.test.baseline)
+  expect(suite.suites.test.suites.test.suites)
+    .toEqual({})
 }

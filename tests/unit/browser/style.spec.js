@@ -47,8 +47,8 @@ describe("[Browser]", () => {
       fixture.cleanup()
     })
 
-    /* #load */
-    describe("#load", () => {
+    /* .load */
+    describe(".load", () => {
 
       /* Load fixtures */
       beforeEach(() => {
@@ -84,31 +84,31 @@ describe("[Browser]", () => {
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions: #load
+ * Definitions: .load
  * ------------------------------------------------------------------------- */
 
-/* Test: #load should return computed styles for element */
+/* Test: .load should return computed styles for element */
 function loadShouldReturnComputedStylesForElement() {
   style.load(fixture.el.firstChild)
   expect(window.getComputedStyle)
     .toHaveBeenCalledWith(fixture.el.firstChild, null)
 }
 
-/* Test: #load should return computed styles for before element */
+/* Test: .load should return computed styles for before element */
 function loadShouldReturnComputedStylesForBeforeElement() {
   style.load(fixture.el.firstChild, "::before")
   expect(window.getComputedStyle)
     .toHaveBeenCalledWith(fixture.el.firstChild, "::before")
 }
 
-/* Test: #load should return computed styles for after element */
+/* Test: .load should return computed styles for after element */
 function loadShouldReturnComputedStylesForAfterElement() {
   style.load(fixture.el.firstChild, "::after")
   expect(window.getComputedStyle)
     .toHaveBeenCalledWith(fixture.el.firstChild, "::after")
 }
 
-/* Test: #load should throw on invalid element */
+/* Test: .load should throw on invalid element */
 function loadShouldThrowOnInvalidElement() {
   expect(() => {
     style.load("genmaicha")
@@ -118,7 +118,7 @@ function loadShouldThrowOnInvalidElement() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: #load should throw on invalid qualifier */
+/* Test: .load should throw on invalid qualifier */
 function loadShouldThrowOnInvalidQualifier() {
   expect(() => {
     style.load(fixture.el.firstChild, "oolong")

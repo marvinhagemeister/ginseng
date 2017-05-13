@@ -20,55 +20,56 @@
  * IN THE SOFTWARE.
  */
 
+// import * as request from "~/src/ginseng/browser/request"
+
 /* ----------------------------------------------------------------------------
- * Functions
+ * Declarations
  * ------------------------------------------------------------------------- */
 
-/**
- * Perform a GET request
- *
- * @param {String} url - URL
- *
- * @return {Response} Response
- */
-export const get = url => {
-  if (typeof url !== "string" || !url.length)
-    throw new TypeError(`Invalid URL: "${url}"`)
+/* [Browser] */
+describe("[Browser]", () => {
 
-  /* Perform request and return Promise */
-  return fetch(url, {
-    method: "GET",
-    mode: "cors"
+  /* request */
+  describe("request", () => {
+
+    /* Functional tests */
+    describe("_functional", () => {
+
+      /* .get */
+      describe(".get", () => {
+
+        /* Test: should get data */
+        it("should fetch data",
+          getShouldFetchData
+        )
+      })
+
+      /* .post */
+      describe(".post", () => {
+
+        /* Test: should store data */
+        it("should store data",
+          postShouldStoreData
+        )
+      })
+    })
   })
+})
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .get
+ * ------------------------------------------------------------------------- */
+
+/* Test: .get should fetch data */
+function getShouldFetchData() {
+  pending()
 }
 
-/**
- * Perform a POST request
- *
- * @param {String} url - URL
- * @param {(String|Object)} data - Payload
- *
- * @return {Response} Response
- */
-export const post = (url, data) => {
-  if (typeof url !== "string" || !url.length)
-    throw new TypeError(`Invalid URL: "${url}"`)
+/* ----------------------------------------------------------------------------
+ * Definitions: .post
+ * ------------------------------------------------------------------------- */
 
-  /* Serialize data, if necessary */
-  const body = typeof data === "object"
-    ? JSON.stringify(data)
-    : data
-
-  /* Set correct content type for JSON data */
-  const headers = typeof data === "object"
-    ? { "Content-Type": "application/json" }
-    : {}
-
-  /* Perform request and return Promise */
-  return fetch(url, {
-    method: "POST",
-    mode: "cors",
-    body,
-    headers
-  })
+/* Test: .post should store data */
+function postShouldStoreData() {
+  pending()
 }

@@ -42,8 +42,8 @@ describe("[Browser]", () => {
       fixture.cleanup()
     })
 
-    /* #query */
-    describe("#query", () => {
+    /* .query */
+    describe(".query", () => {
 
       /* Load fixtures and register spies */
       beforeEach(() => {
@@ -84,8 +84,8 @@ describe("[Browser]", () => {
       )
     })
 
-    /* #traverse */
-    describe("#traverse", () => {
+    /* .traverse */
+    describe(".traverse", () => {
 
       /* Load fixtures and register spies */
       beforeEach(() => {
@@ -107,12 +107,12 @@ describe("[Browser]", () => {
 
       /* Test: should invoke callback on element */
       it("should invoke callback to element",
-        traverseShouldInvokeCallbackToElement
+        traverseShouldInvokeCallbackOnElement
       )
 
       /* Test: should invoke callback on all child elements */
       it("should invoke callback on all child elements",
-        traverseShouldInvokeCallbackToAllChildElements
+        traverseShouldInvokeCallbackOnAllChildElements
       )
 
       /* Test: should throw on invalid callback */
@@ -124,10 +124,10 @@ describe("[Browser]", () => {
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions: #query
+ * Definitions: .query
  * ------------------------------------------------------------------------- */
 
-/* Test: #query should accept selector */
+/* Test: .query should accept selector */
 function queryShouldAcceptSelector() {
   expect(dom.query(".query"))
     .toEqual(fixture.el.firstChild)
@@ -135,7 +135,7 @@ function queryShouldAcceptSelector() {
     .toHaveBeenCalledWith(".query")
 }
 
-/* Test: #query should accept element */
+/* Test: .query should accept element */
 function queryShouldAcceptElement() {
   expect(dom.query(fixture.el.firstChild))
     .toEqual(fixture.el.firstChild)
@@ -143,7 +143,7 @@ function queryShouldAcceptElement() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: #query should throw on missing argument */
+/* Test: .query should throw on missing argument */
 function queryShouldThrowOnMissingArgument() {
   expect(() => {
     dom.query()
@@ -153,7 +153,7 @@ function queryShouldThrowOnMissingArgument() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: #query should throw on empty selector */
+/* Test: .query should throw on empty selector */
 function queryShouldThrowOnEmptySelector() {
   expect(() => {
     dom.query("")
@@ -163,7 +163,7 @@ function queryShouldThrowOnEmptySelector() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: #query should throw on invalid selector */
+/* Test: .query should throw on invalid selector */
 function queryShouldThrowOnInvalidSelector() {
   expect(() => {
     dom.query(".no-match")
@@ -174,10 +174,10 @@ function queryShouldThrowOnInvalidSelector() {
 }
 
 /* ----------------------------------------------------------------------------
- * Definitions: #traverse
+ * Definitions: .traverse
  * ------------------------------------------------------------------------- */
 
-/* Test: #traverse should resolve selector */
+/* Test: .traverse should resolve selector */
 function traverseShouldResolveSelector() {
   expect(() => {
     dom.traverse(".traverse", () => {})
@@ -187,8 +187,8 @@ function traverseShouldResolveSelector() {
     .toHaveBeenCalled()
 }
 
-/* Test: #traverse should invoke callback to element */
-function traverseShouldInvokeCallbackToElement() {
+/* Test: .traverse should invoke callback on element */
+function traverseShouldInvokeCallbackOnElement() {
   const cb = jasmine.createSpy("callback")
   expect(() => {
     dom.traverse(".traverse", cb)
@@ -198,14 +198,14 @@ function traverseShouldInvokeCallbackToElement() {
     .toHaveBeenCalled()
 }
 
-/* Test: #traverse should invoke callback on all child elements */
-function traverseShouldInvokeCallbackToAllChildElements() {
+/* Test: .traverse should invoke callback on all child elements */
+function traverseShouldInvokeCallbackOnAllChildElements() {
   expect(dom.traverse(".traverse", (node, children) => {
     return { tag: node.tagName, children }
   })).toEqual(fixture.json[0])
 }
 
-/* Test: #traverse should throw on invalid callback */
+/* Test: .traverse should throw on invalid callback */
 function traverseShouldThrowOnInvalidCallback() {
   expect(() => {
     dom.traverse(".traverse", "")

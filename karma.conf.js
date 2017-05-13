@@ -20,8 +20,15 @@
  * IN THE SOFTWARE.
  */
 
+const parser = require("body-parser")
 const moniker = require("moniker")
 const path = require("path")
+
+// TODO: implement
+// eslint-disable-next-line
+const middleware = (req, res, next) => {
+
+}
 
 /* ----------------------------------------------------------------------------
  * Configuration
@@ -60,6 +67,18 @@ module.exports = function(karma) {
 
     /* Webpack configuration */
     webpack,
+
+    /* Plugins */
+    plugins: (karma.plugins || []).concat([
+      { "middleware:bodyparser": ["value", parser.json({ limit: "64mb" })] },
+      { "middleware:mock": ["value", middleware] }
+    ]),
+
+    /* Middlewares */
+    middleware: (karma.middleware || []).concat([
+      "bodyparser",
+      "mock"
+    ]),
 
     /* Test reporters */
     reporters: ["spec"],

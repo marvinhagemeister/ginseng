@@ -25,6 +25,3 @@
  * ------------------------------------------------------------------------- */
 
 export { default as Ginseng } from "./suite"
-
-// add ginseng.suite function, which creates a top level suite (jsut init)
-//

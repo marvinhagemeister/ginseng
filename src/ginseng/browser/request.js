@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (c) 2017 Martin Donath <martin.donath@squidfunk.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,54 +20,55 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/ginseng/browser/dom"
-
 /* ----------------------------------------------------------------------------
- * Declarations
+ * Functions
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/**
+ * Perform a GET request
+ *
+ * @param {String} url - URL
+ *
+ * @return {Response} Response
+ */
+export const get = url => {
+  if (typeof url !== "string" || !url.length)
+    throw new TypeError(`Invalid URL: "${url}"`)
 
-  /* dom */
-  describe("dom", () => {
-
-    /* Functional tests */
-    describe("_functional", () => {
-
-      /* Set fixture base path */
-      beforeAll(() => {
-        fixture.setBase("tests/fixtures/browser/dom")
-      })
-
-      /* Cleanup fixtures */
-      afterEach(() => {
-        fixture.cleanup()
-      })
-
-      /* .query */
-      describe(".query", () => {
-
-        /* Load fixtures */
-        beforeEach(() => {
-          fixture.load("query.html")
-        })
-
-        /* Test: should resolve selector */
-        it("should resolve selector",
-          queryShouldResolveSelector
-        )
-      })
-    })
+  /* Perform request and return Promise */
+  return fetch(url, {
+    method: "GET",
+    mode: "cors"
   })
-})
+}
 
-/* ----------------------------------------------------------------------------
- * Definitions: .query
- * ------------------------------------------------------------------------- */
+/**
+ * Perform a POST request
+ *
+ * @param {String} url - URL
+ * @param {(String|Object)} data - Payload
+ *
+ * @return {Response} Response
+ */
+export const post = (url, data) => {
+  if (typeof url !== "string" || !url.length)
+    throw new TypeError(`Invalid URL: "${url}"`)
 
-/* Test: .query should resolve selector */
-function queryShouldResolveSelector() {
-  expect(dom.query(".query"))
-    .toEqual(fixture.el.firstChild)
+  /* Serialize data, if necessary */
+  const body = typeof data === "object"
+    ? JSON.stringify(data)
+    : data
+
+  /* Set correct content type for JSON data */
+  const headers = typeof data === "object"
+    ? { "Content-Type": "application/json" }
+    : {}
+
+  /* Perform request and return Promise */
+  return fetch(url, {
+    method: "POST",
+    mode: "cors",
+    body,
+    headers
+  })
 }

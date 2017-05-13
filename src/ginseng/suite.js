@@ -151,3 +151,29 @@ export default class Suite {
     return this.suites_
   }
 }
+
+/* ----------------------------------------------------------------------------
+ * Factory
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Initialize a test suite and all test nested suites
+ *
+ * This factory function creates a set of nested suites by recursing through
+ * the given data. Every suite and nested suite is expected to have a baseline.
+ *
+ * @param {String} name - Suite name
+ * @param {Object} data - Baseline data
+ *
+ * @return {Suite} Suite
+ */
+export const factory = (name, data) => {
+  const init = (suite, suites) => {
+    for (const s of Object.keys(suites))
+      init(suite.suite(s, suites[s].baseline), suites[s].suites || {})
+    return suite
+  }
+
+  /* Create suite and recurse */
+  return init(new Suite(name, data.baseline), data.suites || {})
+}
