@@ -20,24 +20,24 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/ginseng/browser/dom"
+import * as dom from "~/src/browser/dom"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/* Browser */
+describe("Browser", () => {
 
   /* dom */
   describe("dom", () => {
 
-    /* Functional tests */
-    describe("_functional", () => {
+    /* Integration tests */
+    describe("_integration", () => {
 
       /* Set fixture base path */
       beforeAll(() => {
-        fixture.setBase("tests/fixtures/browser/dom")
+        fixture.setBase("fixtures/browser/dom")
       })
 
       /* Cleanup fixtures */

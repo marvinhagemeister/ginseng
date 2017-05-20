@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  */
 
-import Ginseng from "~/src/ginseng/ginseng"
-import Suite from "~/src/ginseng/suite"
+import Ginseng from "~/src/ginseng"
+import Suite from "~/src/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -30,8 +30,8 @@ import Suite from "~/src/ginseng/suite"
 /* Ginseng */
 describe("Ginseng", () => {
 
-  /* Functional tests */
-  describe("_functional", () => {
+  /* Integration tests */
+  describe("_integration", () => {
 
     /* #fetch */
     describe("#fetch", () => {

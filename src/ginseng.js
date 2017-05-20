@@ -71,7 +71,7 @@ export default class Ginseng {
    * @return {Suite} Top-level suite
    */
   fetch() {
-    return request.get(this.options_.url.baseline)
+    return request.get(this.options_.url.baseline)                              // TODO: maybe we should call that "init/sync"
       .then(res => res.json())
       .then(data => Promise.resolve((() => {                                    // TODO: factory + prepare
         return this.suite_ = factory("_ginseng", data)                          // TODO: put this in common constant

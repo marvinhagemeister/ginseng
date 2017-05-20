@@ -20,10 +20,10 @@
  * IN THE SOFTWARE.
  */
 
-import * as dom from "~/src/ginseng/browser/dom"
-import * as style from "~/src/ginseng/browser/style"
+import * as dom from "~/src/browser/dom"
+import * as style from "~/src/browser/style"
 
-import { extract, default as Spec } from "~/src/ginseng/spec"
+import { extract, default as Spec } from "~/src/spec"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -34,7 +34,7 @@ describe("Spec", () => {
 
   /* Set fixture base path */
   beforeAll(() => {
-    fixture.setBase("tests/fixtures/spec")
+    fixture.setBase("fixtures/spec")
   })
 
   /* Register spies */
@@ -50,8 +50,8 @@ describe("Spec", () => {
     fixture.cleanup()
   })
 
-  /* #extract */
-  describe("#extract", () => {
+  /* .extract */
+  describe(".extract", () => {
 
     /* Test: should return valid data */
     it("should return valid data",
@@ -147,10 +147,10 @@ describe("Spec", () => {
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions: #extract
+ * Definitions: .extract
  * ------------------------------------------------------------------------- */
 
-/* Test: #extract should return valid data */
+/* Test: .extract should return valid data */
 function constructorShouldReturnValidData() {
   expect(extract(null, "children"))
     .toEqual({

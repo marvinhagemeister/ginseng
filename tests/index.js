@@ -20,23 +20,20 @@
  * IN THE SOFTWARE.
  */
 
-import "core-js/fn/promise"
-import "whatwg-fetch"
-
 /* ----------------------------------------------------------------------------
  * Entrypoint
  * ------------------------------------------------------------------------- */
 
-/* Strip test types (unit, functional) from path */
-const regexp = new RegExp("(unit|functional)")
+/* Split according to test type */
+const regexp = new RegExp("(unit|integration)")
 
 /* Load unit tests per component first, then integration tests */
-const tests = require.context("./.", true, /\.spec\.js$/)
+const tests = require.context("./", true, /\.spec\.js$/)
 tests.keys()
   .sort((a, b) => a.split(regexp)[1].localeCompare(b.split(regexp)[1]) * -1)
   .sort((a, b) => a.split(regexp)[2].localeCompare(b.split(regexp)[2]))
   .forEach(tests)
 
 /* Load all sources */
-const sources = require.context("../src/ginseng", true, /\.js$/)
+const sources = require.context("../src", true, /\.js$/)
 sources.keys().forEach(sources)

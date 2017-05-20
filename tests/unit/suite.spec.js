@@ -20,9 +20,9 @@
  * IN THE SOFTWARE.
  */
 
-import * as spec from "~/src/ginseng/spec"
+import * as spec from "~/src/spec"
 
-import { factory, default as Suite } from "~/src/ginseng/suite"
+import { factory, default as Suite } from "~/src/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -33,7 +33,7 @@ describe("Suite", () => {
 
   /* Set fixture base path */
   beforeAll(() => {
-    fixture.setBase("tests/fixtures/suite")
+    fixture.setBase("fixtures/suite")
   })
 
   /* Cleanup fixtures */
@@ -390,13 +390,13 @@ function factoryShouldInitializeSuite() {
 /* Test: should initialize suite and nested suites */
 function factoryShouldInitializeSuiteAndNestedSuites() {
   const data = {
-    baseline: { data: true },
+    specs: { data: true },
     suites: {
       test: {
-        baseline: { data: true },
+        specs: { data: true },
         suites: {
           test: {
-            baseline: { data: true }
+            specs: { data: true }
           }
         }
       }
@@ -404,19 +404,19 @@ function factoryShouldInitializeSuiteAndNestedSuites() {
   }
   const suite = factory("test", data)
   expect(suite.baseline)
-    .toBe(suite.baseline)
+    .toBe(data.specs)
   expect(suite.suites.test)
     .toEqual(jasmine.any(Suite))
   expect(suite.suites.test.name)
     .toEqual("test")
   expect(suite.suites.test.baseline)
-    .toBe(data.suites.test.baseline)
+    .toBe(data.suites.test.specs)
   expect(suite.suites.test.suites.test)
     .toEqual(jasmine.any(Suite))
   expect(suite.suites.test.suites.test.name)
     .toEqual("test")
   expect(suite.suites.test.suites.test.baseline)
-    .toBe(data.suites.test.suites.test.baseline)
+    .toBe(data.suites.test.suites.test.specs)
   expect(suite.suites.test.suites.test.suites)
     .toEqual({})
 }

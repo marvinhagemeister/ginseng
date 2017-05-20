@@ -30,7 +30,6 @@
     "travis": "scripts/travis",
     "watch": "scripts/watch"
   },
-  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -51,6 +50,7 @@
     "karma": "^1.6.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^2.0.0",
+    "karma-clear-screen-reporter": "^1.0.0",
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-fixture": "^0.2.6",
     "karma-html2js-preprocessor": "^1.1.0",
@@ -63,5 +63,8 @@
     "moniker": "^0.1.2",
     "webpack": "^2.4.1",
     "whatwg-fetch": "^2.0.3"
+  },
+  "peerDependencies": {
+    "ginseng-connect": "*"
   }
 }

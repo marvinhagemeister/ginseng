@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-import Spec from "~/src/ginseng/spec"
+import Spec from "~/src/spec"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -31,7 +31,7 @@ describe("Spec", () => {
 
   /* Set fixture base path */
   beforeAll(() => {
-    fixture.setBase("tests/fixtures/spec")
+    fixture.setBase("fixtures/spec")
   })
 
   /* Cleanup fixtures */
@@ -39,8 +39,8 @@ describe("Spec", () => {
     fixture.cleanup()
   })
 
-  /* Functional tests */
-  describe("_functional", () => {
+  /* Integration tests */
+  describe("_integration", () => {
 
     /* #constructor */
     describe("#constructor", () => {

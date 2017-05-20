@@ -30,15 +30,9 @@ const webpack = require("webpack")
 module.exports = function() {
   const config = {
 
-    /* Entrypoints */
+    /* Entrypoint */
     entry: [
-
-      /* Polyfills */
-      "core-js/modules/es6.promise",
-      "whatwg-fetch",
-
-      /* Main entrypoint */
-      path.resolve(__dirname, "./src/ginseng/index.js")
+      path.resolve(__dirname, "src/index.js")
     ],
 
     /* Loaders */
@@ -54,7 +48,7 @@ module.exports = function() {
 
     /* Export class constructor as entrypoint */
     output: {
-      path: path.resolve(__dirname, "./dist/ginseng"),
+      path: path.resolve(__dirname, "dist"),
       filename: "index.js",
       libraryTarget: "window",
       pathinfo: true
@@ -71,7 +65,7 @@ module.exports = function() {
     resolve: {
       modules: [
         __dirname,
-        path.resolve(__dirname, "./node_modules")
+        path.resolve(__dirname, "node_modules")
       ],
       extensions: [
         ".js"

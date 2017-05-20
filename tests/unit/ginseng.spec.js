@@ -20,10 +20,10 @@
  * IN THE SOFTWARE.
  */
 
-import * as request from "~/src/ginseng/browser/request"
-import * as suite from "~/src/ginseng/suite"
+import * as request from "~/src/browser/request"
+import * as suite from "~/src/suite"
 
-import { config, default as Ginseng } from "~/src/ginseng/ginseng"
+import { config, default as Ginseng } from "~/src/ginseng"
 
 /* ----------------------------------------------------------------------------
  * Declarations

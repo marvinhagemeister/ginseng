@@ -39,6 +39,7 @@ export const qualifiers = [
  *
  * @param {Element} el - Element
  * @param {String?} qualifier - Pseudo qualifier
+ *
  * @return {Object} Style rules
  */
 export const load = (el, qualifier = null) => {

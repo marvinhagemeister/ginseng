@@ -20,21 +20,21 @@
  * IN THE SOFTWARE.
  */
 
-import * as style from "~/src/ginseng/browser/style"
+import * as style from "~/src/browser/style"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/* Browser */
+describe("Browser", () => {
 
   /* style */
   describe("style", () => {
 
     /* Set fixture base path */
     beforeAll(() => {
-      fixture.setBase("tests/fixtures/browser/style")
+      fixture.setBase("fixtures/browser/style")
     })
 
     /* Register spies */

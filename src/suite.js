@@ -157,10 +157,10 @@ export default class Suite {
  * ------------------------------------------------------------------------- */
 
 /**
- * Initialize a test suite and all test nested suites
+ * Initialize a test suite and all nested test suites
  *
- * This factory function creates a set of nested suites by recursing through
- * the given data. Every suite and nested suite is expected to have a baseline.
+ * This factory function creates a set of nested test suites by recursing on
+ * the given data. Every suite is expected to have a baseline.
  *
  * Theoretically, we could use for ... of, but this creates problems with
  * compatibility in Internet Explorer and Opera due to the dependency on Symbol
@@ -175,12 +175,12 @@ export default class Suite {
 export const factory = (name, data) => {
   const init = (suite, suites) => {
     Object.keys(suites).reduce((result, s) => {
-      init(result.suite(s, suites[s].baseline), suites[s].suites || {})
+      init(result.suite(s, suites[s].specs), suites[s].suites || {})
       return result
     }, suite)
     return suite
   }
 
   /* Create suite and recurse */
-  return init(new Suite(name, data.baseline), data.suites || {})
+  return init(new Suite(name, data.specs), data.suites || {})
 }

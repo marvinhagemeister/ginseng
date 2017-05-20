@@ -21,12 +21,12 @@
 # macOS internals
 .DS_Store
 
-# NPM-related
+# NPM
 /node_modules
 /npm-debug.log*
 /yarn-error.log
 
-# Build-related
+# Source files
 /scripts
 /src
 /tests
@@ -42,7 +42,6 @@
 .gitignore
 .npmignore
 .travis.yml
-karma.conf.js
 webpack.config.js
 
 # Git hooks

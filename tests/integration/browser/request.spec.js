@@ -20,20 +20,20 @@
  * IN THE SOFTWARE.
  */
 
-// import * as request from "~/src/ginseng/browser/request"
+// import * as request from "~/src/browser/request"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/* Browser */
+describe("Browser", () => {
 
   /* request */
   describe("request", () => {
 
-    /* Functional tests */
-    describe("_functional", () => {
+    /* Integration tests */
+    describe("_integration", () => {
 
       /* .get */
       describe(".get", () => {
@@ -63,6 +63,10 @@ describe("[Browser]", () => {
 /* Test: .get should fetch data */
 function getShouldFetchData() {
   pending()
+  // request.get("/test").then(res => {
+  //   console.log(res)
+  //   done()
+  // })
 }
 
 /* ----------------------------------------------------------------------------

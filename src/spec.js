@@ -70,7 +70,7 @@ export default class Spec {
     if (typeof name !== "string" || !name.length)
       throw new TypeError(`Invalid name: "${name}"`)
 
-    /* Set spec name and element */
+    /* Set name and element */
     this.name_ = name
     this.el_   = dom.query(selector)
 
@@ -91,6 +91,7 @@ export default class Spec {
    * Compare specification data against given baseline
    *
    * @param {Object} baseline - Baseline data
+   *
    * @return {Boolean} Comparison result
    */
   compare(baseline) {

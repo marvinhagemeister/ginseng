@@ -3,6 +3,7 @@
     "jasmine": true
   },
   "globals": {
+    "chance": true,
     "fixture": true
   },
   "plugins": [

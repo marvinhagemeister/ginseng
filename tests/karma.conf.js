@@ -20,22 +20,17 @@
  * IN THE SOFTWARE.
  */
 
-const parser = require("body-parser")
+const middleware = require("ginseng-connect")
 const moniker = require("moniker")
 const path = require("path")
-
-// TODO: implement
-// eslint-disable-next-line
-const middleware = (req, res, next) => {
-
-}
 
 /* ----------------------------------------------------------------------------
  * Configuration
  * ------------------------------------------------------------------------- */
 
 module.exports = function(karma) {
-  const webpack = require("./webpack.config.js")()
+  const webpack = require(
+    path.resolve(__dirname, "../webpack.config.js"))()
 
   /* Common configuration (single run and watch mode) */
   const config = {
@@ -46,20 +41,20 @@ module.exports = function(karma) {
 
     /* Include fixtures and tests */
     files: [
-      "tests/fixtures/**/*",
-      "tests/index.js"
+      "fixtures/**/*",
+      "index.js"
     ],
 
     /* Preprocess fixtures for tests */
     preprocessors: {
 
       /* HTML and JSON Fixtures */
-      "tests/**/*.html": ["html2js"],
-      "tests/**/*.json": ["json_fixtures"],
+      "fixtures/**/*.html": ["html2js"],
+      "fixtures/**/*.json": ["json_fixtures"],
 
       /* Single entrypoint for tests in order for istanbul code coverage to
          work properly in conjunction with babel */
-      "tests/index.js": [
+      "index.js": [
         "webpack",
         "sourcemap"
       ]
@@ -70,14 +65,12 @@ module.exports = function(karma) {
 
     /* Plugins */
     plugins: (karma.plugins || []).concat([
-      { "middleware:bodyparser": ["value", parser.json({ limit: "64mb" })] },
-      { "middleware:mock": ["value", middleware] }
+      { "middleware:ginseng": ["value", middleware()] }
     ]),
 
     /* Middlewares */
     middleware: (karma.middleware || []).concat([
-      "bodyparser",
-      "mock"
+      "ginseng"
     ]),
 
     /* Test reporters */
@@ -96,12 +89,14 @@ module.exports = function(karma) {
     webpack.module.rules.push({
       test: /\.js$/,
       loader: "istanbul-instrumenter-loader?+esModules",
-      include: path.resolve("./src/")
+      include: path.resolve(__dirname, "../src")
     })
 
     /* Enable short reports and code coverage */
     config.reporters = [
-      "dots",
+      process.env.CI || process.env.SAUCE
+        ? "dots"
+        : "spec",
       "coverage-istanbul"
     ]
 
@@ -109,13 +104,16 @@ module.exports = function(karma) {
     config.coverageIstanbulReporter = {
       reports: [
         "text-summary",
-        "html",
-        "lcovonly"
+        "html"
       ]
     }
 
     /* Automatically launch local Chrome */
     config.browsers = ["Chrome"]
+
+  /* Configuration for watch mode */
+  } else {
+    config.reporters.unshift("clear-screen")
   }
 
   /* Additional configuration for continuous integration */

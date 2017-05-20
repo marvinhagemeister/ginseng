@@ -31,6 +31,7 @@
  * will only query for a single element, ignoring subsequent matches.
  *
  * @param {(String|Element)} selector - Selector or element
+ *
  * @return {Element} Element
  */
 export const query = selector => {
@@ -65,6 +66,7 @@ export const query = selector => {
  *
  * @param {(String|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
+ *
  * @return {*} Return value from callback
  */
 export const traverse = (selector, cb) => {

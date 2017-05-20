@@ -20,8 +20,11 @@
  * IN THE SOFTWARE.
  */
 
+import "core-js/modules/es6.promise"
+import "whatwg-fetch"
+
 /* ----------------------------------------------------------------------------
- * Re-export entry point
+ * Re-export entrypoint
  * ------------------------------------------------------------------------- */
 
-export { default as Ginseng } from "./suite"
+export { default as Ginseng } from "./ginseng"

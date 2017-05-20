@@ -20,14 +20,14 @@
  * IN THE SOFTWARE.
  */
 
-import * as request from "~/src/ginseng/browser/request"
+import * as request from "~/src/browser/request"
 
 /* ----------------------------------------------------------------------------
  * Declarations
  * ------------------------------------------------------------------------- */
 
-/* [Browser] */
-describe("[Browser]", () => {
+/* Browser */
+describe("Browser", () => {
 
   /* request */
   describe("request", () => {

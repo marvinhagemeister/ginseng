@@ -41,7 +41,7 @@ rm -rf dist
   "$(yarn bin)"/webpack
 
 # Start test runner
-"$(yarn bin)"/karma start --single-run
+"$(yarn bin)"/karma start tests/karma.conf.js --single-run
 
 # Upload coverage reports
 "$(yarn bin)"/codecov
