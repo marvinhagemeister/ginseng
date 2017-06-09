@@ -85,7 +85,7 @@ describe("Spec", () => {
 function constructorShouldResolveSelector() {
   const spec = new Spec("genmaicha", ".constructor")
   expect(spec.element)
-    .toEqual(fixture.el.firstChild)
+    .toEqual(fixture.el.firstElementChild)
 }
 
 /* Test: #constructor should throw on invalid selector */

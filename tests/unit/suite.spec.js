@@ -89,7 +89,7 @@ describe("Suite", () => {
       spyOn(spec, "default")
         .and.returnValue({
           name: "genmaicha",
-          element: fixture.el.firstChild,
+          element: fixture.el.firstElementChild,
           data: null,
           capture: jasmine.createSpy("capture").and.returnValue(null),
           compare: jasmine.createSpy("compare")

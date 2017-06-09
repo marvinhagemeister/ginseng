@@ -3,8 +3,8 @@
     "jasmine": true
   },
   "globals": {
-    "chance": true,
-    "fixture": true
+    "fixture": true,
+    "spyOnProperty": true
   },
   "plugins": [
     "jasmine"

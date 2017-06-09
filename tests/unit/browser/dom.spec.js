@@ -53,7 +53,7 @@ describe("Browser", () => {
         spyOn(document, "querySelector")
           .and.callFake(selector => {
             return selector !== ".no-match"
-              ? fixture.el.firstChild
+              ? fixture.el.firstElementChild
               : null
           })
       })
@@ -95,7 +95,7 @@ describe("Browser", () => {
         spyOn(document, "querySelector")
           .and.callFake(selector => {
             return selector !== ".no-match"
-              ? fixture.el.firstChild
+              ? fixture.el.firstElementChild
               : null
           })
       })
@@ -130,15 +130,15 @@ describe("Browser", () => {
 /* Test: .query should accept selector */
 function queryShouldAcceptSelector() {
   expect(dom.query(".query"))
-    .toEqual(fixture.el.firstChild)
+    .toEqual(fixture.el.firstElementChild)
   expect(document.querySelector)
     .toHaveBeenCalledWith(".query")
 }
 
 /* Test: .query should accept element */
 function queryShouldAcceptElement() {
-  expect(dom.query(fixture.el.firstChild))
-    .toEqual(fixture.el.firstChild)
+  expect(dom.query(fixture.el.firstElementChild))
+    .toEqual(fixture.el.firstElementChild)
   expect(document.querySelector)
     .not.toHaveBeenCalled()
 }

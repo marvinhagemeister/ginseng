@@ -23,7 +23,7 @@
 import equal from "deep-equal"
 
 import * as dom from "./browser/dom"
-import * as style from "./browser/style"
+import * as element from "./browser/element"
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -32,17 +32,17 @@ import * as style from "./browser/style"
 /**
  * Extract the relevant data from an element
  *
- * @param {Element} element - Element
+ * @param {Element} el - Element
  * @param {Object} children - Extracted data for child elements
  *
  * @return {Object} Relevant data
  */
-export const extract = (element, children) => {
+export const extract = (el, children) => {
   return {
-    element: style.load(element),
+    element: element.style(el),
     pseudo: {
-      before: style.load(element, "::before"),
-      after: style.load(element, "::after")
+      before: element.style(el, "::before"),
+      after: element.style(el, "::after")
     },
     children
   }

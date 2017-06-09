@@ -69,5 +69,5 @@ describe("Browser", () => {
 /* Test: .query should resolve selector */
 function queryShouldResolveSelector() {
   expect(dom.query(".query"))
-    .toEqual(fixture.el.firstChild)
+    .toEqual(fixture.el.firstElementChild)
 }

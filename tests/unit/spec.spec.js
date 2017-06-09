@@ -21,7 +21,7 @@
  */
 
 import * as dom from "~/src/browser/dom"
-import * as style from "~/src/browser/style"
+import * as element from "~/src/browser/element"
 
 import {
   extract,
@@ -44,7 +44,7 @@ describe("Spec", () => {
   beforeEach(() => {
     spyOn(dom, "traverse")
       .and.returnValue("data")
-    spyOn(style, "load")
+    spyOn(element, "style")
       .and.returnValue("style")
   })
 
@@ -71,7 +71,7 @@ describe("Spec", () => {
 
       /* Register spies */
       spyOn(dom, "query")
-        .and.returnValue(fixture.el.firstChild)
+        .and.returnValue(fixture.el.firstElementChild)
     })
 
     /* Test: should set name */
@@ -174,7 +174,7 @@ function constructorShouldReturnValidData() {
       },
       children: "children"
     })
-  expect(style.load.calls.count())
+  expect(element.style.calls.count())
     .toEqual(3)
 }
 
@@ -194,7 +194,7 @@ function constructorShouldSetName() {
 function constructorShouldSetElement() {
   const spec = new Spec("genmaicha", ".constructor")
   expect(spec.element)
-    .toEqual(fixture.el.firstChild)
+    .toEqual(fixture.el.firstElementChild)
 }
 
 /* Test: #constructor should resolve selector */
@@ -239,7 +239,7 @@ function constructorShouldThrowOnInvalidName() {
 function captureShouldTraverseChildElements() {
   new Spec("genmaicha", ".capture").capture()
   expect(dom.traverse)
-    .toHaveBeenCalledWith(fixture.el.firstChild, extract)
+    .toHaveBeenCalledWith(fixture.el.firstElementChild, extract)
 }
 
 /* Test: #capture should return data */
