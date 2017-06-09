@@ -23,7 +23,10 @@
 import * as dom from "~/src/browser/dom"
 import * as style from "~/src/browser/style"
 
-import { extract, default as Spec } from "~/src/spec"
+import {
+  extract,
+  default as Spec
+} from "~/src/spec"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -134,6 +137,16 @@ describe("Spec", () => {
       fixture.load("compare.html")
     })
 
+    /* Test: should succeed on matching baseline */
+    it("should succeed on matching baseline",
+      compareSucceedOnMatchingBaseline
+    )
+
+    /* Test: should fail on non-matching baseline */
+    it("should fail on non-matching baseline",
+      compareFailOnNonMatchingBaseline
+    )
+
     /* Test: should use captured data */
     it("should use captured data",
       compareShouldUseCapturedData
@@ -179,21 +192,21 @@ function constructorShouldSetName() {
 
 /* Test: #constructor should set element */
 function constructorShouldSetElement() {
-  const spec = new Spec("test", ".constructor")
+  const spec = new Spec("genmaicha", ".constructor")
   expect(spec.element)
     .toEqual(fixture.el.firstChild)
 }
 
 /* Test: #constructor should resolve selector */
 function constructorShouldResolveSelector() {
-  new Spec("test", ".constructor")
+  new Spec("oolong", ".constructor")
   expect(dom.query)
     .toHaveBeenCalledWith(".constructor")
 }
 
 /* Test: #constructor should initialize data */
 function constructorShouldInitializeData() {
-  const spec = new Spec("test", ".constructor")
+  const spec = new Spec("sencha", ".constructor")
   expect(spec.data)
     .toBeNull()
 }
@@ -224,42 +237,57 @@ function constructorShouldThrowOnInvalidName() {
 
 /* Test: #capture should traverse child elements */
 function captureShouldTraverseChildElements() {
-  new Spec("test", ".capture").capture()
+  new Spec("genmaicha", ".capture").capture()
   expect(dom.traverse)
     .toHaveBeenCalledWith(fixture.el.firstChild, extract)
 }
 
 /* Test: #capture should return data */
 function captureShouldReturnData() {
-  const spec = new Spec("test", ".capture")
-  expect(spec.capture()).toEqual("data")
+  expect(new Spec("oolong", ".capture").capture())
+    .toEqual("data")
 }
 
 /* Test: #capture should set data */
 function captureShouldSetData() {
-  const spec = new Spec("test", ".capture")
+  const spec = new Spec("sencha", ".capture")
   expect(spec.capture()).toEqual(spec.data)
-  expect(spec.data).toEqual("data")
+  expect(spec.data)
+    .toEqual("data")
 }
 
 /* ----------------------------------------------------------------------------
  * Definitions: #compare
  * ------------------------------------------------------------------------- */
 
-/* Test: #compare should use captured data */
-function compareShouldUseCapturedData() {
-  const spec = new Spec("test", ".compare")
+/* Test: #compare should succeed on matching baseline */
+function compareSucceedOnMatchingBaseline() {
+  const spec = new Spec("genmaicha", ".compare")
   spec.capture()
   expect(spec.compare(spec.data))
     .toBe(true)
+}
+
+/* Test: #compare should fail on non-matching baseline */
+function compareFailOnNonMatchingBaseline() {
+  const spec = new Spec("oolong", ".compare")
+  spec.capture()
+  expect(spec.compare({}))
+    .toBe(false)
+}
+
+/* Test: #compare should use captured data */
+function compareShouldUseCapturedData() {
+  const spec = new Spec("sencha", ".compare")
+  spec.capture()
   expect(dom.traverse.calls.count())
     .toEqual(1)
 }
 
 /* Test: #compare should capture data if not present */
 function compareShouldCaptureDataIfNotPresent() {
-  const data = new Spec("test", ".compare").capture()
-  const spec = new Spec("test", ".compare")
+  const data = new Spec("bancha", ".compare").capture()
+  const spec = new Spec("bancha", ".compare")
   expect(spec.compare(data))
     .toBe(true)
   expect(dom.traverse.calls.count())

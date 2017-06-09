@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-const middleware = require("ginseng-connect")
+// const middleware = require("ginseng-connect").middleware
 const moniker = require("moniker")
 const path = require("path")
 
@@ -63,15 +63,15 @@ module.exports = function(karma) {
     /* Webpack configuration */
     webpack,
 
-    /* Plugins */
-    plugins: (karma.plugins || []).concat([
-      { "middleware:ginseng": ["value", middleware()] }
-    ]),
-
-    /* Middlewares */
-    middleware: (karma.middleware || []).concat([
-      "ginseng"
-    ]),
+    // /* Plugins */
+    // plugins: (karma.plugins || []).concat([
+    //   { "middleware:ginseng": ["value", middleware()] }
+    // ]),
+    //
+    // /* Middlewares */
+    // middleware: (karma.middleware || []).concat([
+    //   "ginseng"
+    // ]),
 
     /* Test reporters */
     reporters: ["spec"],

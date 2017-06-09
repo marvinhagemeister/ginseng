@@ -83,7 +83,8 @@ function loadShouldReturnComputedStylesForElement() {
   expect(Object.keys(properties).length)
     .toBeGreaterThan(151) // IE9 has 152 properties
   Object.keys(properties).forEach(p => {
-    expect(properties[p]).toEqual(raw[p])
+    expect(properties[p])
+      .toEqual(raw[p])
   })
 }
 
@@ -94,7 +95,8 @@ function loadShouldReturnComputedStylesForBeforeElement() {
   expect(Object.keys(properties).length)
     .toBeGreaterThan(151) // IE9 has 152 properties
   Object.keys(properties).forEach(p => {
-    expect(properties[p]).toEqual(raw[p])
+    expect(properties[p])
+      .toEqual(raw[p])
   })
 }
 
@@ -105,6 +107,7 @@ function loadShouldReturnComputedStylesForAfterElement() {
   expect(Object.keys(properties).length)
     .toBeGreaterThan(151) // IE9 has 152 properties
   Object.keys(properties).forEach(p => {
-    expect(properties[p]).toEqual(raw[p])
+    expect(properties[p])
+      .toEqual(raw[p])
   })
 }

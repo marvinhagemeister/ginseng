@@ -76,21 +76,21 @@ describe("Suite", () => {
 /* Test: #capture should succeed on matching baseline */
 function captureShouldSucceedOnMatchingBaseline() {
   expect(new Suite("test", {
-    test: new Spec("test", ".capture").capture()
-  }).capture("test", ".capture"))
+    genmaicha: new Spec("genmaicha", ".capture").capture()
+  }).capture("genmaicha", ".capture"))
     .toBe(true)
 }
 
 /* Test: #capture should fail on missing baseline */
 function captureShouldFailOnMissingBaseline() {
-  expect(new Suite("test").capture("test", ".capture"))
+  expect(new Suite("test").capture("oolong", ".capture"))
     .toBe(false)
 }
 
 /* Test: #capture should throw on invalid selector */
 function captureShouldThrowOnInvalidSelector() {
   expect(() => {
-    new Suite("test").capture("test", ".no-match")
+    new Suite("test").capture("sencha", ".no-match")
   }).toThrow(
     new ReferenceError("No match for selector: \".no-match\""))
 }

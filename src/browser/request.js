@@ -27,7 +27,7 @@
 /**
  * Perform a GET request
  *
- * @param {String} url - URL
+ * @param {string} url - URL
  *
  * @return {Response} Response
  */
@@ -45,8 +45,8 @@ export const get = url => {
 /**
  * Perform a POST request
  *
- * @param {String} url - URL
- * @param {(String|Object)} data - Payload
+ * @param {string} url - URL
+ * @param {(string|Object)} data - Payload
  *
  * @return {Response} Response
  */

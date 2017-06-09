@@ -83,7 +83,7 @@ describe("Spec", () => {
 
 /* Test: #constructor should resolve selector */
 function constructorShouldResolveSelector() {
-  const spec = new Spec("test", ".constructor")
+  const spec = new Spec("genmaicha", ".constructor")
   expect(spec.element)
     .toEqual(fixture.el.firstChild)
 }
@@ -91,7 +91,7 @@ function constructorShouldResolveSelector() {
 /* Test: #constructor should throw on invalid selector */
 function constructorShouldThrowOnInvalidSelector() {
   expect(() => {
-    new Spec("test", ".no-match")
+    new Spec("oolong", ".no-match")
   }).toThrow(
     new ReferenceError("No match for selector: \".no-match\""))
 }
@@ -102,7 +102,7 @@ function constructorShouldThrowOnInvalidSelector() {
 
 /* Test: #capture should capture element and child elements */
 function captureShouldCaptureElementAndChildElements() {
-  const data = new Spec("test", ".capture").capture()
+  const data = new Spec("sencha", ".capture").capture()
   const validate = item => {
     return typeof item.element.display === "string" &&
       typeof item.pseudo.before.display === "string" &&
@@ -111,5 +111,6 @@ function captureShouldCaptureElementAndChildElements() {
         return result && validate(element)
       }, true)
   }
-  expect(validate(data)).toBe(true)
+  expect(validate(data))
+    .toBe(true)
 }

@@ -27,4 +27,6 @@ import "whatwg-fetch"
  * Re-export entrypoint
  * ------------------------------------------------------------------------- */
 
-export { default as Ginseng } from "./ginseng"
+export {
+  default as Ginseng
+} from "./ginseng"

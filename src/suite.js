@@ -36,12 +36,12 @@ export default class Suite {
    * @constructor
    *
    * @property {string} name_ - Suite name
-   * @property {Object<String, Spec>} baseline_ - Baseline data
-   * @property {Object<String, Spec>} specs_ - Captured specifications
-   * @property {Object<Suite>} suites_ - Nested test suites
+   * @property {Object<string, Spec>} baseline_ - Baseline data
+   * @property {Object<string, Spec>} specs_ - Captured specifications
+   * @property {Object<string, Suite>} suites_ - Nested test suites
    *
-   * @param {String} name - Suite name
-   * @param {Object<String, Spec>?} baseline - Baseline data
+   * @param {string} name - Suite name
+   * @param {Object<string, Spec>} [baseline={}] - Baseline data
    */
   constructor(name, baseline = {}) {
     if (typeof name !== "string" || !name.length)
@@ -64,8 +64,8 @@ export default class Suite {
    * If the name of the specification matches a specification that was already
    * captured, the selector must match. Otherwise an error is thrown.
    *
-   * @param {String} name - Specification name
-   * @param {(String|Element)} selector - Selector or element
+   * @param {string} name - Specification name
+   * @param {(string|Element)} selector - Selector or element
    *
    * @return {Boolean} Comparison result
    */
@@ -81,7 +81,7 @@ export default class Suite {
     /* Ensure that we're not overwriting a previous capture */
     if (dom.query(selector) !== spec.element)
       throw new ReferenceError(
-        `"${name}" was already registered with another element`)
+        `Invalid combination: "${name}" was already registered`)
 
     /* Append, capture and compare specification */
     this.specs_[name] = spec
@@ -92,8 +92,8 @@ export default class Suite {
    * Initialize a nested test suite
    *
    * @param {string} name - Suite name
-   * @param {Object<String, Spec>?} baseline - Baseline data
-   * @param {Function?} cb - Optional callback for nested handling
+   * @param {Object<string, Spec>} [baseline={}] - Baseline data
+   * @param {Function} [cb=null] - Optional callback for nested handling
    *
    * @return {Suite} Nested test suite
    */
@@ -118,7 +118,7 @@ export default class Suite {
   /**
    * Retrieve suite name
    *
-   * @return {String} Suite name
+   * @return {string} Suite name
    */
   get name() {
     return this.name_
@@ -127,7 +127,7 @@ export default class Suite {
   /**
    * Retrieve baseline data
    *
-   * @return {Object<String, Spec>} Baseline data
+   * @return {Object<string, Spec>} Baseline data
    */
   get baseline() {
     return this.baseline_
@@ -136,7 +136,7 @@ export default class Suite {
   /**
    * Retrieve captured specifications
    *
-   * @return {Object<String, Spec>} Captured specifications
+   * @return {Object<string, Spec>} Captured specifications
    */
   get specs() {
     return this.specs_
@@ -145,7 +145,7 @@ export default class Suite {
   /**
    * Retrieve nested test suites
    *
-   * @return {Object<Suite>} Nested test suites
+   * @return {Object<string, Suite>} Nested test suites
    */
   get suites() {
     return this.suites_
@@ -167,7 +167,7 @@ export default class Suite {
  * and Symbol.iterator. We could polyfill both, but this would increase the
  * size drastically and is pretty unnecessary to achieve the same outcome.
  *
- * @param {String} name - Suite name
+ * @param {string} name - Suite name
  * @param {Object} data - Baseline data
  *
  * @return {Suite} Suite

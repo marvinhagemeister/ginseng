@@ -71,8 +71,6 @@ describe("Browser", () => {
         spyOn(window, "fetch")
           .and.returnValue(
             Promise.resolve({ ok: true }))
-        spyOn(JSON, "stringify")
-          .and.returnValue("{ data: true }")
       })
 
       /* Test: should return promise */
@@ -105,26 +103,31 @@ describe("Browser", () => {
 
 /* ----------------------------------------------------------------------------
  * Definitions: .get
- * ------------------------------------------------------------------------- */
+ * ------------------------------------------------------------------------- */ // TODO: check failed request/rejected promises
 
 /* Test: .get should return promise */
-function getShouldReturnPromise() {
-  expect(request.get("url"))
+function getShouldReturnPromise(done) {
+  expect(request.get("url")
+    .then(done)
+    .catch(done)
+  )
     .toEqual(jasmine.any(Promise))
 }
 
 /* Test: .get should fetch data */
 function getShouldFetchData(done) {
-  request.get("url").then(data => {
-    expect(data)
-      .toEqual({ ok: true })
-    expect(window.fetch)
-      .toHaveBeenCalledWith("url", {
-        method: "GET",
-        mode: "cors"
-      })
-    done()
-  })
+  request.get("url")
+    .then(data => {
+      expect(data)
+        .toEqual({ ok: true })
+      expect(window.fetch)
+        .toHaveBeenCalledWith("url", {
+          method: "GET",
+          mode: "cors"
+        })
+      done()
+    })
+    .catch(done.fail)
 }
 
 /* Test: .get should throw on empty url */
@@ -152,47 +155,50 @@ function getShouldThrowOnInvalidUrl() {
  * ------------------------------------------------------------------------- */
 
 /* Test: .post should return promise */
-function postShouldReturnPromise() {
-  expect(request.post("url", "test"))
+function postShouldReturnPromise(done) {
+  expect(request.post("url", "test")
+    .then(done)
+    .catch(done)
+  )
     .toEqual(jasmine.any(Promise))
 }
 
 /* Test: .post should store data */
 function postShouldStoreData(done) {
-  request.post("url", "test").then(res => {
-    expect(res)
-      .toEqual({ ok: true })
-    expect(window.fetch)
-      .toHaveBeenCalledWith("url", {
-        method: "POST",
-        mode: "cors",
-        body: "test",
-        headers: {}
-      })
-    done()
-    expect(JSON.stringify)
-      .not.toHaveBeenCalledWith({ data: true })
-  })
+  request.post("url", "test")
+    .then(res => {
+      expect(res)
+        .toEqual({ ok: true })
+      expect(window.fetch)
+        .toHaveBeenCalledWith("url", {
+          method: "POST",
+          mode: "cors",
+          body: "test",
+          headers: {}
+        })
+      done()
+    })
+    .catch(done.fail)
 }
 
 /* Test: .post should store json data */
 function postShouldStoreJsonData(done) {
-  request.post("url", { data: true }).then(res => {
-    expect(res)
-      .toEqual({ ok: true })
-    expect(window.fetch)
-      .toHaveBeenCalledWith("url", {
-        method: "POST",
-        mode: "cors",
-        body: "{ data: true }",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-    done()
-    expect(JSON.stringify)
-      .toHaveBeenCalledWith({ data: true })
-  })
+  request.post("url", { data: true })
+    .then(res => {
+      expect(res)
+        .toEqual({ ok: true })
+      expect(window.fetch)
+        .toHaveBeenCalledWith("url", {
+          method: "POST",
+          mode: "cors",
+          body: "{\"data\":true}",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+      done()
+    })
+    .catch(done.fail)
 }
 
 /* Test: .post should throw on empty url */
@@ -203,8 +209,6 @@ function postShouldThrowOnEmptyUrl() {
     new TypeError("Invalid URL: \"\""))
   expect(window.fetch)
     .not.toHaveBeenCalled()
-  expect(JSON.stringify)
-    .not.toHaveBeenCalled()
 }
 
 /* Test: .post should throw on invalid url */
@@ -214,7 +218,5 @@ function postShouldThrowOnInvalidUrl() {
   }).toThrow(
     new TypeError("Invalid URL: \"null\""))
   expect(window.fetch)
-    .not.toHaveBeenCalled()
-  expect(JSON.stringify)
     .not.toHaveBeenCalled()
 }

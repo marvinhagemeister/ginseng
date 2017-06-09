@@ -23,7 +23,10 @@
 import * as request from "~/src/browser/request"
 import * as suite from "~/src/suite"
 
-import { config, default as Ginseng } from "~/src/ginseng"
+import {
+  config,
+  default as Ginseng
+} from "~/src/ginseng"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -107,7 +110,7 @@ function constructorShouldMergeWithDefaultOptions() {
   const options = {
     url: {
       baseline: false,
-      test: {
+      genmaicha: {
         data: true
       }
     }
@@ -150,15 +153,13 @@ function fetchShouldFetchBaselineFromUrl() {
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
   const ginseng = new Ginseng()
-  const parent = ginseng.suite()
-  expect(parent)
+  expect(ginseng.suite())
     .toEqual({ suite: true })
 }
 
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
   const ginseng = new Ginseng()
-  const parent = ginseng.suite()
-  expect(parent)
+  expect(ginseng.suite())
     .toBe(ginseng.suite())
 }

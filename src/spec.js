@@ -32,10 +32,10 @@ import * as style from "./browser/style"
 /**
  * Extract the relevant data from an element
  *
- * @param  {Element} element - Element
- * @param  {object} children - Extracted data for child elements
+ * @param {Element} element - Element
+ * @param {Object} children - Extracted data for child elements
  *
- * @return {object} Relevant data
+ * @return {Object} Relevant data
  */
 export const extract = (element, children) => {
   return {
@@ -59,11 +59,11 @@ export default class Spec {
    *
    * @constructor
    *
-   * @property {String} name_ - Name
+   * @property {string} name_ - Name
    * @property {Element} el_ - Element
    * @property {Object} data_ - Data
    *
-   * @param {String} name - Name
+   * @param {string} name - Name
    * @param {(String|Element)} selector - Selector or element
    */
   constructor(name, selector) {
@@ -95,13 +95,13 @@ export default class Spec {
    * @return {Boolean} Comparison result
    */
   compare(baseline) {
-    return equal(baseline, this.data_ || this.capture())
+    return equal(baseline, this.data_ || this.capture())                        // TODO: validate baseline
   }
 
   /**
    * Retrieve specification name
    *
-   * @return {String} Name
+   * @return {string} Name
    */
   get name() {
     return this.name_

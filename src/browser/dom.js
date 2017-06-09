@@ -30,7 +30,7 @@
  * If a selector is given, it will be passed to document.querySelector which
  * will only query for a single element, ignoring subsequent matches.
  *
- * @param {(String|Element)} selector - Selector or element
+ * @param {(string|Element)} selector - Selector or element
  *
  * @return {Element} Element
  */
@@ -55,16 +55,15 @@ export const query = selector => {
  * Traversal is done in depth-first pre-order manner. The callback must extract
  * the relevant value from the node and map the children to a data structure.
  *
- * Example:
- *
- * (node, children) => {
- *   return {
- *     tag: node.tagName,
- *     children: children
+ * @example
+ *   (node, children) => {
+ *     return {
+ *       tag: node.tagName,
+ *       children: children
+ *     }
  *   }
- * }
  *
- * @param {(String|Element)} selector - Selector or element
+ * @param {(string|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
  *
  * @return {*} Return value from callback

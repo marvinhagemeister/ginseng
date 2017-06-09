@@ -22,7 +22,10 @@
 
 import * as spec from "~/src/spec"
 
-import { factory, default as Suite } from "~/src/suite"
+import {
+  factory,
+  default as Suite
+} from "~/src/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -85,7 +88,7 @@ describe("Suite", () => {
       /* Register spies */
       spyOn(spec, "default")
         .and.returnValue({
-          name: "test",
+          name: "genmaicha",
           element: fixture.el.firstChild,
           data: null,
           capture: jasmine.createSpy("capture").and.returnValue(null),
@@ -198,15 +201,15 @@ function constructorShouldSetName() {
 
 /* Test: #constructor should set baseline */
 function constructorShouldSetBaseline() {
-  const baseline = { test: { data: true } }
-  const suite = new Suite("test", baseline)
+  const baseline = { genmaicha: { data: true } }
+  const suite = new Suite("genmaicha", baseline)
   expect(suite.baseline)
     .toEqual(baseline)
 }
 
 /* Test: #constructor should initialize specifications */
 function constructorShouldInitializeSpecifications() {
-  expect(new Suite("test").specs)
+  expect(new Suite("oolong").specs)
     .toEqual({})
 }
 
@@ -229,7 +232,7 @@ function constructorShouldThrowOnInvalidName() {
 /* Test: #constructor should throw on invalid baseline */
 function constructorShouldThrowOnInvalidBaseline() {
   expect(() => {
-    new Suite("test", "")
+    new Suite("sencha", "")
   }).toThrow(
     new TypeError("Invalid baseline: \"\""))
 }
@@ -240,40 +243,40 @@ function constructorShouldThrowOnInvalidBaseline() {
 
 /* Test: #capture should succeed on matching baseline */
 function captureShouldSucceedOnMatchingBaseline() {
-  const baseline = { test: { data: true } }
+  const baseline = { genmaicha: { data: true } }
   const suite = new Suite("test", baseline)
-  expect(suite.capture("test", ".capture"))
+  expect(suite.capture("genmaicha", ".capture"))
     .toBe(true)
-  expect(suite.specs.test.compare)
-    .toHaveBeenCalledWith(baseline.test)
+  expect(suite.specs.genmaicha.compare)
+    .toHaveBeenCalledWith(baseline.genmaicha)
 }
 
 /* Test: #capture should fail on non-matching baseline */
 function captureShouldFailOnNonMatchingBaseline() {
-  const baseline = { test: { data: false } }
+  const baseline = { oolong: { data: false } }
   const suite = new Suite("test", baseline)
-  expect(suite.capture("test", ".capture"))
+  expect(suite.capture("oolong", ".capture"))
     .toBe(false)
-  expect(suite.specs.test.compare)
-    .toHaveBeenCalledWith(baseline.test)
+  expect(suite.specs.oolong.compare)
+    .toHaveBeenCalledWith(baseline.oolong)
 }
 
 /* Test: #capture should fail on missing baseline */
 function captureShouldFailOnMissingBaseline() {
   const suite = new Suite("test")
-  expect(suite.capture("test", ".capture"))
+  expect(suite.capture("sencha", ".capture"))
     .toBe(false)
-  expect(suite.specs.test.compare)
+  expect(suite.specs.sencha.compare)
     .toHaveBeenCalledWith({})
 }
 
 /* Test: #capture should update existing capture */
 function captureShouldUpdateExistingCapture() {
-  const baseline = { test: { data: true } }
+  const baseline = { bancha: { data: true } }
   const suite = new Suite("test", baseline)
-  expect(suite.capture("test", ".capture"))
+  expect(suite.capture("bancha", ".capture"))
     .toBe(true)
-  expect(suite.capture("test", ".capture"))
+  expect(suite.capture("bancha", ".capture"))
     .toBe(true)
   expect(spec.default.calls.count())
     .toEqual(1)
@@ -298,13 +301,13 @@ function captureShouldThrowOnInvalidName() {
 /* Test: #capture should throw on name-selector deviation */
 function captureShouldThrowOnNameSelectorDeviation() {
   const suite = new Suite("test")
-  expect(suite.capture("test", ".capture"))
+  expect(suite.capture("hojicha", ".capture"))
     .toBe(false)
   expect(() => {
-    suite.capture("test", ".capture-again")
+    suite.capture("hojicha", ".capture-again")
   }).toThrow(
     new ReferenceError(
-      "\"test\" was already registered with another element"))
+      "Invalid combination: \"hojicha\" was already registered"))
 }
 
 /* ----------------------------------------------------------------------------
@@ -314,19 +317,19 @@ function captureShouldThrowOnNameSelectorDeviation() {
 /* Test: #suite should return nested suite */
 function suiteShouldReturnNestedSuite() {
   const suite = new Suite("test")
-  const subsuite = suite.suite("test2")
+  const subsuite = suite.suite("genmaicha")
   expect(subsuite)
     .toEqual(jasmine.any(Suite))
   expect(subsuite)
     .not.toEqual(suite)
   expect(subsuite)
-    .toEqual(suite.suites.test2)
+    .toEqual(suite.suites.genmaicha)
 }
 
 /* Test: #suite should return nested suite with baseline */
 function suiteShouldReturnNestedSuiteWithBaseline() {
-  const baseline = { test: { data: true } }
-  const subsuite = new Suite("test").suite("test2", baseline)
+  const baseline = { oolong: { data: true } }
+  const subsuite = new Suite("test").suite("oolong", baseline)
   expect(subsuite.baseline)
     .toEqual(baseline)
 }
@@ -334,15 +337,15 @@ function suiteShouldReturnNestedSuiteWithBaseline() {
 /* Test: #suite should return existing suite */
 function suiteShouldReturnExistingSuite() {
   const suite = new Suite("test")
-  expect(suite.suite("test"))
-    .toEqual(suite.suite("test"))
+  expect(suite.suite("sencha"))
+    .toBe(suite.suite("sencha"))
 }
 
 /* Test: #suite should accept callback */
 function suiteShouldAcceptCallback(done) {
   const suite = new Suite("test")
-  suite.suite("test2", {}, subsuite => {
-    expect(subsuite).toEqual(suite.suites.test2)
+  suite.suite("bancha", {}, subsuite => {
+    expect(subsuite).toEqual(suite.suites.bancha)
     done()
   })
 }
@@ -366,7 +369,7 @@ function suiteShouldThrowOnInvalidName() {
 /* Test: #suite should throw on invalid callback */
 function suiteShouldThrowOnInvalidCallback() {
   expect(() => {
-    new Suite("test").suite("test2", {}, "")
+    new Suite("first").suite("hojicha", {}, "")
   }).toThrow(
     new TypeError("Invalid callback"))
 }
@@ -378,7 +381,9 @@ function suiteShouldThrowOnInvalidCallback() {
 /* Test: should initialize suite */
 function factoryShouldInitializeSuite() {
   const data = {
-    baseline: { data: true }
+    baseline: {
+      genmaicha: { data: true }
+    }
   }
   const suite = factory("test", data)
   expect(suite.baseline)
@@ -390,33 +395,39 @@ function factoryShouldInitializeSuite() {
 /* Test: should initialize suite and nested suites */
 function factoryShouldInitializeSuiteAndNestedSuites() {
   const data = {
-    specs: { data: true },
+    specs: {
+      oolong: { data: true }
+    },
     suites: {
-      test: {
-        specs: { data: true },
+      bancha: {
+        specs: {
+          sencha: { data: true }
+        },
         suites: {
-          test: {
-            specs: { data: true }
+          hojicha: {
+            specs: {
+              matcha: { data: true }
+            }
           }
         }
       }
     }
   }
-  const suite = factory("test", data)
+  const suite = factory("suite", data)
   expect(suite.baseline)
     .toBe(data.specs)
-  expect(suite.suites.test)
+  expect(suite.suites.bancha)
     .toEqual(jasmine.any(Suite))
-  expect(suite.suites.test.name)
-    .toEqual("test")
-  expect(suite.suites.test.baseline)
-    .toBe(data.suites.test.specs)
-  expect(suite.suites.test.suites.test)
+  expect(suite.suites.bancha.name)
+    .toEqual("bancha")
+  expect(suite.suites.bancha.baseline)
+    .toBe(data.suites.bancha.specs)
+  expect(suite.suites.bancha.suites.hojicha)
     .toEqual(jasmine.any(Suite))
-  expect(suite.suites.test.suites.test.name)
-    .toEqual("test")
-  expect(suite.suites.test.suites.test.baseline)
-    .toBe(data.suites.test.suites.test.specs)
-  expect(suite.suites.test.suites.test.suites)
+  expect(suite.suites.bancha.suites.hojicha.name)
+    .toEqual("hojicha")
+  expect(suite.suites.bancha.suites.hojicha.baseline)
+    .toBe(data.suites.bancha.suites.hojicha.specs)
+  expect(suite.suites.bancha.suites.hojicha.suites)
     .toEqual({})
 }

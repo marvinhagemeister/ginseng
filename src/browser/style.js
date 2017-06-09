@@ -27,7 +27,7 @@
 /**
  * Available qualifiers
  *
- * @type {Array<String>} Qualifiers
+ * @type {Array<string>} Qualifiers
  */
 export const qualifiers = [
   "::before",
@@ -38,7 +38,7 @@ export const qualifiers = [
  * Retrieve the computed properties of an element or pseudo element
  *
  * @param {Element} el - Element
- * @param {String?} qualifier - Pseudo qualifier
+ * @param {string} [qualifier=null] - Pseudo qualifier
  *
  * @return {Object} Style rules
  */
@@ -57,8 +57,8 @@ export const load = (el, qualifier = null) => {
   for (const property in raw) {
     const value = raw[property]
 
-    /* We cannot check properties with hasOwnProperty/1, because in IE the
-       CSS declaration will always return false */
+    /* We cannot check properties with Object.hasOwnProperty(), because in IE
+       the CSS declaration will always return false, so we use typeof */
     if (!/^\d+$/.test(property) && typeof value !== "function")
       style[property] = value
   }
