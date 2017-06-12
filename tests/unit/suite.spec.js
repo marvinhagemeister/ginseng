@@ -218,7 +218,7 @@ function constructorShouldThrowOnEmptyName() {
   expect(() => {
     new Suite("")
   }).toThrow(
-    new TypeError("Invalid name: \"\""))
+    new TypeError("Invalid name: ''"))
 }
 
 /* Test: #constructor should throw on invalid name */
@@ -226,7 +226,7 @@ function constructorShouldThrowOnInvalidName() {
   expect(() => {
     new Suite(null)
   }).toThrow(
-    new TypeError("Invalid name: \"null\""))
+    new TypeError("Invalid name: null"))
 }
 
 /* Test: #constructor should throw on invalid baseline */
@@ -234,7 +234,7 @@ function constructorShouldThrowOnInvalidBaseline() {
   expect(() => {
     new Suite("sencha", "")
   }).toThrow(
-    new TypeError("Invalid baseline: \"\""))
+    new TypeError("Invalid baseline: ''"))
 }
 
 /* ----------------------------------------------------------------------------
@@ -287,7 +287,7 @@ function captureShouldThrowOnEmptyName() {
   expect(() => {
     new Suite("test").capture("")
   }).toThrow(
-    new TypeError("Invalid name: \"\""))
+    new TypeError("Invalid name: ''"))
 }
 
 /* Test: #capture should throw on invalid name */
@@ -295,7 +295,7 @@ function captureShouldThrowOnInvalidName() {
   expect(() => {
     new Suite("test").capture(null)
   }).toThrow(
-    new TypeError("Invalid name: \"null\""))
+    new TypeError("Invalid name: null"))
 }
 
 /* Test: #capture should throw on name-selector deviation */
@@ -307,7 +307,7 @@ function captureShouldThrowOnNameSelectorDeviation() {
     suite.capture("hojicha", ".capture-again")
   }).toThrow(
     new ReferenceError(
-      "Invalid combination: \"hojicha\" was already registered"))
+      "Invalid combination: 'hojicha' was already registered"))
 }
 
 /* ----------------------------------------------------------------------------
@@ -355,7 +355,7 @@ function suiteShouldThrowOnEmptyName() {
   expect(() => {
     new Suite("test").suite("")
   }).toThrow(
-    new TypeError("Invalid name: \"\""))
+    new TypeError("Invalid name: ''"))
 }
 
 /* Test: #suite should throw on invalid name */
@@ -363,7 +363,7 @@ function suiteShouldThrowOnInvalidName() {
   expect(() => {
     new Suite("test").suite(null)
   }).toThrow(
-    new TypeError("Invalid name: \"null\""))
+    new TypeError("Invalid name: null"))
 }
 
 /* Test: #suite should throw on invalid callback */

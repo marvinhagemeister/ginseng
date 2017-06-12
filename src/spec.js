@@ -24,6 +24,7 @@ import equal from "deep-equal"
 
 import * as dom from "./browser/dom"
 import * as element from "./browser/element"
+import inspect from "./util/inspect"
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -68,7 +69,7 @@ export default class Spec {
    */
   constructor(name, selector) {
     if (typeof name !== "string" || !name.length)
-      throw new TypeError(`Invalid name: "${name}"`)
+      throw new TypeError(`Invalid name: ${inspect(name)}`)
 
     /* Set name and element */
     this.name_ = name

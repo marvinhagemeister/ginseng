@@ -23,6 +23,7 @@
 import merge from "deepmerge"
 
 import * as request from "./browser/request"
+import inspect from "./util/inspect"
 
 import {
   factory,
@@ -62,7 +63,7 @@ export default class Ginseng {
    */
   constructor(options = {}) {
     if (typeof options !== "object")
-      throw new TypeError(`Invalid options: "${options}"`)
+      throw new TypeError(`Invalid options: ${inspect(options)}`)
 
     /* Merge options with defaults */
     this.options_ = merge(config, options)

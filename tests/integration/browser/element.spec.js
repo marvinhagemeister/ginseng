@@ -57,44 +57,43 @@ describe("Browser", () => {
         it("should return computed styles for element",
           styleShouldReturnComputedStylesForElement
         )
-
-        /* Test: should return computed styles for before element */
-        it("should return computed styles for before element",
-          styleShouldReturnComputedStylesForBeforeElement
-        )
-
-        /* Test: should return computed styles for after element */
-        it("should return computed styles for after element",
-          styleShouldReturnComputedStylesForAfterElement
-        )
       })
 
-      /* .layout */
-      describe(".layout", () => {
+      /* .size */
+      describe(".size", () => {
 
         /* Load fixtures */
         beforeEach(() => {
-          fixture.load("layout.html")
+          fixture.load("size.html")
         })
 
         /* Test: should return dimensions for element */
         it("should return dimensions for element",
-          layoutShouldReturnDimensionsForElement
+          sizeShouldReturnDimensionsForElement
         )
 
         /* Test: should return dimensions for element with margin */
         it("should return dimensions for element with margin",
-          layoutShouldReturnDimensionsForElementWithMargin
+          sizeShouldReturnDimensionsForElementWithMargin
         )
+      })
+
+      /* .offset */
+      describe(".offset", () => {
+
+        /* Load fixtures */
+        beforeEach(() => {
+          fixture.load("offset.html")
+        })
 
         /* Test: should return offsets for element */
         it("should return offsets for element",
-          layoutShouldReturnOffsetsForElement
+          offsetShouldReturnOffsetsForElement
         )
 
         /* Test: should return offsets for element with margin */
         it("should return offsets for element with margin",
-          layoutShouldReturnOffsetsForElementWithMargin
+          offsetShouldReturnOffsetsForElementWithMargin
         )
       })
     })
@@ -107,66 +106,46 @@ describe("Browser", () => {
 
 /* Test: .style should return computed styles for element */
 function styleShouldReturnComputedStylesForElement() {
-  const raw = window.getComputedStyle(fixture.el.firstElementChild)
-  const properties = element.style(fixture.el.firstElementChild)
-  expect(Object.keys(properties).length)
+  const styles = window.getComputedStyle(fixture.el.firstChild)
+  const data = element.style(fixture.el.firstChild)
+  expect(Object.keys(data).length)
     .toBeGreaterThan(151) // IE9 has 152 properties
-  Object.keys(properties).forEach(p => {
-    expect(properties[p])
-      .toEqual(raw[p])
-  })
-}
-
-/* Test: .style should return computed styles for before element */
-function styleShouldReturnComputedStylesForBeforeElement() {
-  const raw = window.getComputedStyle(fixture.el.firstElementChild, "::before")
-  const properties = element.style(fixture.el.firstElementChild, "::before")
-  expect(Object.keys(properties).length)
-    .toBeGreaterThan(151) // IE9 has 152 properties
-  Object.keys(properties).forEach(p => {
-    expect(properties[p])
-      .toEqual(raw[p])
-  })
-}
-
-/* Test: .style should return computed styles for after element */
-function styleShouldReturnComputedStylesForAfterElement() {
-  const raw = window.getComputedStyle(fixture.el.firstElementChild, "::after")
-  const properties = element.style(fixture.el.firstElementChild, "::after")
-  expect(Object.keys(properties).length)
-    .toBeGreaterThan(151) // IE9 has 152 properties
-  Object.keys(properties).forEach(p => {
-    expect(properties[p])
-      .toEqual(raw[p])
+  Object.keys(data).forEach(property => {
+    expect(data[property])
+      .toEqual(styles[property])
   })
 }
 
 /* ----------------------------------------------------------------------------
- * Definitions: .layout
+ * Definitions: .size
  * ------------------------------------------------------------------------- */
 
-/* Test: .layout should return dimensions for element */
-function layoutShouldReturnDimensionsForElement() {
-  const data = element.layout(fixture.el.querySelector(".container"))
+/* Test: .size should return dimensions for element */
+function sizeShouldReturnDimensionsForElement() {
+  const data = element.size(fixture.el.querySelector(".container"))
   expect(data.width)
     .toEqual(document.body.clientWidth)
   expect(data.height)
     .toEqual(document.body.clientHeight)
 }
 
-/* Test: .layout should return dimensions for element with margin */
-function layoutShouldReturnDimensionsForElementWithMargin() {
-  const data = element.layout(fixture.el.querySelector(".layout"))
+/* Test: .size should return dimensions for element with margin */
+function sizeShouldReturnDimensionsForElementWithMargin() {
+  const data = element.size(fixture.el.querySelector(".size"))
   expect(data.width)
     .toEqual(document.body.clientWidth - 20)
   expect(data.height)
     .toEqual(document.body.clientHeight - 20)
 }
 
-/* Test: .layout should return offsets for element */
-function layoutShouldReturnOffsetsForElement() {
-  const data = element.layout(fixture.el.querySelector(".container"))
-  expect(data.offset)
+/* ----------------------------------------------------------------------------
+ * Definitions: .offset
+ * ------------------------------------------------------------------------- */
+
+/* Test: .offset should return offsets for element */
+function offsetShouldReturnOffsetsForElement() {
+  const data = element.offset(fixture.el.querySelector(".container"))
+  expect(data)
     .toEqual({
       top: 0,
       right: 0,
@@ -175,10 +154,10 @@ function layoutShouldReturnOffsetsForElement() {
     })
 }
 
-/* Test: .layout should return offsets for element with margin */
-function layoutShouldReturnOffsetsForElementWithMargin() {
-  const data = element.layout(fixture.el.querySelector(".layout"))
-  expect(data.offset)
+/* Test: .offset should return offsets for element with margin */
+function offsetShouldReturnOffsetsForElementWithMargin() {
+  const data = element.offset(fixture.el.querySelector(".offset"))
+  expect(data)
     .toEqual({
       top: 10,
       right: 10,

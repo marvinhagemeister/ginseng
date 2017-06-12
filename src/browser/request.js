@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  */
 
+import inspect from "../util/inspect"
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -33,9 +35,9 @@
  */
 export const get = url => {
   if (typeof url !== "string" || !url.length)
-    throw new TypeError(`Invalid URL: "${url}"`)
+    throw new TypeError(`Invalid URL: ${inspect(url)}`)
 
-  /* Perform request and return Promise */
+  /* Perform request and return promise */
   return fetch(url, {
     method: "GET",
     mode: "cors"
@@ -52,7 +54,7 @@ export const get = url => {
  */
 export const post = (url, data) => {
   if (typeof url !== "string" || !url.length)
-    throw new TypeError(`Invalid URL: "${url}"`)
+    throw new TypeError(`Invalid URL: ${inspect(url)}`)
 
   /* Serialize data, if necessary */
   const body = typeof data === "object"
@@ -64,7 +66,7 @@ export const post = (url, data) => {
     ? { "Content-Type": "application/json" }
     : {}
 
-  /* Perform request and return Promise */
+  /* Perform request and return promise */
   return fetch(url, {
     method: "POST",
     mode: "cors",

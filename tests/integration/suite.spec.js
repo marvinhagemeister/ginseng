@@ -92,5 +92,5 @@ function captureShouldThrowOnInvalidSelector() {
   expect(() => {
     new Suite("test").capture("sencha", ".no-match")
   }).toThrow(
-    new ReferenceError("No match for selector: \".no-match\""))
+    new ReferenceError("No match for selector: '.no-match'"))
 }

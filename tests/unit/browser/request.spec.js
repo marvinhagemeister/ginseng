@@ -135,7 +135,7 @@ function getShouldThrowOnEmptyUrl() {
   expect(() => {
     request.get("")
   }).toThrow(
-    new TypeError("Invalid URL: \"\""))
+    new TypeError("Invalid URL: ''"))
   expect(window.fetch)
     .not.toHaveBeenCalled()
 }
@@ -145,7 +145,7 @@ function getShouldThrowOnInvalidUrl() {
   expect(() => {
     request.get(null)
   }).toThrow(
-    new TypeError("Invalid URL: \"null\""))
+    new TypeError("Invalid URL: null"))
   expect(window.fetch)
     .not.toHaveBeenCalled()
 }
@@ -206,7 +206,7 @@ function postShouldThrowOnEmptyUrl() {
   expect(() => {
     request.post("")
   }).toThrow(
-    new TypeError("Invalid URL: \"\""))
+    new TypeError("Invalid URL: ''"))
   expect(window.fetch)
     .not.toHaveBeenCalled()
 }
@@ -216,7 +216,7 @@ function postShouldThrowOnInvalidUrl() {
   expect(() => {
     request.post(null)
   }).toThrow(
-    new TypeError("Invalid URL: \"null\""))
+    new TypeError("Invalid URL: null"))
   expect(window.fetch)
     .not.toHaveBeenCalled()
 }

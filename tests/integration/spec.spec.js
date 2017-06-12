@@ -93,7 +93,7 @@ function constructorShouldThrowOnInvalidSelector() {
   expect(() => {
     new Spec("oolong", ".no-match")
   }).toThrow(
-    new ReferenceError("No match for selector: \".no-match\""))
+    new ReferenceError("No match for selector: '.no-match'"))
 }
 
 /* ----------------------------------------------------------------------------

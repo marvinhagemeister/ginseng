@@ -85,10 +85,10 @@ module.exports = function() {
         compress: {
           conditionals: true,
           comparisons: true,
-          dead_code: true,     // eslint-disable-line camelcase
+          dead_code: true,             // eslint-disable-line camelcase
           evaluate: true,
-          if_return: true,     // eslint-disable-line camelcase
-          join_vars: true,     // eslint-disable-line camelcase
+          if_return: true,             // eslint-disable-line camelcase
+          join_vars: true,             // eslint-disable-line camelcase
           loops: true,
           properties: true,
           sequences: true,

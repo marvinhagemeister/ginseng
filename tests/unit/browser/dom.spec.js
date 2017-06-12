@@ -148,7 +148,7 @@ function queryShouldThrowOnMissingArgument() {
   expect(() => {
     dom.query()
   }).toThrow(
-    new ReferenceError("Invalid selector or element: \"undefined\""))
+    new ReferenceError("Invalid selector or element: undefined"))
   expect(document.querySelector)
     .not.toHaveBeenCalled()
 }
@@ -158,7 +158,7 @@ function queryShouldThrowOnEmptySelector() {
   expect(() => {
     dom.query("")
   }).toThrow(
-    new ReferenceError("No match for selector: \"\""))
+    new ReferenceError("No match for selector: ''"))
   expect(document.querySelector)
     .not.toHaveBeenCalled()
 }
@@ -168,7 +168,7 @@ function queryShouldThrowOnInvalidSelector() {
   expect(() => {
     dom.query(".no-match")
   }).toThrow(
-    new ReferenceError("No match for selector: \".no-match\""))
+    new ReferenceError("No match for selector: '.no-match'"))
   expect(document.querySelector)
     .toHaveBeenCalledWith(".no-match")
 }

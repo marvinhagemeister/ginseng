@@ -21,6 +21,7 @@
  */
 
 import * as element from "~/src/browser/element"
+import * as pseudo from "~/src/browser/pseudo"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -37,11 +38,6 @@ describe("Browser", () => {
       fixture.setBase("fixtures/browser/element")
     })
 
-    /* Register spies */
-    beforeEach(() => {
-      spyOn(window, "getComputedStyle")
-    })
-
     /* Cleanup fixtures */
     afterEach(() => {
       fixture.cleanup()
@@ -50,43 +46,60 @@ describe("Browser", () => {
     /* .style */
     describe(".style", () => {
 
-      /* Load fixtures */
+      /* Load fixtures and register spies */
       beforeEach(() => {
         fixture.load("style.html")
+
+        /* Register spies */
+        spyOn(pseudo, "style")
       })
 
       /* Test: should return computed styles */
       it("should return computed styles for element",
         styleShouldReturnComputedStylesForElement
       )
+    })
 
-      /* Test: should return computed styles for before element */
-      it("should return computed styles for before element",
-        styleShouldReturnComputedStylesForBeforeElement
+    /* .size */
+    describe(".size", () => {
+
+      /* Load fixtures and register spies */
+      beforeEach(() => {
+        fixture.load("size.html")
+
+        /* Register spies */
+        spyOnProperty(fixture.el.lastChild, "offsetWidth")
+          .and.returnValue(120)
+        spyOnProperty(fixture.el.lastChild, "offsetHeight")
+          .and.returnValue(120)
+        spyOnProperty(fixture.el.lastChild.firstElementChild, "offsetWidth")
+          .and.returnValue(100)
+        spyOnProperty(fixture.el.lastChild.firstElementChild, "offsetHeight")
+          .and.returnValue(100)
+      })
+
+      /* Test: should return dimensions for element */
+      it("should return dimensions for element",
+        sizeShouldReturnDimensionsForElement
       )
 
-      /* Test: should return computed styles for after element */
-      it("should return computed styles for after element",
-        styleShouldReturnComputedStylesForAfterElement
+      /* Test: should return dimensions for element with margin */
+      it("should return dimensions for element with margin",
+        sizeShouldReturnDimensionsForElementWithMargin
       )
 
       /* Test: should throw on invalid element */
       it("should throw on invalid element",
-        styleShouldThrowOnInvalidElement
-      )
-
-      /* Test: should throw on invalid qualifier */
-      it("should throw on invalid qualifier",
-        styleShouldThrowOnInvalidQualifier
+        sizeShouldThrowOnInvalidElement
       )
     })
 
-    /* .layout */
-    describe(".layout", () => {
+    /* .offset */
+    describe(".offset", () => {
 
       /* Load fixtures and register spies */
       beforeEach(() => {
-        fixture.load("layout.html")
+        fixture.load("offset.html")
 
         /* Register spies */
         spyOn(fixture.el, "getBoundingClientRect")
@@ -96,10 +109,6 @@ describe("Browser", () => {
             right: 120,
             top: 0
           })
-        spyOnProperty(fixture.el.lastChild, "clientWidth")
-          .and.returnValue(120)
-        spyOnProperty(fixture.el.lastChild, "clientHeight")
-          .and.returnValue(120)
         spyOn(fixture.el.lastChild, "getBoundingClientRect")
           .and.returnValue({
             bottom: 120,
@@ -107,10 +116,6 @@ describe("Browser", () => {
             right: 120,
             top: 0
           })
-        spyOnProperty(fixture.el.lastChild.firstElementChild, "clientWidth")
-          .and.returnValue(100)
-        spyOnProperty(fixture.el.lastChild.firstElementChild, "clientHeight")
-          .and.returnValue(100)
         spyOn(fixture.el.lastChild.firstElementChild, "getBoundingClientRect")
           .and.returnValue({
             bottom: 110,
@@ -120,29 +125,19 @@ describe("Browser", () => {
           })
       })
 
-      /* Test: should return dimensions for element */
-      it("should return dimensions for element",
-        layoutShouldReturnDimensionsForElement
-      )
-
-      /* Test: should return dimensions for element with margin */
-      it("should return dimensions for element with margin",
-        layoutShouldReturnDimensionsForElementWithMargin
-      )
-
       /* Test: should return offsets for element */
       it("should return offsets for element",
-        layoutShouldReturnOffsetsForElement
+        offsetShouldReturnOffsetsForElement
       )
 
       /* Test: should return offsets for element with margin */
       it("should return offsets for element with margin",
-        layoutShouldReturnOffsetsForElementWithMargin
+        offsetShouldReturnOffsetsForElementWithMargin
       )
 
       /* Test: should throw on invalid element */
       it("should throw on invalid element",
-        layoutShouldThrowOnInvalidElement
+        offsetShouldThrowOnInvalidElement
       )
     })
   })
@@ -155,70 +150,50 @@ describe("Browser", () => {
 /* Test: .style should return computed styles for element */
 function styleShouldReturnComputedStylesForElement() {
   element.style(fixture.el.firstElementChild)
-  expect(window.getComputedStyle)
+  expect(pseudo.style)
     .toHaveBeenCalledWith(fixture.el.firstElementChild, null)
 }
 
-/* Test: .style should return computed styles for before element */
-function styleShouldReturnComputedStylesForBeforeElement() {
-  element.style(fixture.el.firstElementChild, "::before")
-  expect(window.getComputedStyle)
-    .toHaveBeenCalledWith(fixture.el.firstElementChild, "::before")
+/* ----------------------------------------------------------------------------
+ * Definitions: .size
+ * ------------------------------------------------------------------------- */
+
+/* Test: .size should return dimensions for element */
+function sizeShouldReturnDimensionsForElement() {
+  const data = element.size(fixture.el.querySelector(".container"))
+  expect(data)
+    .toEqual({
+      width: 120,
+      height: 120
+    })
 }
 
-/* Test: .style should return computed styles for after element */
-function styleShouldReturnComputedStylesForAfterElement() {
-  element.style(fixture.el.firstElementChild, "::after")
-  expect(window.getComputedStyle)
-    .toHaveBeenCalledWith(fixture.el.firstElementChild, "::after")
+/* Test: .size should return dimensions for element with margin */
+function sizeShouldReturnDimensionsForElementWithMargin() {
+  const data = element.size(fixture.el.querySelector(".size"))
+  expect(data)
+    .toEqual({
+      width: 100,
+      height: 100
+    })
 }
 
-/* Test: .style should throw on invalid element */
-function styleShouldThrowOnInvalidElement() {
+/* Test: .size should throw on invalid element */
+function sizeShouldThrowOnInvalidElement() {
   expect(() => {
-    element.style("genmaicha")
+    element.size(".no-match")
   }).toThrow(
-    new TypeError("Invalid element: \"genmaicha\""))
-  expect(window.getComputedStyle)
-    .not.toHaveBeenCalled()
-}
-
-/* Test: .style should throw on invalid qualifier */
-function styleShouldThrowOnInvalidQualifier() {
-  expect(() => {
-    element.style(fixture.el.firstElementChild, "oolong")
-  }).toThrow(
-    new TypeError("Invalid qualifier: \"oolong\""))
-  expect(window.getComputedStyle)
-    .not.toHaveBeenCalled()
+    new TypeError("Invalid element: '.no-match'"))
 }
 
 /* ----------------------------------------------------------------------------
- * Definitions: .layout
+ * Definitions: .offset
  * ------------------------------------------------------------------------- */
 
-/* Test: .layout should return dimensions for element */
-function layoutShouldReturnDimensionsForElement() {
-  const data = element.layout(fixture.el.querySelector(".container"))
-  expect(data.width)
-    .toEqual(120)
-  expect(data.height)
-    .toEqual(120)
-}
-
-/* Test: .layout should return dimensions for element with margin */
-function layoutShouldReturnDimensionsForElementWithMargin() {
-  const data = element.layout(fixture.el.querySelector(".layout"))
-  expect(data.width)
-    .toEqual(100)
-  expect(data.height)
-    .toEqual(100)
-}
-
-/* Test: .layout should return offsets for element */
-function layoutShouldReturnOffsetsForElement() {
-  const data = element.layout(fixture.el.querySelector(".container"))
-  expect(data.offset)
+/* Test: .offset should return offsets for element */
+function offsetShouldReturnOffsetsForElement() {
+  const data = element.offset(fixture.el.querySelector(".container"))
+  expect(data)
     .toEqual({
       top: 0,
       right: 0,
@@ -227,10 +202,10 @@ function layoutShouldReturnOffsetsForElement() {
     })
 }
 
-/* Test: .layout should return offsets for element with margin */
-function layoutShouldReturnOffsetsForElementWithMargin() {
-  const data = element.layout(fixture.el.querySelector(".layout"))
-  expect(data.offset)
+/* Test: .offset should return offsets for element with margin */
+function offsetShouldReturnOffsetsForElementWithMargin() {
+  const data = element.offset(fixture.el.querySelector(".offset"))
+  expect(data)
     .toEqual({
       top: 10,
       right: 10,
@@ -239,10 +214,10 @@ function layoutShouldReturnOffsetsForElementWithMargin() {
     })
 }
 
-/* Test: .layout should throw on invalid element */
-function layoutShouldThrowOnInvalidElement() {
+/* Test: .offset should throw on invalid element */
+function offsetShouldThrowOnInvalidElement() {
   expect(() => {
-    element.layout("genmaicha")
+    element.offset(".no-match")
   }).toThrow(
-    new TypeError("Invalid element: \"genmaicha\""))
+    new TypeError("Invalid element: '.no-match'"))
 }

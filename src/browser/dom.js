@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  */
 
+import inspect from "../util/inspect"
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -36,14 +38,14 @@
  */
 export const query = selector => {
   if (typeof selector !== "string" && !(selector instanceof Element))
-    throw new TypeError(`Invalid selector or element: "${selector}"`)
+    throw new TypeError(`Invalid selector or element: ${inspect(selector)}`)
 
   /* Resolve selector */
   const el = (typeof selector === "string" && selector.length)
     ? document.querySelector(selector)
     : selector
   if (!(el instanceof Element))
-    throw new ReferenceError(`No match for selector: "${selector}"`)
+    throw new ReferenceError(`No match for selector: ${inspect(selector)}`)
 
   /* Return resolved element */
   return el

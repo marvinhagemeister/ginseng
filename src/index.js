@@ -21,6 +21,7 @@
  */
 
 import "core-js/modules/es6.promise"
+import "document-register-element"
 import "whatwg-fetch"
 
 /* ----------------------------------------------------------------------------

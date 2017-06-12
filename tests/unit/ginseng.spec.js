@@ -125,7 +125,7 @@ function constructorShouldThrowOnInvalidOptions() {
   expect(() => {
     new Ginseng("")
   }).toThrow(
-    new TypeError("Invalid options: \"\""))
+    new TypeError("Invalid options: ''"))
 }
 
 /* ----------------------------------------------------------------------------

@@ -214,9 +214,9 @@ function constructorShouldInitializeData() {
 /* Test: #constructor should throw on empty name */
 function constructorShouldThrowOnEmptyName() {
   expect(() => {
-    new Spec("", ".constructor")
+    new Spec("")
   }).toThrow(
-    new TypeError("Invalid name: \"\""))
+    new TypeError("Invalid name: ''"))
   expect(dom.query)
     .not.toHaveBeenCalled()
 }
@@ -224,9 +224,9 @@ function constructorShouldThrowOnEmptyName() {
 /* Test: #constructor should throw on invalid name */
 function constructorShouldThrowOnInvalidName() {
   expect(() => {
-    new Spec(null, ".constructor")
+    new Spec(null)
   }).toThrow(
-    new TypeError("Invalid name: \"null\""))
+    new TypeError("Invalid name: null"))
   expect(dom.query)
     .not.toHaveBeenCalled()
 }

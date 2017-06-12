@@ -21,6 +21,7 @@
  */
 
 import * as dom from "./browser/dom"
+import inspect from "./util/inspect"
 
 import Spec from "./spec"
 
@@ -45,9 +46,9 @@ export default class Suite {
    */
   constructor(name, baseline = {}) {
     if (typeof name !== "string" || !name.length)
-      throw new TypeError(`Invalid name: "${name}"`)
+      throw new TypeError(`Invalid name: ${inspect(name)}`)
     if (typeof baseline !== "object")
-      throw new TypeError(`Invalid baseline: "${baseline}"`)
+      throw new TypeError(`Invalid baseline: ${inspect(baseline)}`)
 
     /* Set name, baseline and initialize specifications */
     this.name_ = name
@@ -71,7 +72,7 @@ export default class Suite {
    */
   capture(name, selector) {
     if (typeof name !== "string" || !name.length)
-      throw new TypeError(`Invalid name: "${name}"`)
+      throw new TypeError(`Invalid name: ${inspect(name)}`)
 
     /* Initialize specification, if not already done */
     const spec = this.specs_[name]
@@ -81,7 +82,7 @@ export default class Suite {
     /* Ensure that we're not overwriting a previous capture */
     if (dom.query(selector) !== spec.element)
       throw new ReferenceError(
-        `Invalid combination: "${name}" was already registered`)
+        `Invalid combination: '${name}' was already registered`)
 
     /* Append, capture and compare specification */
     this.specs_[name] = spec
@@ -99,7 +100,7 @@ export default class Suite {
    */
   suite(name, baseline = {}, cb = null) {
     if (typeof name !== "string" || !name.length)
-      throw new TypeError(`Invalid name: "${name}"`)
+      throw new TypeError(`Invalid name: ${inspect(name)}`)
     if (cb !== null && typeof cb !== "function")
       throw new TypeError("Invalid callback")
 
