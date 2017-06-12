@@ -1,0 +1,27 @@
+<style>
+  body {
+    margin: 0;
+  }
+  .container {
+    overflow: auto;
+  }
+  .size {
+    background: yellow;
+    margin: 10px;
+  }
+  .size::before {
+    display: block;
+    background: red;
+    content: "before";
+  }
+  .size::after {
+    display: block;
+    background: green;
+    content: "after";
+  }
+</style>
+<div class="container">
+  <div class="size">
+    element
+  </div>
+</div>

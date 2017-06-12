@@ -39,6 +39,10 @@ import inspect from "./util/inspect"
  * @return {Object} Relevant data
  */
 export const extract = (el, children) => {
+
+  // TODO: load pseudo styles and convert them, if they're visibile to read the
+  // layout/bounding box.
+
   return {
     element: element.style(el),
     pseudo: {
