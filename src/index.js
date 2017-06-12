@@ -25,9 +25,7 @@ import "document-register-element"
 import "whatwg-fetch"
 
 /* ----------------------------------------------------------------------------
- * Re-export entrypoint
+ * Exports
  * ------------------------------------------------------------------------- */
 
-export {
-  default as Ginseng
-} from "./ginseng"
+export { default as Ginseng } from "./ginseng"

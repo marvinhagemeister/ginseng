@@ -76,6 +76,11 @@ describe("Browser", () => {
         it("should return dimensions for element with margin",
           sizeShouldReturnDimensionsForElementWithMargin
         )
+
+        /* Test: should return dimensions for top-level element */
+        it("should return dimensions for top-level element",
+          sizeShouldReturnDimensionsForTopLevelElement
+        )
       })
 
       /* .offset */
@@ -94,6 +99,11 @@ describe("Browser", () => {
         /* Test: should return offsets for element with margin */
         it("should return offsets for element with margin",
           offsetShouldReturnOffsetsForElementWithMargin
+        )
+
+        /* Test: should return offsets for top-level element */
+        it("should return offsets for top-level element",
+          offsetShouldReturnOffsetsForTopLevelElement
         )
       })
     })
@@ -124,18 +134,27 @@ function styleShouldReturnComputedStylesForElement() {
 function sizeShouldReturnDimensionsForElement() {
   const data = element.size(fixture.el.querySelector(".container"))
   expect(data.width)
-    .toEqual(document.body.clientWidth)
+    .toEqual(document.body.offsetWidth)
   expect(data.height)
-    .toEqual(document.body.clientHeight)
+    .toEqual(document.body.offsetHeight)
 }
 
 /* Test: .size should return dimensions for element with margin */
 function sizeShouldReturnDimensionsForElementWithMargin() {
   const data = element.size(fixture.el.querySelector(".size"))
   expect(data.width)
-    .toEqual(document.body.clientWidth - 20)
+    .toEqual(document.body.offsetWidth - 20)
   expect(data.height)
-    .toEqual(document.body.clientHeight - 20)
+    .toEqual(document.body.offsetHeight - 20)
+}
+
+/* Test: .offset should return offsets for top-level element */
+function sizeShouldReturnDimensionsForTopLevelElement() {
+  const data = element.size(document.body)
+  expect(data.width)
+    .toEqual(document.body.offsetWidth)
+  expect(data.height)
+    .toEqual(document.body.offsetHeight)
 }
 
 /* ----------------------------------------------------------------------------
@@ -163,5 +182,17 @@ function offsetShouldReturnOffsetsForElementWithMargin() {
       right: 10,
       bottom: 10,
       left: 10
+    })
+}
+
+/* Test: .offset should return offsets for top-level element */
+function offsetShouldReturnOffsetsForTopLevelElement() {
+  const data = element.offset(document.body)
+  expect(data)
+    .toEqual({
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
     })
 }

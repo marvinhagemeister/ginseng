@@ -66,8 +66,6 @@ export const size = el => {
 export const offset = el => {
   if (!(el instanceof Element))
     throw new TypeError(`Invalid element: ${inspect(el)}`)
-  if (!(el.parentNode instanceof Element))
-    return {}
 
   /* Retrieve bounding boxes for element and parent */
   const inner = el.getBoundingClientRect()
