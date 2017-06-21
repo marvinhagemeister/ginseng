@@ -22,10 +22,7 @@
 
 import * as spec from "~/src/spec"
 
-import {
-  factory,
-  default as Suite
-} from "~/src/suite"
+import Suite from "~/src/suite"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -42,6 +39,25 @@ describe("Suite", () => {
   /* Cleanup fixtures */
   afterEach(() => {
     fixture.cleanup()
+  })
+
+  /* .factory */
+  describe(".factory", () => {
+
+    /* Test: should initialize suite */
+    it("should initialize suite",
+      factoryShouldInitializeSuite
+    )
+
+    /* Test: should initialize suite with baseline */
+    it("should initialize suite with baseline",
+      factoryShouldInitializeSuiteWithBaseline
+    )
+
+    /* Test: should initialize suite and nested suites */
+    it("should initialize suite and nested suites",
+      factoryShouldInitializeSuiteAndNestedSuites
+    )
   })
 
   /* #constructor */
@@ -91,7 +107,8 @@ describe("Suite", () => {
           name: "genmaicha",
           element: fixture.el.firstElementChild,
           data: null,
-          capture: jasmine.createSpy("capture").and.returnValue(null),
+          capture: jasmine.createSpy("capture")
+            .and.returnValue(null),
           compare: jasmine.createSpy("compare")
             .and.callFake(baseline => baseline.data === true)
         })
@@ -171,21 +188,74 @@ describe("Suite", () => {
       suiteShouldThrowOnInvalidCallback
     )
   })
-
-  /* .factory */
-  describe(".factory", () => {
-
-    /* Test: should initialize suite */
-    it("should initialize suite",
-      factoryShouldInitializeSuite
-    )
-
-    /* Test: should initialize suite and nested suites */
-    it("should initialize suite and nested suites",
-      factoryShouldInitializeSuiteAndNestedSuites
-    )
-  })
 })
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .factory
+ * ------------------------------------------------------------------------- */
+
+/* Test: should initialize suite */
+function factoryShouldInitializeSuite() {
+  const suite = Suite.factory("test")
+  expect(suite.baseline)
+    .toEqual({})
+  expect(suite.suites)
+    .toEqual({})
+}
+
+/* Test: should initialize suite */
+function factoryShouldInitializeSuiteWithBaseline() {
+  const data = {
+    specs: {
+      genmaicha: { data: true }
+    }
+  }
+  const suite = Suite.factory("test", data)
+  expect(suite.baseline)
+    .toEqual(data.specs)
+  expect(suite.suites)
+    .toEqual({})
+}
+
+/* Test: should initialize suite and nested suites */
+function factoryShouldInitializeSuiteAndNestedSuites() {
+  const data = {
+    specs: {
+      oolong: { data: true }
+    },
+    suites: {
+      bancha: {
+        specs: {
+          sencha: { data: true }
+        },
+        suites: {
+          hojicha: {
+            specs: {
+              matcha: { data: true }
+            }
+          }
+        }
+      }
+    }
+  }
+  const suite = Suite.factory("suite", data)
+  expect(suite.baseline)
+    .toEqual(data.specs)
+  expect(suite.suites.bancha)
+    .toEqual(jasmine.any(Suite))
+  expect(suite.suites.bancha.name)
+    .toEqual("bancha")
+  expect(suite.suites.bancha.baseline)
+    .toEqual(data.suites.bancha.specs)
+  expect(suite.suites.bancha.suites.hojicha)
+    .toEqual(jasmine.any(Suite))
+  expect(suite.suites.bancha.suites.hojicha.name)
+    .toEqual("hojicha")
+  expect(suite.suites.bancha.suites.hojicha.baseline)
+    .toEqual(data.suites.bancha.suites.hojicha.specs)
+  expect(suite.suites.bancha.suites.hojicha.suites)
+    .toEqual({})
+}
 
 /* ----------------------------------------------------------------------------
  * Definitions: #constructor
@@ -372,62 +442,4 @@ function suiteShouldThrowOnInvalidCallback() {
     new Suite("first").suite("hojicha", {}, "")
   }).toThrow(
     new TypeError("Invalid callback"))
-}
-
-/* ----------------------------------------------------------------------------
- * Definitions: .factory
- * ------------------------------------------------------------------------- */
-
-/* Test: should initialize suite */
-function factoryShouldInitializeSuite() {
-  const data = {
-    baseline: {
-      genmaicha: { data: true }
-    }
-  }
-  const suite = factory("test", data)
-  expect(suite.baseline)
-    .toBe(suite.baseline)
-  expect(suite.suites)
-    .toEqual({})
-}
-
-/* Test: should initialize suite and nested suites */
-function factoryShouldInitializeSuiteAndNestedSuites() {
-  const data = {
-    specs: {
-      oolong: { data: true }
-    },
-    suites: {
-      bancha: {
-        specs: {
-          sencha: { data: true }
-        },
-        suites: {
-          hojicha: {
-            specs: {
-              matcha: { data: true }
-            }
-          }
-        }
-      }
-    }
-  }
-  const suite = factory("suite", data)
-  expect(suite.baseline)
-    .toBe(data.specs)
-  expect(suite.suites.bancha)
-    .toEqual(jasmine.any(Suite))
-  expect(suite.suites.bancha.name)
-    .toEqual("bancha")
-  expect(suite.suites.bancha.baseline)
-    .toBe(data.suites.bancha.specs)
-  expect(suite.suites.bancha.suites.hojicha)
-    .toEqual(jasmine.any(Suite))
-  expect(suite.suites.bancha.suites.hojicha.name)
-    .toEqual("hojicha")
-  expect(suite.suites.bancha.suites.hojicha.baseline)
-    .toBe(data.suites.bancha.suites.hojicha.specs)
-  expect(suite.suites.bancha.suites.hojicha.suites)
-    .toEqual({})
 }

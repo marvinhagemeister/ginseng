@@ -20,7 +20,24 @@
  * IN THE SOFTWARE.
  */
 
+// import * as stylesheet from "../stylesheet"
 import inspect from "../util/inspect"
+
+/* ----------------------------------------------------------------------------
+ * Classes
+ * ------------------------------------------------------------------------- */
+
+export const PSEUDO = {
+  BEFORE: "x-ginseng-before",                                                    // TODO: maybe use ":" namespace? test
+  AFTER: "x-ginseng-after"
+}
+
+/* ----------------------------------------------------------------------------
+ * Classes
+ * ------------------------------------------------------------------------- */
+
+// const HTMLXBeforeElement = document.registerElement(PSEUDO.BEFORE)              // TODO: maybe constants!? supported pseudos!?
+// const HTMLXAfterElement  = document.registerElement(PSEUDO.AFTER)
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -44,7 +61,7 @@ export const style = (el, type) => {
   const styles = window.getComputedStyle(el, type)
 
   /* Create a copy, as the CSS declaration object gets garbage collected the
-     moment it's out of scope in most browsers, which is legit */
+     moment it's out of scope in most browsers */
   const data = {}
   for (const property in styles) {
     const value = styles[property]

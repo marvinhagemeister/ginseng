@@ -1,34 +1,27 @@
 <style>
-  html, body {
-    padding: 0;
-    margin: 0;
-  }
-  html {
-    height: 100%;
-  }
   body {
-    min-height: 100%;
+    margin: 0;
   }
   .container {
     overflow: auto;
   }
-  .offset {
+  .mock {
     background: yellow;
     margin: 10px;
   }
-  .offset::before {
+  .mock::before {
     display: block;
     background: red;
     content: "before";
   }
-  .offset::after {
+  .mock::after {
     display: block;
     background: green;
     content: "after";
   }
 </style>
 <div class="container">
-  <div class="offset">
+  <div class="mock">
     element
   </div>
 </div>

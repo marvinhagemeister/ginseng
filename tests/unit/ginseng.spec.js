@@ -21,8 +21,8 @@
  */
 
 import * as request from "~/src/browser/request"
-import * as suite from "~/src/suite"
 
+import Suite from "~/src/suite"
 import {
   config,
   default as Ginseng
@@ -63,7 +63,7 @@ describe("Ginseng", () => {
         .and.returnValue(Promise.resolve({
           json: () => Promise.resolve({ data: true })
         }))
-      spyOn(suite, "factory")
+      spyOn(Suite, "factory")
         .and.returnValue({ suite: true })
     })
 
@@ -78,7 +78,7 @@ describe("Ginseng", () => {
 
     /* Register spies */
     beforeEach(() => {
-      spyOn(suite, "default")
+      spyOn(Suite, "factory")
         .and.returnValue({ suite: true })
     })
 
@@ -133,16 +133,17 @@ function constructorShouldThrowOnInvalidOptions() {
  * ------------------------------------------------------------------------- */
 
 /* Test: #fetch should fetch baseline from url */
-function fetchShouldFetchBaselineFromUrl() {
+function fetchShouldFetchBaselineFromUrl(done) {
   const options = { url: { baseline: true } }
   const ginseng = new Ginseng(options)
   ginseng.fetch().then(parent => {
     expect(request.get)
       .toHaveBeenCalledWith(options.url.baseline)
-    expect(suite.factory)
+    expect(Suite.factory)
       .toHaveBeenCalledWith("_ginseng", { data: true })                         // TODO: put _ginseng in a constant
     expect(parent)
       .toEqual({ suite: true })
+    done()
   })
 }
 

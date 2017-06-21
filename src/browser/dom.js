@@ -27,16 +27,28 @@ import inspect from "../util/inspect"
  * ------------------------------------------------------------------------- */
 
 /**
+ * Create a new element
+ *
+ * @param {string} tag - Tag
+ *
+ * @return {Element} Element
+ */
+export const create = tag => {
+  return document.createElement(tag)
+}
+
+/**
  * Resolve a given selector to an element
  *
  * If a selector is given, it will be passed to document.querySelector which
  * will only query for a single element, ignoring subsequent matches.
  *
  * @param {(string|Element)} selector - Selector or element
+ * @param {Function} [type] - Element type
  *
  * @return {Element} Element
  */
-export const query = selector => {
+export const query = (selector, type = Element) => {
   if (typeof selector !== "string" && !(selector instanceof Element))
     throw new TypeError(`Invalid selector or element: ${inspect(selector)}`)
 
@@ -44,8 +56,29 @@ export const query = selector => {
   const el = (typeof selector === "string" && selector.length)
     ? document.querySelector(selector)
     : selector
-  if (!(el instanceof Element))
+  if (!(el instanceof type))
     throw new ReferenceError(`No match for selector: ${inspect(selector)}`)
+
+  /* Return resolved element */
+  return el
+}
+
+/**
+ * Resolve an unique identifier to an element
+ *
+ * @param {string} id - Identifier
+ * @param {Function} [type] - Element type
+ *
+ * @return {Element} Element
+ */
+export const resolve = (id, type = Element) => {
+  if (typeof id !== "string" || !id.length)
+    throw new TypeError(`Invalid id: ${inspect(id)}`)
+
+  /* Resolve identifier */
+  const el = document.getElementById(id)
+  if (!(el instanceof type))
+    throw new ReferenceError(`No match for id: ${inspect(id)}`)
 
   /* Return resolved element */
   return el
@@ -67,10 +100,11 @@ export const query = selector => {
  *
  * @param {(string|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
+ * @param {*} data - Optional data to be passed to the callback
  *
  * @return {*} Return value from callback
  */
-export const traverse = (selector, cb) => {
+export const traverse = (selector, cb, data = null) => {
   if (typeof cb !== "function")
     throw new TypeError("Invalid callback")
 
@@ -78,12 +112,12 @@ export const traverse = (selector, cb) => {
   const children = el => {
     return Array.prototype.reduce.call(el.childNodes, (nodes, node) => {
       if (node instanceof Element)
-        nodes.push(cb(node, children(node)))
+        nodes.push(cb(node, children(node), data))
       return nodes
     }, [])
   }
 
   /* Invoke callback on root node and recurse */
   const el = query(selector)
-  return cb(el, children(el))
+  return cb(el, children(el), data)
 }

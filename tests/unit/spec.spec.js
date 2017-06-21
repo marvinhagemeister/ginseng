@@ -58,7 +58,7 @@ describe("Spec", () => {
 
     /* Test: should return valid data */
     it("should return valid data",
-      constructorShouldReturnValidData
+      extractShouldReturnValidData
     )
   })
 
@@ -164,7 +164,7 @@ describe("Spec", () => {
  * ------------------------------------------------------------------------- */
 
 /* Test: .extract should return valid data */
-function constructorShouldReturnValidData() {
+function extractShouldReturnValidData() {
   expect(extract(null, "children"))
     .toEqual({
       element: "style",

@@ -77,9 +77,14 @@ describe("Browser", () => {
           sizeShouldReturnDimensionsForElementWithMargin
         )
 
-        /* Test: should return dimensions for top-level element */
-        it("should return dimensions for top-level element",
-          sizeShouldReturnDimensionsForTopLevelElement
+        /* Test: should return dimensions for body element */
+        it("should return dimensions for body element",
+          sizeShouldReturnDimensionsForBodyElement
+        )
+
+        /* Test: should return dimensions for document element */
+        it("should return dimensions for document element",
+          sizeShouldReturnDimensionsForDocumentElement
         )
       })
 
@@ -101,9 +106,14 @@ describe("Browser", () => {
           offsetShouldReturnOffsetsForElementWithMargin
         )
 
-        /* Test: should return offsets for top-level element */
-        it("should return offsets for top-level element",
-          offsetShouldReturnOffsetsForTopLevelElement
+        /* Test: should return offsets for body element */
+        it("should return offsets for body element",
+          offsetShouldReturnOffsetsForBodyElement
+        )
+
+        /* Test: should return offsets for document element */
+        it("should return offsets for document element",
+          offsetShouldReturnOffsetsForDocumentElement
         )
       })
     })
@@ -119,7 +129,7 @@ function styleShouldReturnComputedStylesForElement() {
   const styles = window.getComputedStyle(fixture.el.firstChild)
   const data = element.style(fixture.el.firstChild)
   expect(Object.keys(data).length)
-    .toBeGreaterThan(151) // IE9 has 152 properties
+    .toBeGreaterThan(147) // IE9 has 148 properties
   Object.keys(data).forEach(property => {
     expect(data[property])
       .toEqual(styles[property])
@@ -148,13 +158,22 @@ function sizeShouldReturnDimensionsForElementWithMargin() {
     .toEqual(document.body.offsetHeight - 20)
 }
 
-/* Test: .offset should return offsets for top-level element */
-function sizeShouldReturnDimensionsForTopLevelElement() {
+/* Test: .offset should return offsets for body element */
+function sizeShouldReturnDimensionsForBodyElement() {
   const data = element.size(document.body)
   expect(data.width)
     .toEqual(document.body.offsetWidth)
   expect(data.height)
     .toEqual(document.body.offsetHeight)
+}
+
+/* Test: .offset should return offsets for document element */
+function sizeShouldReturnDimensionsForDocumentElement() {
+  const data = element.size(document.documentElement)
+  expect(data.width)
+    .toEqual(document.documentElement.offsetWidth)
+  expect(data.height)
+    .toEqual(document.documentElement.offsetHeight)
 }
 
 /* ----------------------------------------------------------------------------
@@ -185,9 +204,21 @@ function offsetShouldReturnOffsetsForElementWithMargin() {
     })
 }
 
-/* Test: .offset should return offsets for top-level element */
-function offsetShouldReturnOffsetsForTopLevelElement() {
+/* Test: .offset should return offsets for body element */
+function offsetShouldReturnOffsetsForBodyElement() {
   const data = element.offset(document.body)
+  expect(data)
+    .toEqual({
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    })
+}
+
+/* Test: .offset should return offsets for document element */
+function offsetShouldReturnOffsetsForDocumentElement() {
+  const data = element.offset(document.documentElement)
   expect(data)
     .toEqual({
       top: 0,

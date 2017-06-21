@@ -25,10 +25,7 @@ import merge from "deepmerge"
 import * as request from "./browser/request"
 import inspect from "./util/inspect"
 
-import {
-  factory,
-  default as Suite
-} from "./suite"
+import Suite from "./suite"
 
 /* ----------------------------------------------------------------------------
  * Defaults
@@ -59,7 +56,7 @@ export default class Ginseng {
    * @property {Object} options_ - Options
    * @property {Suite} suite_ - Top-level suite
    *
-   * @param {Object} [options={}] - Options
+   * @param {Object} [options] - Options
    */
   constructor(options = {}) {
     if (typeof options !== "object")
@@ -78,7 +75,7 @@ export default class Ginseng {
     return request.get(this.options_.url.baseline)                              // TODO: maybe we should call that "init/sync" --> baseline => init/sync
       .then(res => res.json())
       .then(data => Promise.resolve((() => {                                    // TODO: factory + prepare
-        return this.suite_ = factory("_ginseng", data)                          // TODO: put this in common constant
+        return this.suite_ = Suite.factory("_ginseng", data)                    // TODO: put this in common constant
       })()))
   }
 
@@ -89,7 +86,7 @@ export default class Ginseng {
    */
   suite() {
     if (!(this.suite_ instanceof Suite))
-      this.suite_ = new Suite("_ginseng")
+      this.suite_ = Suite.factory("_ginseng")
     return this.suite_
   }
 

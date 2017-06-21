@@ -42,6 +42,10 @@ module.exports = function() {
           test: /\.js$/,
           use: "babel-loader",
           exclude: /(\/node_modules\/|\/dist\/)/
+        },
+        {
+          test: /\.scss$/,
+          use: ["css-loader", "sass-loader"]
         }
       ]
     },

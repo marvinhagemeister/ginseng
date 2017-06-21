@@ -141,7 +141,7 @@ module.exports = function(karma) {
       chrome1: {
         base: "SauceLabs",
         browserName: "chrome",
-        version: "57",
+        version: "58",
         platform: "Windows 7",
         screenResolution: "1280x1024"
       },
@@ -173,14 +173,14 @@ module.exports = function(karma) {
         screenResolution: "1280x1024"
       },
 
-      /* Opera (latest - 1) */
-      opera1: {
-        base: "SauceLabs",
-        browserName: "opera",
-        version: "latest-1",
-        platform: "Windows 2008",
-        screenResolution: "1280x1024"
-      },
+      // /* Opera (latest - 1) */
+      // opera1: {
+      //   base: "SauceLabs",
+      //   browserName: "opera",
+      //   version: "latest-1",
+      //   platform: "Windows 2008",
+      //   screenResolution: "1280x1024"
+      // },
 
       /* Edge 14 */
       edge14: {
@@ -252,6 +252,7 @@ module.exports = function(karma) {
       : `~ #${moniker.choose()}`
 
     /* Configure SauceLabs integration */
+    config.concurrency = 5
     config.sauceLabs = {
       build: process.env.TRAVIS_BUILD_NUMBER,
       testName: id,

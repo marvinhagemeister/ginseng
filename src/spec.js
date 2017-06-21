@@ -30,6 +30,15 @@ import inspect from "./util/inspect"
  * Functions
  * ------------------------------------------------------------------------- */
 
+// export const prepare = (el, children, style) => {
+//   ["::after", "::before"].forEach(type => {
+//     if (element.pseudo.visible(el, type)) {
+//       const mock = element.pseudo.mock(el, type)                             // TODO: element is returned...
+//       // check instance!
+//     }
+//   })
+// }
+
 /**
  * Extract the relevant data from an element
  *

@@ -45,6 +45,15 @@ describe("Browser", () => {
         fixture.cleanup()
       })
 
+      /* .create */
+      describe(".create", () => {
+
+        /* Test: should create element */
+        it("should create element",
+          createShouldCreateElement
+        )
+      })
+
       /* .query */
       describe(".query", () => {
 
@@ -58,9 +67,33 @@ describe("Browser", () => {
           queryShouldResolveSelector
         )
       })
+
+      /* .resolve */
+      describe(".resolve", () => {
+
+        /* Load fixtures */
+        beforeEach(() => {
+          fixture.load("resolve.html")
+        })
+
+        /* Test: should resolve identifier */
+        it("should resolve identifier",
+          resolveShouldResolveIdentifier
+        )
+      })
     })
   })
 })
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .create
+ * ------------------------------------------------------------------------- */
+
+/* Test: .create should create element */
+function createShouldCreateElement() {
+  expect(dom.create("div"))
+    .toEqual(jasmine.any(HTMLDivElement))
+}
 
 /* ----------------------------------------------------------------------------
  * Definitions: .query
@@ -69,5 +102,15 @@ describe("Browser", () => {
 /* Test: .query should resolve selector */
 function queryShouldResolveSelector() {
   expect(dom.query(".query"))
+    .toEqual(fixture.el.firstElementChild)
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .resolve
+ * ------------------------------------------------------------------------- */
+
+/* Test: .resolve should resolve identifier */
+function resolveShouldResolveIdentifier() {
+  expect(dom.resolve("resolve"))
     .toEqual(fixture.el.firstElementChild)
 }

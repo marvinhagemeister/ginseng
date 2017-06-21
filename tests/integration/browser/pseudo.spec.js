@@ -68,6 +68,20 @@ describe("Browser", () => {
           styleShouldReturnComputedStylesForAfterElement
         )
       })
+
+      /* .mock */
+      describe(".mock", () => {
+
+        /* Load fixtures */
+        beforeEach(() => {
+          fixture.load("mock.html")
+        })
+
+        /* Test: should do something */
+        it("should do something",
+          mockShouldDoSomething
+        )
+      })
     })
   })
 })
@@ -81,7 +95,7 @@ function styleShouldReturnComputedStylesForElement() {
   const styles = window.getComputedStyle(fixture.el.firstChild)
   const data = pseudo.style(fixture.el.firstChild, null)
   expect(Object.keys(data).length)
-    .toBeGreaterThan(151) // IE9 has 152 properties
+    .toBeGreaterThan(147) // IE9 has 148 properties
   Object.keys(data).forEach(property => {
     expect(data[property])
       .toEqual(styles[property])
@@ -93,7 +107,7 @@ function styleShouldReturnComputedStylesForBeforeElement() {
   const styles = window.getComputedStyle(fixture.el.firstChild, "::before")
   const data = pseudo.style(fixture.el.firstChild, "::before")
   expect(Object.keys(data).length)
-    .toBeGreaterThan(151) // IE9 has 152 properties
+    .toBeGreaterThan(147) // IE9 has 148 properties
   Object.keys(data).forEach(property => {
     expect(data[property])
       .toEqual(styles[property])
@@ -105,9 +119,29 @@ function styleShouldReturnComputedStylesForAfterElement() {
   const styles = window.getComputedStyle(fixture.el.firstChild, "::after")
   const data = pseudo.style(fixture.el.firstChild, "::after")
   expect(Object.keys(data).length)
-    .toBeGreaterThan(151) // IE9 has 152 properties
+    .toBeGreaterThan(147) // IE9 has 148 properties
   Object.keys(data).forEach(property => {
     expect(data[property])
       .toEqual(styles[property])
   })
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .mock
+ * ------------------------------------------------------------------------- */
+
+/* Test: .mock TODO */
+function mockShouldDoSomething() {
+  //
+  // const pre = document.createElement("style") // TODO: put attr here!?
+  // pre.id = "pre"
+  // document.body.appendChild(pre) // TODO: abstract document away!
+  // pre.textContent = require("~/src/assets/ginseng.scss")
+  //
+  // const post = document.createElement("style") // TODO: put attr here!?
+  // post.id = "post"
+  // document.body.appendChild(post)
+  // post.sheet.disabled = true
+  //
+  // pseudo.mock(fixture.el.querySelector(".mock"), "::before")
 }

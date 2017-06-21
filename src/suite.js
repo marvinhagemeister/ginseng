@@ -32,6 +32,32 @@ import Spec from "./spec"
 export default class Suite {
 
   /**
+   * Initialize a test suite and all nested test suites
+   *
+   * Theoretically, we could use for ... of, but this creates problems with
+   * compatibility in Internet Explorer and Opera due to the dependency on
+   * Symbol.iterator. We could polyfill both, but this would increase the size
+   * drastically and is pretty unnecessary to achieve the same outcome.
+   *
+   * @param {string} name - Suite name
+   * @param {Object} [data] - Baseline data
+   *
+   * @return {Suite} Suite
+   */
+  static factory(name, data = {}) {
+    const init = (suite, suites) => {
+      Object.keys(suites).reduce((result, s) => {
+        init(result.suite(s, suites[s].specs), suites[s].suites || {})
+        return result
+      }, suite)
+      return suite
+    }
+
+    /* Create suite and recurse */
+    return init(new Suite(name, data.specs || {}), data.suites || {})
+  }
+
+  /**
    * Create a test suite
    *
    * @constructor
@@ -93,8 +119,8 @@ export default class Suite {
    * Initialize a nested test suite
    *
    * @param {string} name - Suite name
-   * @param {Object<string, Spec>} [baseline={}] - Baseline data
-   * @param {Function} [cb=null] - Optional callback for nested handling
+   * @param {Object<string, Spec>} [baseline] - Baseline data
+   * @param {Function} [cb] - Optional callback for nested handling
    *
    * @return {Suite} Nested test suite
    */
@@ -151,37 +177,4 @@ export default class Suite {
   get suites() {
     return this.suites_
   }
-}
-
-/* ----------------------------------------------------------------------------
- * Factory
- * ------------------------------------------------------------------------- */
-
-/**
- * Initialize a test suite and all nested test suites
- *
- * This factory function creates a set of nested test suites by recursing on
- * the given data. Every suite is expected to have a baseline.
- *
- * Theoretically, we could use for ... of, but this creates problems with
- * compatibility in Internet Explorer and Opera due to the dependency on Symbol
- * and Symbol.iterator. We could polyfill both, but this would increase the
- * size drastically and is pretty unnecessary to achieve the same outcome.
- *
- * @param {string} name - Suite name
- * @param {Object} data - Baseline data
- *
- * @return {Suite} Suite
- */
-export const factory = (name, data) => {
-  const init = (suite, suites) => {
-    Object.keys(suites).reduce((result, s) => {
-      init(result.suite(s, suites[s].specs), suites[s].suites || {})
-      return result
-    }, suite)
-    return suite
-  }
-
-  /* Create suite and recurse */
-  return init(new Suite(name, data.specs), data.suites || {})
 }
