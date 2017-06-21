@@ -24,20 +24,22 @@
 import inspect from "../util/inspect"
 
 /* ----------------------------------------------------------------------------
- * Classes
+ * Variables
  * ------------------------------------------------------------------------- */
 
-export const PSEUDO = {
-  BEFORE: "x-ginseng-before",                                                    // TODO: maybe use ":" namespace? test
-  AFTER: "x-ginseng-after"
-}
+/**
+ * Ginseng element mock class
+ *
+ * @type {Function}
+ */
+const HTMLGinsengPseudoElement = document.registerElement("gs-pseudo")
 
-/* ----------------------------------------------------------------------------
- * Classes
- * ------------------------------------------------------------------------- */
-
-// const HTMLXBeforeElement = document.registerElement(PSEUDO.BEFORE)              // TODO: maybe constants!? supported pseudos!?
-// const HTMLXAfterElement  = document.registerElement(PSEUDO.AFTER)
+/**
+ * Default pseudo element styles
+ *
+ * @type {Object<string, Object>}
+ */
+const defaults = {}
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -54,7 +56,7 @@ export const PSEUDO = {
 export const style = (el, type) => {
   if (!(el instanceof Element))
     throw new TypeError(`Invalid element: ${inspect(el)}`)
-  if (typeof type !== "string" && type !== null)
+  if (type !== null && ["::before", "::after"].indexOf(type) === -1)
     throw new TypeError(`Invalid type: ${inspect(type)}`)
 
   /* Retrieve raw computed properties */
@@ -75,4 +77,84 @@ export const style = (el, type) => {
 
   /* Return computed properties */
   return data
+}
+
+/**
+ * Mock a pseudo element with an actual element
+ *
+ * This is necessary to read the size and position of an element, because this
+ * cannot be read from pseudo elements directly.
+ *
+ * @param {Element} el - Element
+ * @param {string} type - Pseudo element type
+ *
+ * @return {Element|null} Promoted pseudo element or null, if none
+ */
+export const mock = (el, type) => {
+  const styles = style(el, type)
+
+  /* Chrome and Opera: "", Firefox and Internet Explorer: "none" */
+  if (["", "none"].indexOf(styles.content) !== -1)
+    return null
+
+  /* Perform a naive check if the element is rendered */
+  if (styles.display === "none")
+    return null
+
+  /* Create and insert mock */
+  const pseudo = new HTMLGinsengPseudoElement()
+  switch (type) {
+
+    /* Prepend pseudo before elements */
+    case "::before":
+      el.insertBefore(pseudo, el.firstChild)
+      break
+
+    /* Append pseudo after elements */
+    case "::after":
+      el.appendChild(pseudo)
+      break
+
+    /* Otherwise terminate with error */
+    default:
+      throw new TypeError(`Invalid type: ${inspect(type)}`)
+  }
+
+  /* Load default styles for pseudo element except the display property */
+  if (!defaults[type]) {
+    defaults[type] = style(pseudo, type)
+    delete defaults[type].display
+  }
+
+  /* Iterate properties and set those that deviate from defaults */
+  for (const property in defaults[type])
+    if (defaults[type][property] !== styles[property]) {
+      if (property !== "content") {
+        pseudo.style[property] = styles[property]
+      } else {
+        pseudo.innerText = styles[property].replace(/(^"|"$)/g, "")
+      }
+    }
+
+  /* Create a random(-enough) identifier */
+  const id = +new Date
+  el.setAttribute("data-gs-id", `_${id}`)
+
+  /* Set display property on mocked stylesheet */
+  // stylesheet.append(stylesheet.TYPE.MOCK,
+  //   `[data-gs-id=_${id}] gs-pseudo`,
+  //     `display: ${styles.display} !important`)
+
+  const stylesheet = document.getElementById("post")
+  stylesheet.sheet.insertRule(
+    `[data-gs-id=_${id}] gs-pseudo { ` +
+    `  display: ${styles.display} !important` +
+    "}")
+
+  /* Return mock */
+  return pseudo
+}
+
+export const unmock = () => {
+  // TODO: unmock removes the replaced element...
 }

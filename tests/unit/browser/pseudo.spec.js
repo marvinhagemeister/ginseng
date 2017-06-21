@@ -80,6 +80,28 @@ describe("Browser", () => {
         styleShouldThrowOnInvalidType
       )
     })
+
+    /* .style */
+    describe(".mock", () => {
+
+      /* Load fixtures and register spies */
+      beforeEach(() => {
+        fixture.load("mock.html")
+
+        /* Register spies */
+        spyOn(pseudo, "style")
+          .and.returnValue({
+            background: "rgba(255, 0, 0)",
+            content: "\"content\"",
+            display: "inline"
+          })
+      })
+
+      /* Test: should throw on invalid type */
+      it("should throw on invalid type",
+        mockShouldThrowOnInvalidType
+      )
+    })
   })
 })
 
@@ -126,4 +148,14 @@ function styleShouldThrowOnInvalidType() {
     new TypeError("Invalid type: undefined"))
   expect(window.getComputedStyle)
     .not.toHaveBeenCalled()
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .mock
+ * ------------------------------------------------------------------------- */
+
+/* Test: .mock should throw on invalid type */
+function mockShouldThrowOnInvalidType() {
+  // pseudo.mock(fixture.el.firstElementChild, "::after")
+  // expect(pseudo.style).toHaveBeenCalled()
 }

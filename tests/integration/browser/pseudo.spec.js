@@ -132,7 +132,7 @@ function styleShouldReturnComputedStylesForAfterElement() {
 
 /* Test: .mock TODO */
 function mockShouldDoSomething() {
-  //
+
   // const pre = document.createElement("style") // TODO: put attr here!?
   // pre.id = "pre"
   // document.body.appendChild(pre) // TODO: abstract document away!
@@ -140,8 +140,13 @@ function mockShouldDoSomething() {
   //
   // const post = document.createElement("style") // TODO: put attr here!?
   // post.id = "post"
+  // post.textContent = require("~/src/assets/ginseng-post.scss")
   // document.body.appendChild(post)
   // post.sheet.disabled = true
   //
   // pseudo.mock(fixture.el.querySelector(".mock"), "::before")
+  // pseudo.mock(fixture.el.querySelector(".mock"), "::after")
+  // debugger
+  // post.sheet.disabled = false
+  // console.log("DONE")
 }
