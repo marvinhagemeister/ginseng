@@ -58,14 +58,14 @@ describe("Browser", () => {
           styleShouldReturnComputedStylesForElement
         )
 
-        /* Test: should return computed styles for before element */
-        it("should return computed styles for before element",
-          styleShouldReturnComputedStylesForBeforeElement
+        /* Test: should return computed styles for ::before pseudo element */
+        it("should return computed styles for ::before pseudo element",
+          styleShouldReturnComputedStylesForBeforePseudoElement
         )
 
-        /* Test: should return computed styles for after element */
-        it("should return computed styles for after element",
-          styleShouldReturnComputedStylesForAfterElement
+        /* Test: should return computed styles for ::after pseudo element */
+        it("should return computed styles for ::after pseudo element",
+          styleShouldReturnComputedStylesForAfterPseudoElement
         )
       })
 
@@ -79,7 +79,7 @@ describe("Browser", () => {
 
         /* Test: should do something */
         it("should do something",
-          mockShouldDoSomething
+          // mockShouldDoSomething
         )
       })
     })
@@ -102,8 +102,8 @@ function styleShouldReturnComputedStylesForElement() {
   })
 }
 
-/* Test: .style should return computed styles for before element */
-function styleShouldReturnComputedStylesForBeforeElement() {
+/* Test: .style should return computed styles for ::before element */
+function styleShouldReturnComputedStylesForBeforePseudoElement() {
   const styles = window.getComputedStyle(fixture.el.firstChild, "::before")
   const data = pseudo.style(fixture.el.firstChild, "::before")
   expect(Object.keys(data).length)
@@ -114,8 +114,8 @@ function styleShouldReturnComputedStylesForBeforeElement() {
   })
 }
 
-/* Test: .style should return computed styles for after element */
-function styleShouldReturnComputedStylesForAfterElement() {
+/* Test: .style should return computed styles for ::after element */
+function styleShouldReturnComputedStylesForAfterPseudoElement() {
   const styles = window.getComputedStyle(fixture.el.firstChild, "::after")
   const data = pseudo.style(fixture.el.firstChild, "::after")
   expect(Object.keys(data).length)
@@ -130,23 +130,23 @@ function styleShouldReturnComputedStylesForAfterElement() {
  * Definitions: .mock
  * ------------------------------------------------------------------------- */
 
-/* Test: .mock TODO */
-function mockShouldDoSomething() {
-
-  // const pre = document.createElement("style") // TODO: put attr here!?
-  // pre.id = "pre"
-  // document.body.appendChild(pre) // TODO: abstract document away!
-  // pre.textContent = require("~/src/assets/ginseng.scss")
-  //
-  // const post = document.createElement("style") // TODO: put attr here!?
-  // post.id = "post"
-  // post.textContent = require("~/src/assets/ginseng-post.scss")
-  // document.body.appendChild(post)
-  // post.sheet.disabled = true
-  //
-  // pseudo.mock(fixture.el.querySelector(".mock"), "::before")
-  // pseudo.mock(fixture.el.querySelector(".mock"), "::after")
-  // debugger
-  // post.sheet.disabled = false
-  // console.log("DONE")
-}
+// /* Test: .mock TODO */
+// function mockShouldDoSomething() {
+//
+//   const pre = document.createElement("style") // TODO: put attr here!?
+//   pre.id = "pre"
+//   document.body.appendChild(pre) // TODO: abstract document away!
+//   pre.textContent = require("~/src/assets/base.scss")
+//
+//   const post = document.createElement("style") // TODO: put attr here!?
+//   post.id = "post"
+//   post.textContent = require("~/src/assets/mock.scss")
+//   document.body.appendChild(post)
+//   post.sheet.disabled = true
+//
+//   pseudo.mock(fixture.el.querySelector(".mock"), "::before", post.sheet)
+//   pseudo.mock(fixture.el.querySelector(".mock"), "::after", post.sheet)
+//
+//   post.sheet.disabled = false
+//   console.log("DONE")
+// }

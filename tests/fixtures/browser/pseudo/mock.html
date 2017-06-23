@@ -19,9 +19,15 @@
     background: green;
     content: "after";
   }
+  .mock-non-displayed::before {
+    display: none;
+    content: "";
+  }
 </style>
 <div class="container">
   <div class="mock">
     element
   </div>
+  <div class="mock-empty"></div>
+  <div class="mock-non-displayed"></div>
 </div>

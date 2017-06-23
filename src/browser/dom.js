@@ -23,6 +23,17 @@
 import inspect from "../util/inspect"
 
 /* ----------------------------------------------------------------------------
+ * Variables
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Root element
+ *
+ * @type {HTMLBodyElement}
+ */
+export const root = document.body
+
+/* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
 
@@ -44,7 +55,7 @@ export const create = tag => {
  * will only query for a single element, ignoring subsequent matches.
  *
  * @param {(string|Element)} selector - Selector or element
- * @param {Function} [type] - Element type
+ * @param {Function} [type] - Expected type
  *
  * @return {Element} Element
  */
@@ -67,7 +78,7 @@ export const query = (selector, type = Element) => {
  * Resolve an unique identifier to an element
  *
  * @param {string} id - Identifier
- * @param {Function} [type] - Element type
+ * @param {Function} [type] - Expected type
  *
  * @return {Element} Element
  */
@@ -100,7 +111,7 @@ export const resolve = (id, type = Element) => {
  *
  * @param {(string|Element)} selector - Selector or element
  * @param {Function} cb - Node callback
- * @param {*} data - Optional data to be passed to the callback
+ * @param {*} [data] - Optional data to be passed to the callback
  *
  * @return {*} Return value from callback
  */

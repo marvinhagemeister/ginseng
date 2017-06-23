@@ -20,7 +20,6 @@
  * IN THE SOFTWARE.
  */
 
-// import * as stylesheet from "../stylesheet"
 import inspect from "../util/inspect"
 
 /* ----------------------------------------------------------------------------
@@ -87,11 +86,14 @@ export const style = (el, type) => {
  *
  * @param {Element} el - Element
  * @param {string} type - Pseudo element type
+ * @param {CSSStyleSheet} stylesheet - Stylesheet for activation
  *
  * @return {Element|null} Promoted pseudo element or null, if none
  */
-export const mock = (el, type) => {
+export const mock = (el, type, stylesheet) => {
   const styles = style(el, type)
+  if (!(stylesheet instanceof CSSStyleSheet))
+    throw new TypeError(`Invalid stylesheet: ${inspect(stylesheet)}`)
 
   /* Chrome and Opera: "", Firefox and Internet Explorer: "none" */
   if (["", "none"].indexOf(styles.content) !== -1)
@@ -103,21 +105,12 @@ export const mock = (el, type) => {
 
   /* Create and insert mock */
   const pseudo = new HTMLGinsengPseudoElement()
-  switch (type) {
-
-    /* Prepend pseudo before elements */
-    case "::before":
-      el.insertBefore(pseudo, el.firstChild)
-      break
-
-    /* Append pseudo after elements */
-    case "::after":
-      el.appendChild(pseudo)
-      break
-
-    /* Otherwise terminate with error */
-    default:
-      throw new TypeError(`Invalid type: ${inspect(type)}`)
+  pseudo.setAttribute("data-gs-type", type)
+  /* istanbul ignore else: checked through pseudo.style */
+  if (type === "::before") {
+    el.insertBefore(pseudo, el.firstChild)
+  } else if (type === "::after") {
+    el.appendChild(pseudo)
   }
 
   /* Load default styles for pseudo element except the display property */
@@ -136,25 +129,18 @@ export const mock = (el, type) => {
       }
     }
 
-  /* Create a random(-enough) identifier */
-  const id = +new Date
-  el.setAttribute("data-gs-id", `_${id}`)
-
-  /* Set display property on mocked stylesheet */
-  // stylesheet.append(stylesheet.TYPE.MOCK,
-  //   `[data-gs-id=_${id}] gs-pseudo`,
-  //     `display: ${styles.display} !important`)
-
-  const stylesheet = document.getElementById("post")
-  stylesheet.sheet.insertRule(
-    `[data-gs-id=_${id}] gs-pseudo { ` +
+  /* Set display property for mock - use a custom attribute for the identifier,
+     because there could be some styles applied to common attributes */
+  const index = stylesheet.cssRules.length
+  stylesheet.insertRule(
+    `gs-pseudo[data-gs-id=_${index}] { ` +
     `  display: ${styles.display} !important` +
-    "}")
+    "}", index)
 
-  /* Return mock */
+  /* Mark element as promoted */
+  el.setAttribute("data-gs-state", "mocked")
+
+  /* Link attribute to style rule and return mock */
+  pseudo.setAttribute("data-gs-id", `_${index}`)
   return pseudo
-}
-
-export const unmock = () => {
-  // TODO: unmock removes the replaced element...
 }

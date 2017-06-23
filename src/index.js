@@ -20,9 +20,12 @@
  * IN THE SOFTWARE.
  */
 
-import "core-js/modules/es6.promise"
 import "document-register-element"
+import "promise-polyfill"
 import "whatwg-fetch"
+
+/* Polyfill promise support */
+window.Promise = window.Promise || /* istanbul ignore next */ Promise
 
 /* ----------------------------------------------------------------------------
  * Exports

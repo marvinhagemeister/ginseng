@@ -69,9 +69,10 @@ export const offset = el => {
 
   /* Retrieve bounding boxes for element and parent */
   const inner = el.getBoundingClientRect()
-  const outer = typeof el.parentNode.getBoundingClientRect === "function"
-    ? el.parentNode.getBoundingClientRect()
-    : inner
+  const outer =
+    typeof el.parentNode.getBoundingClientRect === "function"
+      ? el.parentNode.getBoundingClientRect()
+      : inner
 
   /* Calculate relative offset to all sides */
   return {
