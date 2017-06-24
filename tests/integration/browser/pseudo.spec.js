@@ -161,7 +161,7 @@ function mockShouldSetPseudoElementContent() {
 function mockShouldSetPseudoElementStyles() {
   const el = fixture.el.querySelector(".mock")
   const mock = pseudo.mock(el, "::before", this.stylesheet)
-  expect(mock.style.background)
+  expect(mock.style.backgroundColor)
     .not.toEqual("")
 }
 

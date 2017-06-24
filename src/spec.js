@@ -24,20 +24,24 @@ import equal from "deep-equal"
 
 import * as dom from "./browser/dom"
 import * as element from "./browser/element"
+import * as pseudo from "./browser/pseudo"
 import inspect from "./util/inspect"
 
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
 
-// export const prepare = (el, children, style) => {
-//   ["::after", "::before"].forEach(type => {
-//     if (element.pseudo.visible(el, type)) {
-//       const mock = element.pseudo.mock(el, type)                             // TODO: element is returned...
-//       // check instance!
-//     }
-//   })
-// }
+/**
+ * Replace pseudo elements with mocks
+ *
+ * @param {Element} el - Element
+ * @param {Object} children - Extracted data for child elements
+ * @param {CSSStyleSheet} stylesheet - Stylesheet for activation
+ */
+export const replace = (el, children, stylesheet) => {
+  ["::after", "::before"].forEach(type =>
+    pseudo.mock(el, type, stylesheet))
+}
 
 /**
  * Extract the relevant data from an element
@@ -98,7 +102,27 @@ export default class Spec {
    * @return {Object} Data
    */
   capture() {
-    return this.data_ = dom.traverse(this.el_, extract)
+    const base = dom.root.appendChild(dom.create("style"))
+    base.textContent = require("./assets/base.scss")
+
+    /* Inject stylesheet for mocks and disable it */
+    const mock = dom.root.appendChild(dom.create("style"))
+    mock.textContent = require("./assets/mock.scss")
+    mock.sheet.disabled = true
+
+    /* Prepare pseudo elements */
+    dom.traverse(this.el_, replace, mock.sheet)
+
+    /* Enable stylesheet and extract relevant data */
+    mock.sheet.disabled = false
+    this.data_ = dom.traverse(this.el_, extract)
+
+    /* Remove stylesheets from DOM */
+    dom.root.removeChild(mock)
+    dom.root.removeChild(base)
+
+    /* Return captured data */
+    return this.data_
   }
 
   /**

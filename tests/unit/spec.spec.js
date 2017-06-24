@@ -281,7 +281,7 @@ function compareShouldUseCapturedData() {
   const spec = new Spec("sencha", ".compare")
   spec.capture()
   expect(dom.traverse.calls.count())
-    .toEqual(1)
+    .toEqual(2)
 }
 
 /* Test: #compare should capture data if not present */
@@ -291,5 +291,5 @@ function compareShouldCaptureDataIfNotPresent() {
   expect(spec.compare(data))
     .toBe(true)
   expect(dom.traverse.calls.count())
-    .toEqual(2)
+    .toEqual(4)
 }
