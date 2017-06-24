@@ -21,10 +21,10 @@
  */
 
 import "document-register-element"
-import Promise from "promise-polyfill"
 import "whatwg-fetch"
 
 /* Polyfill promise support */
+import Promise from "promise-polyfill"
 window.Promise = window.Promise || Promise
 
 /* ----------------------------------------------------------------------------
@@ -33,12 +33,13 @@ window.Promise = window.Promise || Promise
 
 /* Split according to test type */
 const regexp = new RegExp("(unit|integration)")
+const name = file =>
+  file.split(regexp)[2] + ["unit", "integration"].indexOf(file.split(regexp)[1])
 
 /* Load unit tests per component first, then integration tests */
 const tests = require.context("./", true, /\.spec\.js$/)
 tests.keys()
-  .sort((a, b) => a.split(regexp)[1].localeCompare(b.split(regexp)[1]) * -1)
-  .sort((a, b) => a.split(regexp)[2].localeCompare(b.split(regexp)[2]))
+  .sort((a, b) => name(a).localeCompare(name(b)))
   .forEach(tests)
 
 /* Load all sources */

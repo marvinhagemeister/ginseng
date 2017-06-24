@@ -37,6 +37,11 @@ describe("Browser", () => {
       fixture.setBase("fixtures/browser/pseudo")
     })
 
+    /* Register spies */
+    beforeEach(() => {
+      spyOn(window, "getComputedStyle")
+    })
+
     /* Cleanup fixtures */
     afterEach(() => {
       fixture.cleanup()
@@ -48,9 +53,6 @@ describe("Browser", () => {
       /* Load fixtures */
       beforeEach(() => {
         fixture.load("style.html")
-
-        /* Register spies and register spies */
-        spyOn(window, "getComputedStyle")
       })
 
       /* Test: should return computed styles */
@@ -94,21 +96,22 @@ describe("Browser", () => {
         /* Create stylesheet for testing */
         this.stylesheet = document.body.appendChild(
           document.createElement("style")).sheet
+        this.stylesheet.insertRule = jasmine.createSpy("insertRule")
       })
 
-      /* Test: should create mock for ::before pseudo element */
-      it("should create mock for ::before pseudo element",
-        mockShouldCreateMockForBeforePseudoElement
+      /* Test: should mock ::before pseudo element */
+      it("should mock ::before pseudo element",
+        mockShouldMockBeforePseudoElement
       )
 
-      /* Test: should create mock for ::after pseudo element */
-      it("should create mock for ::after pseudo element",
-        mockShouldCreateMockForAfterPseudoElement
+      /* Test: should mock ::after pseudo element */
+      it("should mock ::after pseudo element",
+        mockShouldMockAfterPseudoElement
       )
 
-      /* Test: should mark element as mocked */
-      it("should mark element as mocked",
-        mockShouldMarkElementAsMocked
+      /* Test: should mark element to contains mocks */
+      it("should mark element to contains mocks",
+        mockShouldMarkElementToContainMocks
       )
 
       /* Test: should use pseudo element tag */
@@ -121,27 +124,14 @@ describe("Browser", () => {
         mockShouldSetPseudoElementType
       )
 
-      /* Test: should set pseudo element content */
-      it("should set pseudo element content",
-        mockShouldSetPseudoElementContent
-      )
-
       /* Test: should set pseudo element identifier */
       it("should set pseudo element identifier",
         mockShouldSetPseudoElementIdentifier
       )
 
-      // TODO: test stylesheet.insertRule
-      // TODO: test for integration with background property.
-
-      /* Test: should skip empty pseudo element */
-      it("should skip empty pseudo element",
-        mockShouldSkipEmptyPseudoElement
-      )
-
-      /* Test: should skip non-displayed pseudo element */
-      it("should skip non-displayed pseudo element",
-        mockShouldSkipNonDisplayedPseudoElement
+      /* Test: should set styles on stylesheet */
+      it("should set styles on stylesheet",
+        mockShouldSetStylesOnStyleSheet
       )
 
       /* Test: should throw on invalid element */
@@ -211,24 +201,24 @@ function styleShouldThrowOnInvalidType() {
  * Definitions: .mock
  * ------------------------------------------------------------------------- */
 
-/* Test: .mock should create mock for ::before pseudo element */
-function mockShouldCreateMockForBeforePseudoElement() {
+/* Test: .mock should mock ::before pseudo element */
+function mockShouldMockBeforePseudoElement() {
   const el = fixture.el.querySelector(".mock")
   pseudo.mock(el, "::before", this.stylesheet)
   expect(el.insertBefore)
     .toHaveBeenCalledWith(jasmine.any(HTMLElement), el.firstChild)
 }
 
-/* Test: .mock should create mock for ::after pseudo element */
-function mockShouldCreateMockForAfterPseudoElement() {
+/* Test: .mock should mock ::after pseudo element */
+function mockShouldMockAfterPseudoElement() {
   const el = fixture.el.querySelector(".mock")
   pseudo.mock(el, "::after", this.stylesheet)
   expect(el.appendChild)
     .toHaveBeenCalledWith(jasmine.any(HTMLElement))
 }
 
-/* Test: .mock should mark element as mocked */
-function mockShouldMarkElementAsMocked() {
+/* Test: .mock should mark element to contain mocks */
+function mockShouldMarkElementToContainMocks() {
   const el = fixture.el.querySelector(".mock")
   pseudo.mock(el, "::before", this.stylesheet)
   expect(el.setAttribute)
@@ -251,14 +241,6 @@ function mockShouldSetPseudoElementType() {
     .toEqual("::before")
 }
 
-/* Test: .mock should set pseudo element content */
-function mockShouldSetPseudoElementContent() {
-  const el = fixture.el.querySelector(".mock")
-  const mock = pseudo.mock(el, "::before", this.stylesheet)
-  expect(mock.textContent)
-    .toEqual("before")
-}
-
 /* Test: .mock should set pseudo element identifier */
 function mockShouldSetPseudoElementIdentifier() {
   const el = fixture.el.querySelector(".mock")
@@ -267,18 +249,12 @@ function mockShouldSetPseudoElementIdentifier() {
     .toEqual("_0")
 }
 
-/* Test: .mock should skip empty pseudo element */
-function mockShouldSkipEmptyPseudoElement() {
-  const el = fixture.el.querySelector(".mock-empty")
-  expect(pseudo.mock(el, "::before", this.stylesheet))
-    .toBe(null)
-}
-
-/* Test: .mock should skip non-displayed pseudo element */
-function mockShouldSkipNonDisplayedPseudoElement() {
-  const el = fixture.el.querySelector(".mock-non-displayed")
-  expect(pseudo.mock(el, "::before", this.stylesheet))
-    .toBe(null)
+/* Test: .mock should set styles on stylesheet */
+function mockShouldSetStylesOnStyleSheet() {
+  const el = fixture.el.querySelector(".mock")
+  pseudo.mock(el, "::before", this.stylesheet)
+  expect(this.stylesheet.insertRule)
+    .toHaveBeenCalled()
 }
 
 /* Test: .mock should throw on invalid element */

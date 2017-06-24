@@ -36,7 +36,7 @@ export default class Suite {
    *
    * Theoretically, we could use for ... of, but this creates problems with
    * compatibility in Internet Explorer and Opera due to the dependency on
-   * Symbol.iterator. We could polyfill both, but this would increase the size
+   * Symbol.iterator. We could polyfill it, but this would increase the size
    * drastically and is pretty unnecessary to achieve the same outcome.
    *
    * @param {string} name - Suite name

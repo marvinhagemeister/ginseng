@@ -73,13 +73,32 @@ describe("Browser", () => {
       describe(".mock", () => {
 
         /* Load fixtures */
-        beforeEach(() => {
+        beforeEach(function() {
           fixture.load("mock.html")
+
+          /* Create stylesheet for testing */
+          this.stylesheet = document.body.appendChild(
+            document.createElement("style")).sheet
         })
 
-        /* Test: should do something */
-        it("should do something",
-          // mockShouldDoSomething
+        /* Test: should set pseudo element content */
+        it("should set pseudo element content",
+          mockShouldSetPseudoElementContent
+        )
+
+        /* Test: should set pseudo element styles */
+        it("should set pseudo element styles",
+          mockShouldSetPseudoElementStyles
+        )
+
+        /* Test: should skip empty pseudo element */
+        it("should skip empty pseudo element",
+          mockShouldSkipEmptyPseudoElement
+        )
+
+        /* Test: should skip non-displayed pseudo element */
+        it("should skip non-displayed pseudo element",
+          mockShouldSkipNonDisplayedPseudoElement
         )
       })
     })
@@ -130,23 +149,32 @@ function styleShouldReturnComputedStylesForAfterPseudoElement() {
  * Definitions: .mock
  * ------------------------------------------------------------------------- */
 
-// /* Test: .mock TODO */
-// function mockShouldDoSomething() {
-//
-//   const pre = document.createElement("style") // TODO: put attr here!?
-//   pre.id = "pre"
-//   document.body.appendChild(pre) // TODO: abstract document away!
-//   pre.textContent = require("~/src/assets/base.scss")
-//
-//   const post = document.createElement("style") // TODO: put attr here!?
-//   post.id = "post"
-//   post.textContent = require("~/src/assets/mock.scss")
-//   document.body.appendChild(post)
-//   post.sheet.disabled = true
-//
-//   pseudo.mock(fixture.el.querySelector(".mock"), "::before", post.sheet)
-//   pseudo.mock(fixture.el.querySelector(".mock"), "::after", post.sheet)
-//
-//   post.sheet.disabled = false
-//   console.log("DONE")
-// }
+/* Test: .mock should set pseudo element content */
+function mockShouldSetPseudoElementContent() {
+  const el = fixture.el.querySelector(".mock")
+  const mock = pseudo.mock(el, "::before", this.stylesheet)
+  expect(mock.textContent)
+    .toEqual("before")
+}
+
+/* Test: .mock should set pseudo element styles */
+function mockShouldSetPseudoElementStyles() {
+  const el = fixture.el.querySelector(".mock")
+  const mock = pseudo.mock(el, "::before", this.stylesheet)
+  expect(mock.style.background)
+    .not.toEqual("")
+}
+
+/* Test: .mock should skip empty pseudo element */
+function mockShouldSkipEmptyPseudoElement() {
+  const el = fixture.el.querySelector(".mock-empty")
+  expect(pseudo.mock(el, "::before", this.stylesheet))
+    .toBe(null)
+}
+
+/* Test: .mock should skip non-displayed pseudo element */
+function mockShouldSkipNonDisplayedPseudoElement() {
+  const el = fixture.el.querySelector(".mock-non-displayed")
+  expect(pseudo.mock(el, "::before", this.stylesheet))
+    .toBe(null)
+}

@@ -21,10 +21,10 @@
  */
 
 import "document-register-element"
-import Promise from "promise-polyfill"
 import "whatwg-fetch"
 
 /* Polyfill promise support */
+import Promise from "promise-polyfill"
 window.Promise = window.Promise || /* istanbul ignore next */ Promise
 
 /* ----------------------------------------------------------------------------

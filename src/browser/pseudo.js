@@ -81,8 +81,8 @@ export const style = (el, type) => {
 /**
  * Mock a pseudo element with an actual element
  *
- * This is necessary to read the size and position of an element, because this
- * cannot be read from pseudo elements directly.
+ * This is necessary to read the size and position of an element, because
+ * pseudo elements are not accessible via JavaScript.
  *
  * @param {Element} el - Element
  * @param {string} type - Pseudo element type
@@ -106,7 +106,7 @@ export const mock = (el, type, stylesheet) => {
   /* Create and insert mock */
   const pseudo = new HTMLGinsengPseudoElement()
   pseudo.setAttribute("data-gs-type", type)
-  /* istanbul ignore else: checked through pseudo.style */
+  /* istanbul ignore else: already checked through pseudo.style */
   if (type === "::before") {
     el.insertBefore(pseudo, el.firstChild)
   } else if (type === "::after") {
@@ -114,7 +114,7 @@ export const mock = (el, type, stylesheet) => {
   }
 
   /* Load default styles for pseudo element except the display property */
-  if (!defaults[type]) {
+  if (!(defaults[type] && Object.keys(defaults[type]).length)) {
     defaults[type] = style(pseudo, type)
     delete defaults[type].display
   }
@@ -137,7 +137,7 @@ export const mock = (el, type, stylesheet) => {
     `  display: ${styles.display} !important` +
     "}", index)
 
-  /* Mark element as promoted */
+  /* Mark element to contain mocks */
   el.setAttribute("data-gs-state", "mocked")
 
   /* Link attribute to style rule and return mock */

@@ -30,6 +30,9 @@ import inspect from "../util/inspect"
 /**
  * Retrieve the computed properties of an element
  *
+ * This function uses the implementation for pseudo elements, omitting the
+ * pseudo element type because it's the same otherwise.
+ *
  * @param {Element} el - Element
  *
  * @return {Object} Style rules
