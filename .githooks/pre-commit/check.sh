@@ -49,7 +49,7 @@ FILES=$(git diff --cached --name-only --diff-filter=ACMR | \
 if [ "$FILES" ]; then
 
   # If linter terminated with errors, abort commit
-  yarn run lint
+  npm run lint
   if [ $? -gt 0 ]; then
     echo -e "\x1B[31m✗\x1B[0m Linter - \x1B[31m$MESSAGE\x1B[0m"
     exit 1
