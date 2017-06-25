@@ -44,8 +44,12 @@ describe("Spec", () => {
 
   /* Register spies */
   beforeEach(() => {
-    spyOn(element, "style")
-      .and.returnValue("style")
+    spyOn(element, "attrs")
+      .and.returnValue("attrs")
+    spyOn(element, "size")
+      .and.returnValue("size")
+    spyOn(element, "offset")
+      .and.returnValue("offset")
     spyOn(dom, "traverse")
       .and.callFake((el, children, stylesheet) => {
         return stylesheet ? [] : "data"
@@ -217,17 +221,18 @@ function prepareShouldMergeChildren() {
 
 /* Test: .extract should return valid data */
 function extractShouldReturnValidData() {
-  // expect(extract(null, "children"))
-  //   .toEqual({
-  //     element: "style",
-  //     pseudo: {
-  //       before: "style",
-  //       after: "style"
-  //     },
-  //     children: "children"
-  //   })
-  // expect(element.style.calls.count())
-  //   .toEqual(3)
+  expect(extract({ tagName: "tag" }, "children"))
+    .toEqual({
+      element: {
+        tag: "tag",
+        attrs: "attrs",
+        props: {
+          size: "size",
+          offset: "offset"
+        }
+      },
+      children: "children"
+    })
 }
 
 /* ----------------------------------------------------------------------------
