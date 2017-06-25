@@ -23,10 +23,10 @@
 # Exit, if one command fails
 set -e
 
-# Check if "yarn install" was executed
-if [[ ! -d "$(yarn bin)" ]]; then
+# Check if "npm install" was executed
+if [[ ! -d "$(npm bin)" ]]; then
   echo "\"node_modules\" not found:"
-  echo "yarn install"
+  echo "npm install"
   exit 1
 fi
 
@@ -34,14 +34,14 @@ fi
 rm -rf dist
 
 # Lint sources
-"$(yarn bin)"/eslint --max-warnings 0 .
+"$(npm bin)"/eslint --max-warnings 0 .
 
 # Build library for production
-"$(yarn bin)"/cross-env NODE_ENV=production \
-  "$(yarn bin)"/webpack
+"$(npm bin)"/cross-env NODE_ENV=production \
+  "$(npm bin)"/webpack
 
 # Start test runner
-"$(yarn bin)"/karma start tests/karma.conf.js --single-run
+"$(npm bin)"/karma start tests/karma.conf.js --single-run
 
 # Upload coverage reports
-"$(yarn bin)"/codecov
+"$(npm bin)"/codecov

@@ -23,10 +23,10 @@
 # Exit, if one command fails
 set -e
 
-# Check if "yarn install" was executed
-if [[ ! -d "$(yarn bin)" ]]; then
+# Check if "npm install" was executed
+if [[ ! -d "$(npm bin)" ]]; then
   echo "\"node_modules\" not found:"
-  echo "yarn install"
+  echo "npm install"
   exit 1
 fi
 
@@ -34,5 +34,5 @@ fi
 rm -rf dist
 
 # Build library for production
-"$(yarn bin)"/cross-env NODE_ENV=production \
-  "$(yarn bin)"/webpack "$@"
+"$(npm bin)"/cross-env NODE_ENV=production \
+  "$(npm bin)"/webpack "$@"
