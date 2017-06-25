@@ -42,6 +42,25 @@ export const style = el => {
 }
 
 /**
+ * Retrieve the attributes of an element
+ *
+ * @param {Element} el - Element
+ *
+ * @return {Object<string,string>} Attributes
+ */
+export const attrs = el => {
+  if (!(el instanceof Element))
+    throw new TypeError(`Invalid element: ${inspect(el)}`)
+
+  /* Retrieve everything except the style attribute */
+  return Array.prototype.reduce.call(el.attributes, (result, attribute) => {
+    if (attribute.name !== "style")
+      result[attribute.name] = attribute.value
+    return result
+  }, {})
+}
+
+/**
  * Retrieve the size of an element
  *
  * @param {Element} el - Element

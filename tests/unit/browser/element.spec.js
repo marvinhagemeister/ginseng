@@ -60,6 +60,42 @@ describe("Browser", () => {
       )
     })
 
+    /* .attrs */
+    describe(".attrs", () => {
+
+      /* Load fixtures and register spies */
+      beforeEach(() => {
+        fixture.load("attrs.html")
+
+        /* Register spies */
+        spyOnProperty(fixture.el.firstElementChild, "attributes")
+          .and.returnValue([
+            {
+              name: "class",
+              value: "class"
+            },
+            {
+              name: "id",
+              value: "id"
+            },
+            {
+              name: "style",
+              value: "style"
+            }
+          ])
+      })
+
+      /* Test: should return attributes */
+      it("should return attributes",
+        attrsShouldReturnAttributes
+      )
+
+      /* Test: should throw on invalid element */
+      it("should throw on invalid element",
+        attrsShouldThrowOnInvalidElement
+      )
+    })
+
     /* .size */
     describe(".size", () => {
 
@@ -155,6 +191,27 @@ function styleShouldReturnComputedStylesForElement() {
 }
 
 /* ----------------------------------------------------------------------------
+ * Definitions: .attrs
+ * ------------------------------------------------------------------------- */
+
+/* Test: .attrs should return attributes */
+function attrsShouldReturnAttributes() {
+  expect(element.attrs(fixture.el.firstElementChild))
+    .toEqual({
+      class: "class",
+      id: "id"
+    })
+}
+
+/* Test: .attrs should throw on invalid element */
+function attrsShouldThrowOnInvalidElement() {
+  expect(() => {
+    element.attrs("invalid")
+  }).toThrow(
+    new TypeError("Invalid element: 'invalid'"))
+}
+
+/* ----------------------------------------------------------------------------
  * Definitions: .size
  * ------------------------------------------------------------------------- */
 
@@ -181,9 +238,9 @@ function sizeShouldReturnDimensionsForElementWithMargin() {
 /* Test: .size should throw on invalid element */
 function sizeShouldThrowOnInvalidElement() {
   expect(() => {
-    element.size(".no-match")
+    element.size("invalid")
   }).toThrow(
-    new TypeError("Invalid element: '.no-match'"))
+    new TypeError("Invalid element: 'invalid'"))
 }
 
 /* ----------------------------------------------------------------------------
@@ -217,7 +274,7 @@ function offsetShouldReturnOffsetsForElementWithMargin() {
 /* Test: .offset should throw on invalid element */
 function offsetShouldThrowOnInvalidElement() {
   expect(() => {
-    element.offset(".no-match")
+    element.offset("invalid")
   }).toThrow(
-    new TypeError("Invalid element: '.no-match'"))
+    new TypeError("Invalid element: 'invalid'"))
 }

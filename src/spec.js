@@ -35,12 +35,15 @@ import inspect from "./util/inspect"
  * Replace pseudo elements with mocks
  *
  * @param {Element} el - Element
- * @param {Object} children - Extracted data for child elements
+ * @param {Array<HTMLElement>} children - Child mocks
  * @param {CSSStyleSheet} stylesheet - Stylesheet for activation
+ *
+ * @return {Array<HTMLElement>} Mocks
  */
-export const replace = (el, children, stylesheet) => {
-  ["::after", "::before"].forEach(type =>
-    pseudo.mock(el, type, stylesheet))
+export const prepare = (el, children, stylesheet) => {
+  return ["::before", "::after"].reduce((result, type) => {
+    return [...result, pseudo.mock(el, type, stylesheet)].filter(Boolean)
+  }, []).concat(...children)
 }
 
 /**
@@ -52,15 +55,14 @@ export const replace = (el, children, stylesheet) => {
  * @return {Object} Relevant data
  */
 export const extract = (el, children) => {
-
-  // TODO: load pseudo styles and convert them, if they're visibile to read the
-  // layout/bounding box.
-
   return {
-    element: element.style(el),
-    pseudo: {
-      before: element.style(el, "::before"),
-      after: element.style(el, "::after")
+    element: {
+      tag: el.tagName,
+      attrs: element.attrs(el),
+      props: {
+        size: element.size(el),
+        offset: element.offset(el)
+      }
     },
     children
   }
@@ -111,13 +113,20 @@ export default class Spec {
     mock.sheet.disabled = true
 
     /* Prepare pseudo elements */
-    dom.traverse(this.el_, replace, mock.sheet)
-
-    /* Enable stylesheet and extract relevant data */
+    const els = dom.traverse(this.el_, prepare, mock.sheet)
     mock.sheet.disabled = false
-    this.data_ = dom.traverse(this.el_, extract)
 
-    /* Remove stylesheets from DOM */
+    /* Extract relevant data */
+    this.data_ = dom.traverse(this.el_, extract)
+    mock.sheet.disabled = true
+
+    /* Unmock and remove pseudo elements */
+    els.forEach(el => {
+      el.parentNode.removeAttribute("data-gs-state")
+      el.parentNode.removeChild(el)
+    })
+
+    /* Remove stylesheets */
     dom.root.removeChild(mock)
     dom.root.removeChild(base)
 

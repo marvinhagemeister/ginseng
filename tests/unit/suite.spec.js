@@ -415,7 +415,12 @@ function suiteShouldReturnExistingSuite() {
 function suiteShouldAcceptCallback(done) {
   const suite = new Suite("test")
   suite.suite("bancha", {}, subsuite => {
-    expect(subsuite).toEqual(suite.suites.bancha)
+    expect(subsuite)
+      .toEqual(jasmine.any(Suite))
+    expect(subsuite)
+      .not.toEqual(suite)
+    expect(subsuite)
+      .toEqual(suite.suites.bancha)
     done()
   })
 }

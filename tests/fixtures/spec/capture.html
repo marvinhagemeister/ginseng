@@ -1,5 +1,38 @@
+<style>
+  body {
+    width: 120px;
+    margin: 0;
+  }
+  .capture {
+    margin: 10px;
+    line-height: 18px;
+    background: yellow;
+  }
+  .capture::before {
+    display: block;
+    background: red;
+    content: "before";
+  }
+  .capture::after {
+    display: block;
+    background: green;
+    content: "after";
+  }
+  .capture > div::before {
+    display: block;
+    background: blue;
+    content: "before";
+  }
+  .capture > div > div::after {
+    display: block;
+    background: orange;
+    content: "after";
+  }
+</style>
 <div class="capture">
   <div>
-    <div></div>
+    <div>
+      element
+    </div>
   </div>
 </div>

@@ -103,18 +103,12 @@ export const mock = (el, type, stylesheet) => {
   if (styles.display === "none")
     return null
 
-  /* Create and insert mock */
+  /* Create mock for pseudo element */
   const pseudo = new HTMLGinsengPseudoElement()
   pseudo.setAttribute("data-gs-type", type)
-  /* istanbul ignore else: already checked through pseudo.style */
-  if (type === "::before") {
-    el.insertBefore(pseudo, el.firstChild)
-  } else if (type === "::after") {
-    el.appendChild(pseudo)
-  }
 
   /* Load default styles for pseudo element except the display property */
-  if (!(defaults[type] && Object.keys(defaults[type]).length)) {
+  if (!(defaults[type] && Object.keys(defaults[type]).length)) {                // TODO: this doesn't seem to work
     defaults[type] = style(pseudo, type)
     delete defaults[type].display
   }
@@ -137,8 +131,14 @@ export const mock = (el, type, stylesheet) => {
     `  display: ${styles.display} !important` +
     "}", index)
 
-  /* Mark element to contain mocks */
+  /* Mark element to contain mocks and insert mock */
   el.setAttribute("data-gs-state", "mocked")
+  /* istanbul ignore else: already checked through pseudo.style */
+  if (type === "::before") {
+    el.insertBefore(pseudo, el.firstChild)
+  } else if (type === "::after") {
+    el.appendChild(pseudo)
+  }
 
   /* Link attribute to style rule and return mock */
   pseudo.setAttribute("data-gs-id", `_${index}`)

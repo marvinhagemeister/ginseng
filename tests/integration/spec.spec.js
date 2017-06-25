@@ -66,7 +66,7 @@ describe("Spec", () => {
 
       /* Load fixtures */
       beforeEach(() => {
-        fixture.load("capture.html")
+        fixture.load("capture.html", "capture.json")
       })
 
       /* Test: should capture element and child elements */
@@ -102,15 +102,6 @@ function constructorShouldThrowOnInvalidSelector() {
 
 /* Test: #capture should capture element and child elements */
 function captureShouldCaptureElementAndChildElements() {
-  const data = new Spec("sencha", ".capture").capture()
-  const validate = item => {
-    return typeof item.element.display === "string" &&
-      typeof item.pseudo.before.display === "string" &&
-      typeof item.pseudo.after.display === "string" &&
-      item.children.reduce((result, element) => {
-        return result && validate(element)
-      }, true)
-  }
-  expect(validate(data))
-    .toBe(true)
+  expect(new Spec("sencha", ".capture").capture())
+    .toEqual(fixture.json[0])
 }

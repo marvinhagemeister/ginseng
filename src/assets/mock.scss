@@ -20,8 +20,12 @@
 /// DEALINGS
 ////
 
+// ----------------------------------------------------------------------------
+// Rules
+// ----------------------------------------------------------------------------
+
 // Hide actual pseudo elements
 [data-gs-state="mocked"]::before,
 [data-gs-state="mocked"]::after {
-  display: none !important
+  display: none !important;
 }

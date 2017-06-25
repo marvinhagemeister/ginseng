@@ -22,8 +22,10 @@
 
 import * as dom from "~/src/browser/dom"
 import * as element from "~/src/browser/element"
+import * as pseudo from "~/src/browser/pseudo"
 
 import {
+  prepare,
   extract,
   default as Spec
 } from "~/src/spec"
@@ -42,15 +44,40 @@ describe("Spec", () => {
 
   /* Register spies */
   beforeEach(() => {
-    spyOn(dom, "traverse")
-      .and.returnValue("data")
     spyOn(element, "style")
       .and.returnValue("style")
+    spyOn(dom, "traverse")
+      .and.callFake((el, children, stylesheet) => {
+        return stylesheet ? [] : "data"
+      })
+    spyOn(dom.root, "appendChild")
+      .and.returnValue({ sheet: { disabled: false } })
+    spyOn(dom.root, "removeChild")
   })
 
   /* Cleanup fixtures */
   afterEach(() => {
     fixture.cleanup()
+  })
+
+  /* .prepare */
+  describe(".prepare", () => {
+
+    /* Register spies */
+    beforeEach(() => {
+      spyOn(pseudo, "mock")
+        .and.callFake((el, type) => type)
+    })
+
+    /* Test: should mock pseudo elements */
+    it("should mock pseudo elements",
+      prepareShouldMockPseudoElements
+    )
+
+    /* Test: should merge children */
+    it("should merge children",
+      prepareShouldMergeChildren
+    )
   })
 
   /* .extract */
@@ -113,6 +140,11 @@ describe("Spec", () => {
       fixture.load("capture.html")
     })
 
+    /* Test: should initialize stylesheets */
+    it("should initialize stylesheets",
+      captureShouldInitializeStyleSheets
+    )
+
     /* Test: should traverse child elements */
     it("should traverse child elements",
       captureShouldTraverseChildElements
@@ -160,22 +192,42 @@ describe("Spec", () => {
 })
 
 /* ----------------------------------------------------------------------------
+ * Definitions: .prepare
+ * ------------------------------------------------------------------------- */
+
+/* Test: .prepare should mock pseudo elements */
+function prepareShouldMockPseudoElements() {
+  expect(prepare("genmaicha", [], "bancha"))
+    .toEqual(["::before", "::after"])
+  expect(pseudo.mock)
+    .toHaveBeenCalledWith("genmaicha", "::before", "bancha")
+  expect(pseudo.mock)
+    .toHaveBeenCalledWith("genmaicha", "::after", "bancha")
+}
+
+/* Test: .prepare should merge children */
+function prepareShouldMergeChildren() {
+  expect(prepare("genmaicha", ["oolong", "sencha"], "bancha"))
+    .toEqual(["::before", "::after", "oolong", "sencha"])
+}
+
+/* ----------------------------------------------------------------------------
  * Definitions: .extract
  * ------------------------------------------------------------------------- */
 
 /* Test: .extract should return valid data */
 function extractShouldReturnValidData() {
-  expect(extract(null, "children"))
-    .toEqual({
-      element: "style",
-      pseudo: {
-        before: "style",
-        after: "style"
-      },
-      children: "children"
-    })
-  expect(element.style.calls.count())
-    .toEqual(3)
+  // expect(extract(null, "children"))
+  //   .toEqual({
+  //     element: "style",
+  //     pseudo: {
+  //       before: "style",
+  //       after: "style"
+  //     },
+  //     children: "children"
+  //   })
+  // expect(element.style.calls.count())
+  //   .toEqual(3)
 }
 
 /* ----------------------------------------------------------------------------
@@ -208,7 +260,7 @@ function constructorShouldResolveSelector() {
 function constructorShouldInitializeData() {
   const spec = new Spec("sencha", ".constructor")
   expect(spec.data)
-    .toBeNull()
+    .toBe(null)
 }
 
 /* Test: #constructor should throw on empty name */
@@ -235,22 +287,34 @@ function constructorShouldThrowOnInvalidName() {
  * Definitions: #capture
  * ------------------------------------------------------------------------- */
 
+/* Test: #capture should initialize stylesheets */
+function captureShouldInitializeStyleSheets() {
+  new Spec("genmaicha", ".capture").capture()
+  expect(dom.root.appendChild.calls.count())
+    .toEqual(2)
+  expect(dom.root.removeChild.calls.count())
+    .toEqual(2)
+}
+
 /* Test: #capture should traverse child elements */
 function captureShouldTraverseChildElements() {
-  new Spec("genmaicha", ".capture").capture()
+  new Spec("oolong", ".capture").capture()
   expect(dom.traverse)
-    .toHaveBeenCalledWith(fixture.el.firstElementChild, extract)
+    .toHaveBeenCalledWith(fixture.el.lastElementChild, prepare,
+      jasmine.any(Object))
+  expect(dom.traverse)
+    .toHaveBeenCalledWith(fixture.el.lastElementChild, extract)
 }
 
 /* Test: #capture should return data */
 function captureShouldReturnData() {
-  expect(new Spec("oolong", ".capture").capture())
+  expect(new Spec("sencha", ".capture").capture())
     .toEqual("data")
 }
 
 /* Test: #capture should set data */
 function captureShouldSetData() {
-  const spec = new Spec("sencha", ".capture")
+  const spec = new Spec("bancha", ".capture")
   expect(spec.capture()).toEqual(spec.data)
   expect(spec.data)
     .toEqual("data")

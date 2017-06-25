@@ -59,6 +59,20 @@ describe("Browser", () => {
         )
       })
 
+      /* .attrs */
+      describe(".attrs", () => {
+
+        /* Load fixtures */
+        beforeEach(() => {
+          fixture.load("attrs.html")
+        })
+
+        /* Test: should return attributes */
+        it("should return attributes",
+          attrsShouldReturnAttributes
+        )
+      })
+
       /* .size */
       describe(".size", () => {
 
@@ -134,6 +148,20 @@ function styleShouldReturnComputedStylesForElement() {
     expect(data[property])
       .toEqual(styles[property])
   })
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .attrs
+ * ------------------------------------------------------------------------- */
+
+/* Test: .attrs should return attributes */
+function attrsShouldReturnAttributes() {
+  expect(element.attrs(fixture.el.firstElementChild))
+    .toEqual({
+      class: "attrs",
+      id: "attrs",
+      "data-gs-name": "value"
+    })
 }
 
 /* ----------------------------------------------------------------------------
