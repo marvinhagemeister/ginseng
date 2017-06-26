@@ -1,0 +1,43 @@
+<style>
+  body {
+    width: 120px;
+    margin: 0;
+  }
+  .sync {
+    margin: 10px;
+    line-height: 18px;
+    background: yellow;
+  }
+  .sync::before {
+    display: block;
+    background: red;
+    content: "before";
+  }
+  .sync::after {
+    display: block;
+    background: green;
+    content: "after";
+  }
+  .sync > div::before {
+    display: block;
+    background: blue;
+    content: "before";
+  }
+  .sync > div > div::after {
+    display: block;
+    background: orange;
+    content: "after";
+  }
+</style>
+<div class="sync sync-genmaicha">
+  <div>
+    <div>
+      element
+    </div>
+  </div>
+</div>
+<div class="sync sync-sencha">
+  <div>
+    element
+  </div>
+</div>

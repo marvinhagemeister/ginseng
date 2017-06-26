@@ -193,6 +193,20 @@ describe("Spec", () => {
       compareShouldCaptureDataIfNotPresent
     )
   })
+
+  /* #toJSON */
+  describe("#toJSON", () => {
+
+    /* Load fixtures */
+    beforeEach(() => {
+      fixture.load("to-json.html")
+    })
+
+    /* Test: should only return captured data */
+    it("should only return captured data",
+      toJSONShouldOnlyReturnCapturedData
+    )
+  })
 })
 
 /* ----------------------------------------------------------------------------
@@ -361,4 +375,16 @@ function compareShouldCaptureDataIfNotPresent() {
     .toBe(true)
   expect(dom.traverse.calls.count())
     .toEqual(4)
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: #toJSON
+ * ------------------------------------------------------------------------- */
+
+/* Test: #toJSON should only return captured data */
+function toJSONShouldOnlyReturnCapturedData() {
+  const spec = new Spec("genmaicha", ".to-json")
+  spec.capture()
+  expect(spec.toJSON())
+    .toBe(spec.data)
 }

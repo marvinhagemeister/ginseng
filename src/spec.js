@@ -146,6 +146,15 @@ export default class Spec {
   }
 
   /**
+   * Return JSON representation
+   *
+   * @return {Object} JSON representation
+   */
+  toJSON() {
+    return this.data_
+  }
+
+  /**
    * Retrieve specification name
    *
    * @return {string} Name

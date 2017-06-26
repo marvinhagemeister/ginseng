@@ -143,6 +143,18 @@ export default class Suite {
   }
 
   /**
+   * Return JSON representation
+   *
+   * @return {Object} JSON representation
+   */
+  toJSON() {
+    return {
+      specs: this.specs_,
+      suites: this.suites_
+    }
+  }
+
+  /**
    * Retrieve suite name
    *
    * @return {string} Suite name

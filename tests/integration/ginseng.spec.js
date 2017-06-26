@@ -30,15 +30,39 @@ import Suite from "~/src/suite"
 /* Ginseng */
 describe("Ginseng", () => {
 
+  /* Set fixture base path */
+  beforeAll(() => {
+    fixture.setBase("fixtures/ginseng")
+  })
+
+  /* Cleanup fixtures */
+  afterEach(() => {
+    fixture.cleanup()
+  })
+
   /* Integration tests */
   describe("_integration", () => {
 
     /* #init */
     describe("#init", () => {
 
-      /* Test: should fetch baseline from URL */
-      it("should init baseline from URL",
-        initShouldFetchBaselineFromURL
+      /* Test: should fetch baseline */
+      it("should fetch baseline",
+        initShouldFetchBaseline
+      )
+    })
+
+    /* #sync */
+    describe("#sync", () => {
+
+      /* Load fixtures */
+      beforeEach(() => {
+        fixture.load("sync.html")
+      })
+
+      /* Test: should store snapshot */
+      it("should store snapshot",
+        syncShouldStoreSnapshot
       )
     })
 
@@ -62,9 +86,28 @@ describe("Ginseng", () => {
  * Definitions: #init
  * ------------------------------------------------------------------------- */
 
-/* Test: #init should fetch baseline from URL */
-function initShouldFetchBaselineFromURL() {
+/* Test: #init should fetch baseline */
+function initShouldFetchBaseline() {
   pending()
+}
+
+// TODO: write a simple HTTP server for the karma integration here, we should
+// not use ginseng-node, as it's an extra dependency.
+
+/* ----------------------------------------------------------------------------
+ * Definitions: #sync
+ * ------------------------------------------------------------------------- */
+
+/* Test: #sync should store snapshot */
+function syncShouldStoreSnapshot() {
+  pending()
+  // const ginseng = new Ginseng({ url: "." })
+  // const suite = ginseng.suite()
+  // suite.capture("genmaicha", ".sync-genmaicha")
+  // const subsuite = suite.suite("oolong")
+  // subsuite.capture("sencha", ".sync-sencha")
+  // ginseng.sync()
+  // console.log(inspect(suite, null, 10))
 }
 
 /* ----------------------------------------------------------------------------

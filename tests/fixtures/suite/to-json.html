@@ -1,0 +1,43 @@
+<style>
+  body {
+    width: 120px;
+    margin: 0;
+  }
+  .to-json {
+    margin: 10px;
+    line-height: 18px;
+    background: yellow;
+  }
+  .to-json::before {
+    display: block;
+    background: red;
+    content: "before";
+  }
+  .to-json::after {
+    display: block;
+    background: green;
+    content: "after";
+  }
+  .to-json > div::before {
+    display: block;
+    background: blue;
+    content: "before";
+  }
+  .to-json > div > div::after {
+    display: block;
+    background: orange;
+    content: "after";
+  }
+</style>
+<div class="to-json to-json-genmaicha">
+  <div>
+    <div>
+      element
+    </div>
+  </div>
+</div>
+<div class="to-json to-json-sencha">
+  <div>
+    element
+  </div>
+</div>

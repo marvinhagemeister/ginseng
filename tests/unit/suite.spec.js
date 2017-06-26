@@ -188,6 +188,20 @@ describe("Suite", () => {
       suiteShouldThrowOnInvalidCallback
     )
   })
+
+  /* #toJSON */
+  describe("#toJSON", () => {
+
+    /* Load fixtures */
+    beforeEach(() => {
+      fixture.load("to-json.html")
+    })
+
+    /* Test: should only return specs and suites */
+    it("should only return specs and suites",
+      toJSONShouldOnlyReturnSpecsAndSuites
+    )
+  })
 })
 
 /* ----------------------------------------------------------------------------
@@ -447,4 +461,21 @@ function suiteShouldThrowOnInvalidCallback() {
     new Suite("first").suite("hojicha", {}, "")
   }).toThrow(
     new TypeError("Invalid callback"))
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: #toJSON
+ * ------------------------------------------------------------------------- */
+
+/* Test: #toJSON should only return specs and suites */
+function toJSONShouldOnlyReturnSpecsAndSuites() {
+  const suite = new Suite("test")
+  suite.capture("genmaicha", ".to-json-genmaicha")
+  const subsuite = suite.suite("oolong")
+  subsuite.capture("sencha", ".to-json-sencha")
+  expect(suite.toJSON())
+    .toEqual({
+      specs: suite.specs,
+      suites: suite.suites
+    })
 }

@@ -79,9 +79,29 @@ describe("Ginseng", () => {
       initShouldReturnPromise
     )
 
-    /* Test: should fetch baseline from URL */
-    it("should fetch baseline from URL",
-      initShouldFetchBaselineFromURL
+    /* Test: should fetch baseline */
+    it("should fetch baseline",
+      initShouldFetchBaseline
+    )
+  })
+
+  /* #sync */
+  describe("#sync", () => {
+
+    /* Register spies */
+    beforeEach(() => {
+      spyOn(request, "post")
+        .and.returnValue(Promise.resolve())
+    })
+
+    /* Test: should return promise */
+    it("should return promise",
+      syncShouldReturnPromise
+    )
+
+    /* Test: should store snapshot */
+    it("should store snapshot",
+      syncShouldStoreSnapshot
     )
   })
 
@@ -166,16 +186,37 @@ function initShouldReturnPromise() {
     .toEqual(jasmine.any(Promise))
 }
 
-/* Test: #init should fetch baseline from URL */
-function initShouldFetchBaselineFromURL(done) {
+/* Test: #init should fetch baseline */
+function initShouldFetchBaseline(done) {
   new Ginseng({ url: "." }).init()
     .then(suite => {
       expect(request.get)
         .toHaveBeenCalledWith("./baseline")
       expect(Suite.factory)
-        .toHaveBeenCalledWith("葠", { data: true })
+        .toHaveBeenCalledWith("人参", { data: true })
       expect(suite)
         .toEqual({ suite: true })
+      done()
+    })
+    .catch(done.fail)
+}
+
+/* ----------------------------------------------------------------------------
+ * Definitions: #sync
+ * ------------------------------------------------------------------------- */
+
+/* Test: #sync should return promise */
+function syncShouldReturnPromise() {
+  expect(new Ginseng({ url: "." }).sync())
+    .toEqual(jasmine.any(Promise))
+}
+
+/* Test: #sync should store snapshot */
+function syncShouldStoreSnapshot(done) {
+  new Ginseng({ url: "." }).sync()
+    .then(() => {
+      expect(request.post)
+        .toHaveBeenCalledWith("./snapshot", jasmine.any(Object))
       done()
     })
     .catch(done.fail)
@@ -190,6 +231,8 @@ function suiteShouldReturnTopLevelSuite() {
   const ginseng = new Ginseng({ url: "." })
   expect(ginseng.suite())
     .toEqual({ suite: true })
+  expect(Suite.factory)
+    .toHaveBeenCalledWith("人参")
 }
 
 /* Test: #suite should return existing top level suite */

@@ -55,13 +55,13 @@ export default class Ginseng {
         snapshot: options.url.replace(/\/*$/, "/snapshot")
       }
     }
+
+    /* Initialize top-level suite */
+    this.suite_ = {}
   }
 
   /**
-   * Fetch baseline from URL and initialize test suites
-   *
-   * The name of the top-level suite's is the Chinese character for Ginseng,
-   * Unicode code point U-8460, see http://bit.ly/2tMatTW
+   * Fetch baseline and initialize test suites
    *
    * @return {Promise<Suite>} Promise resolving with top-level suite
    */
@@ -69,17 +69,17 @@ export default class Ginseng {
     return request.get(this.options_.url.baseline)
       .then(res => res.json())
       .then(data => Promise.resolve((() => {
-        return this.suite_ = Suite.factory("葠", data)
+        return this.suite_ = Suite.factory("人参", data)
       })()))
   }
 
   /**
-   * Store gathered snapshots at URL
+   * Store gathered snapshots
    *
-   * @return {Promise<undefined>} Promise resolving with no result              // TODO: is this true? better <void>?
+   * @return {Promise<void>} Promise resolving with no result
    */
   sync() {
-    return request.post(this.options_.url.snapshot, {})                         // TODO: which data to post?
+    return request.post(this.options_.url.snapshot, this.suite_)
   }
 
   /**
@@ -89,7 +89,7 @@ export default class Ginseng {
    */
   suite() {
     if (!(this.suite_ instanceof Suite))
-      this.suite_ = Suite.factory("_ginseng")
+      this.suite_ = Suite.factory("人参")
     return this.suite_
   }
 
