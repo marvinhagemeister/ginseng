@@ -28,7 +28,7 @@
  * Super-lightweight value inspection
  *
  * util.inspect for the poor. However, it works reasonably well and does not
- * blow up the size of the built script by 15kb (minified!).
+ * blow up the size of the build by 15kb.
  *
  * @param {*} value - Value
  *

@@ -39,32 +39,32 @@ describe("util", () => {
 
     /* Test: should handle undefined */
     it("should handle undefined",
-      inspectShouldHandleUndefined,
+      inspectShouldHandleUndefined
     )
 
     /* Test: should handle number */
     it("should handle number",
-      inspectShouldHandleNumber,
+      inspectShouldHandleNumber
     )
 
     /* Test: should handle string */
     it("should handle string",
-      inspectShouldHandleString,
+      inspectShouldHandleString
     )
 
     /* Test: should handle empty string */
     it("should handle empty string",
-      inspectShouldHandleEmptyString,
+      inspectShouldHandleEmptyString
     )
 
     /* Test: should handle object */
     it("should handle object",
-      inspectShouldHandleObject,
+      inspectShouldHandleObject
     )
 
     /* Test: should handle function */
     it("should handle function",
-      inspectShouldHandleFunction,
+      inspectShouldHandleFunction
     )
   })
 })
