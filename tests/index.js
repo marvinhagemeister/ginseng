@@ -21,7 +21,7 @@
  */
 
 import "document-register-element"
-import "whatwg-fetch"
+import "unfetch/polyfill"
 
 /* Polyfill promise support */
 import Promise from "promise-polyfill"
