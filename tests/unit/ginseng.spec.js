@@ -23,10 +23,7 @@
 import * as request from "~/src/browser/request"
 
 import Suite from "~/src/suite"
-import {
-  OPTIONS,
-  default as Ginseng
-} from "~/src/ginseng"
+import Ginseng from "~/src/ginseng"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -38,19 +35,29 @@ describe("Ginseng", () => {
   /* #constructor */
   describe("#constructor", () => {
 
-    /* Test: should set default options */
-    it("should set default options",
-      constructorShouldSetDefaultOptions
+    /* Test: should set options */
+    it("should set options",
+      constructorShouldSetOptions
     )
 
-    /* Test: should merge with default options */
-    it("should merge with default options",
-      constructorShouldMergeWithDefaultOptions
+    /* Test: should ignore trailing slash in data binding URL */
+    it("should ignore trailing slash in data binding URL",
+      constructorShouldIgnoreTrailingSlashInDataBindingURL
     )
 
     /* Test: should throw on invalid options */
     it("should throw on invalid options",
       constructorShouldThrowOnInvalidOptions
+    )
+
+    /* Test: should throw on empty data binding URL */
+    it("should throw on empty data binding URL",
+      constructorShouldThrowOnEmptyDataBindingURL
+    )
+
+    /* Test: should throw on invalid data binding URL */
+    it("should throw on invalid data binding URL",
+      constructorShouldThrowOnInvalidDataBindingURL
     )
   })
 
@@ -67,9 +74,14 @@ describe("Ginseng", () => {
         .and.returnValue({ suite: true })
     })
 
-    /* Test: should fetch baseline from url */
-    it("should fetch baseline from url",
-      initShouldFetchBaselineFromUrl
+    /* Test: should return promise */
+    it("should return promise",
+      initShouldReturnPromise
+    )
+
+    /* Test: should fetch baseline from URL */
+    it("should fetch baseline from URL",
+      initShouldFetchBaselineFromURL
     )
   })
 
@@ -98,27 +110,26 @@ describe("Ginseng", () => {
  * Definitions: #constructor
  * ------------------------------------------------------------------------- */
 
-/* Test: #constructor should set default options */
-function constructorShouldSetDefaultOptions() {
-  const ginseng = new Ginseng()
-  expect(ginseng.options)
-    .toEqual(OPTIONS)
+/* Test: #constructor should set options */
+function constructorShouldSetOptions() {
+  expect(new Ginseng({ url: "http://localhost" }).options)
+    .toEqual({
+      url: {
+        baseline: "http://localhost/baseline",
+        snapshot: "http://localhost/snapshot"
+      }
+    })
 }
 
-/* Test: #constructor should merge with default options */
-function constructorShouldMergeWithDefaultOptions() {
-  const options = {
-    url: {
-      baseline: false,
-      snapshot: false,
-      genmaicha: {
-        data: true
+/* Test: #constructor should ignore trailing slash in data binding URL */
+function constructorShouldIgnoreTrailingSlashInDataBindingURL() {
+  expect(new Ginseng({ url: "http://localhost/" }).options)
+    .toEqual({
+      url: {
+        baseline: "http://localhost/baseline",
+        snapshot: "http://localhost/snapshot"
       }
-    }
-  }
-  const ginseng = new Ginseng(options)
-  expect(ginseng.options)
-    .toEqual(options)
+    })
 }
 
 /* Test: #constructor should throw on invalid options */
@@ -129,23 +140,45 @@ function constructorShouldThrowOnInvalidOptions() {
     new TypeError("Invalid options: ''"))
 }
 
+/* Test: #constructor should throw on empty data binding URL */
+function constructorShouldThrowOnEmptyDataBindingURL() {
+  expect(() => {
+    new Ginseng({ url: "" })
+  }).toThrow(
+    new TypeError("Invalid options.url: ''"))
+}
+
+/* Test: #constructor should throw on invalid data binding URL */
+function constructorShouldThrowOnInvalidDataBindingURL() {
+  expect(() => {
+    new Ginseng({})
+  }).toThrow(
+    new TypeError("Invalid options.url: undefined"))
+}
+
 /* ----------------------------------------------------------------------------
  * Definitions: #init
  * ------------------------------------------------------------------------- */
 
-/* Test: #init should fetch baseline from url */
-function initShouldFetchBaselineFromUrl(done) {
-  const options = { url: { baseline: true } }
-  const ginseng = new Ginseng(options)
-  ginseng.init().then(parent => {
-    expect(request.get)
-      .toHaveBeenCalledWith(options.url.baseline)
-    expect(Suite.factory)
-      .toHaveBeenCalledWith("_ginseng", { data: true })                         // TODO: put _ginseng in a constant
-    expect(parent)
-      .toEqual({ suite: true })
-    done()
-  })
+/* Test: #init should return promise */
+function initShouldReturnPromise() {
+  expect(new Ginseng({ url: "." }).init())
+    .toEqual(jasmine.any(Promise))
+}
+
+/* Test: #init should fetch baseline from URL */
+function initShouldFetchBaselineFromURL(done) {
+  new Ginseng({ url: "." }).init()
+    .then(suite => {
+      expect(request.get)
+        .toHaveBeenCalledWith("./baseline")
+      expect(Suite.factory)
+        .toHaveBeenCalledWith("葠", { data: true })
+      expect(suite)
+        .toEqual({ suite: true })
+      done()
+    })
+    .catch(done.fail)
 }
 
 /* ----------------------------------------------------------------------------
@@ -154,14 +187,14 @@ function initShouldFetchBaselineFromUrl(done) {
 
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
-  const ginseng = new Ginseng()
+  const ginseng = new Ginseng({ url: "." })
   expect(ginseng.suite())
     .toEqual({ suite: true })
 }
 
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
-  const ginseng = new Ginseng()
+  const ginseng = new Ginseng({ url: "." })
   expect(ginseng.suite())
     .toBe(ginseng.suite())
 }

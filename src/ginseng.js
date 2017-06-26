@@ -26,22 +26,6 @@ import inspect from "./util/inspect"
 import Suite from "./suite"
 
 /* ----------------------------------------------------------------------------
- * Defaults
- * ------------------------------------------------------------------------- */
-
-/**
- * Default options
- *
- * @type {Object}
- */
-export const OPTIONS = {
-  url: {
-    baseline: "http://localhost/baseline",
-    snapshot: "http://localhost/snapshot"
-  }
-}
-
-/* ----------------------------------------------------------------------------
  * Class
  * ------------------------------------------------------------------------- */
 
@@ -55,20 +39,29 @@ export default class Ginseng {
    * @property {Object} options_ - Options
    * @property {Suite} suite_ - Top-level suite
    *
-   * @param {Object} [options] - Options
+   * @param {Object} options - Options
+   * @param {string} options.url - URL for data binding
    */
-  constructor(options = {}) {
+  constructor(options) {
     if (typeof options !== "object")
       throw new TypeError(`Invalid options: ${inspect(options)}`)
+    if (typeof options.url !== "string" || !options.url.length)
+      throw new TypeError(`Invalid options.url: ${inspect(options.url)}`)
 
-    /* Merge options with defaults */
-    // this.options_ = Object.assign(OPTIONS, options)
-    // TODO: if options.url is given, prepend baseline and snapshot,
-    // if options.url is an object, merge
+    /* Configure data binding */
+    this.options_ = {
+      url: {
+        baseline: options.url.replace(/\/*$/, "/baseline"),
+        snapshot: options.url.replace(/\/*$/, "/snapshot")
+      }
+    }
   }
 
   /**
    * Fetch baseline from URL and initialize test suites
+   *
+   * The name of the top-level suite's is the Chinese character for Ginseng,
+   * Unicode code point U-8460, see http://bit.ly/2tMatTW
    *
    * @return {Promise<Suite>} Promise resolving with top-level suite
    */
@@ -76,17 +69,17 @@ export default class Ginseng {
     return request.get(this.options_.url.baseline)
       .then(res => res.json())
       .then(data => Promise.resolve((() => {
-        return this.suite_ = Suite.factory("_ginseng", data)                    // TODO: put this in common constant + load metadata (window width and height etc.)
+        return this.suite_ = Suite.factory("葠", data)
       })()))
   }
 
   /**
    * Store gathered snapshots at URL
    *
-   * @return {Promise<Suite>} Promise resolving with no result                  // TODO: is this true?
+   * @return {Promise<undefined>} Promise resolving with no result              // TODO: is this true? better <void>?
    */
   sync() {
-    return request.post(this.options_.url.snapshot)
+    return request.post(this.options_.url.snapshot, {})                         // TODO: which data to post?
   }
 
   /**

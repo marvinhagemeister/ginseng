@@ -36,9 +36,9 @@ describe("Ginseng", () => {
     /* #init */
     describe("#init", () => {
 
-      /* Test: should fetch baseline from url */
-      it("should init baseline from url",
-        initShouldFetchBaselineFromUrl
+      /* Test: should fetch baseline from URL */
+      it("should init baseline from URL",
+        initShouldFetchBaselineFromURL
       )
     })
 
@@ -62,8 +62,8 @@ describe("Ginseng", () => {
  * Definitions: #init
  * ------------------------------------------------------------------------- */
 
-/* Test: #init should fetch baseline from url */
-function initShouldFetchBaselineFromUrl() {
+/* Test: #init should fetch baseline from URL */
+function initShouldFetchBaselineFromURL() {
   pending()
 }
 
@@ -73,15 +73,14 @@ function initShouldFetchBaselineFromUrl() {
 
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
-  const ginseng = new Ginseng()
+  const ginseng = new Ginseng({ url: "." })
   expect(ginseng.suite())
     .toEqual(jasmine.any(Suite))
 }
 
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
-  const ginseng = new Ginseng()
-  const parent = ginseng.suite()
-  expect(parent)
+  const ginseng = new Ginseng({ url: "." })
+  expect(ginseng.suite())
     .toBe(ginseng.suite())
 }

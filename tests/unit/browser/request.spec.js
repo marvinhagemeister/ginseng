@@ -52,14 +52,14 @@ describe("Browser", () => {
         getShouldFetchData
       )
 
-      /* Test: should throw on empty url */
-      it("should throw on empty url",
-        getShouldThrowOnEmptyUrl
+      /* Test: should throw on empty URL */
+      it("should throw on empty URL",
+        getShouldThrowOnEmptyURL
       )
 
-      /* Test: should throw on invalid url */
-      it("should throw on invalid url",
-        getShouldThrowOnInvalidUrl
+      /* Test: should throw on invalid URL */
+      it("should throw on invalid URL",
+        getShouldThrowOnInvalidURL
       )
     })
 
@@ -88,14 +88,14 @@ describe("Browser", () => {
         postShouldStoreJsonData
       )
 
-      /* Test: should throw on empty url */
-      it("should throw on empty url",
-        postShouldThrowOnEmptyUrl
+      /* Test: should throw on empty URL */
+      it("should throw on empty URL",
+        postShouldThrowOnEmptyURL
       )
 
-      /* Test: should throw on invalid url */
-      it("should throw on invalid url",
-        postShouldThrowOnInvalidUrl
+      /* Test: should throw on invalid URL */
+      it("should throw on invalid URL",
+        postShouldThrowOnInvalidURL
       )
     })
   })
@@ -106,11 +106,8 @@ describe("Browser", () => {
  * ------------------------------------------------------------------------- */ // TODO: check failed request/rejected promises
 
 /* Test: .get should return promise */
-function getShouldReturnPromise(done) {
-  expect(request.get("url")
-    .then(done)
-    .catch(done)
-  )
+function getShouldReturnPromise() {
+  expect(request.get("url"))
     .toEqual(jasmine.any(Promise))
 }
 
@@ -130,8 +127,8 @@ function getShouldFetchData(done) {
     .catch(done.fail)
 }
 
-/* Test: .get should throw on empty url */
-function getShouldThrowOnEmptyUrl() {
+/* Test: .get should throw on empty URL */
+function getShouldThrowOnEmptyURL() {
   expect(() => {
     request.get("")
   }).toThrow(
@@ -140,8 +137,8 @@ function getShouldThrowOnEmptyUrl() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: .get should throw on invalid url */
-function getShouldThrowOnInvalidUrl() {
+/* Test: .get should throw on invalid URL */
+function getShouldThrowOnInvalidURL() {
   expect(() => {
     request.get(null)
   }).toThrow(
@@ -155,11 +152,8 @@ function getShouldThrowOnInvalidUrl() {
  * ------------------------------------------------------------------------- */
 
 /* Test: .post should return promise */
-function postShouldReturnPromise(done) {
-  expect(request.post("url", "test")
-    .then(done)
-    .catch(done)
-  )
+function postShouldReturnPromise() {
+  expect(request.post("url", "test"))
     .toEqual(jasmine.any(Promise))
 }
 
@@ -201,8 +195,8 @@ function postShouldStoreJsonData(done) {
     .catch(done.fail)
 }
 
-/* Test: .post should throw on empty url */
-function postShouldThrowOnEmptyUrl() {
+/* Test: .post should throw on empty URL */
+function postShouldThrowOnEmptyURL() {
   expect(() => {
     request.post("")
   }).toThrow(
@@ -211,8 +205,8 @@ function postShouldThrowOnEmptyUrl() {
     .not.toHaveBeenCalled()
 }
 
-/* Test: .post should throw on invalid url */
-function postShouldThrowOnInvalidUrl() {
+/* Test: .post should throw on invalid URL */
+function postShouldThrowOnInvalidURL() {
   expect(() => {
     request.post(null)
   }).toThrow(
