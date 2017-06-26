@@ -20,8 +20,6 @@
  * IN THE SOFTWARE.
  */
 
-import merge from "deepmerge"
-
 import * as request from "./browser/request"
 import inspect from "./util/inspect"
 
@@ -32,13 +30,14 @@ import Suite from "./suite"
  * ------------------------------------------------------------------------- */
 
 /**
- * Default configuration/options
+ * Default options
  *
  * @type {Object}
  */
-export const config = {
+export const OPTIONS = {
   url: {
-    baseline: "http://localhost:80/"
+    baseline: "http://localhost/baseline",
+    snapshot: "http://localhost/snapshot"
   }
 }
 
@@ -63,20 +62,31 @@ export default class Ginseng {
       throw new TypeError(`Invalid options: ${inspect(options)}`)
 
     /* Merge options with defaults */
-    this.options_ = merge(config, options)
+    // this.options_ = Object.assign(OPTIONS, options)
+    // TODO: if options.url is given, prepend baseline and snapshot,
+    // if options.url is an object, merge
   }
 
   /**
-   * Fetch baseline from url and initialize test suites
+   * Fetch baseline from URL and initialize test suites
    *
    * @return {Promise<Suite>} Promise resolving with top-level suite
    */
-  fetch() {
-    return request.get(this.options_.url.baseline)                              // TODO: maybe we should call that "init/sync" --> baseline => init/sync
+  init() {
+    return request.get(this.options_.url.baseline)
       .then(res => res.json())
-      .then(data => Promise.resolve((() => {                                    // TODO: factory + prepare
-        return this.suite_ = Suite.factory("_ginseng", data)                    // TODO: put this in common constant
+      .then(data => Promise.resolve((() => {
+        return this.suite_ = Suite.factory("_ginseng", data)                    // TODO: put this in common constant + load metadata (window width and height etc.)
       })()))
+  }
+
+  /**
+   * Store gathered snapshots at URL
+   *
+   * @return {Promise<Suite>} Promise resolving with no result                  // TODO: is this true?
+   */
+  sync() {
+    return request.post(this.options_.url.snapshot)
   }
 
   /**
