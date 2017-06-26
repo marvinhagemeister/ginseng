@@ -84,6 +84,9 @@ export const style = (el, type) => {
  * This is necessary to read the size and position of an element, because
  * pseudo elements are not accessible via JavaScript.
  *
+ * We use the attributes API (and not dataset) so we don't have to polyfill
+ * browser support on this, which is quite patchy anyway.
+ *
  * @param {Element} el - Element
  * @param {string} type - Pseudo element type
  * @param {CSSStyleSheet} stylesheet - Stylesheet for activation

@@ -33,12 +33,12 @@ describe("Ginseng", () => {
   /* Integration tests */
   describe("_integration", () => {
 
-    /* #fetch */
-    describe("#fetch", () => {
+    /* #init */
+    describe("#init", () => {
 
       /* Test: should fetch baseline from url */
-      it("should fetch baseline from url",
-        fetchShouldFetchBaselineFromUrl
+      it("should init baseline from url",
+        initShouldFetchBaselineFromUrl
       )
     })
 
@@ -59,11 +59,11 @@ describe("Ginseng", () => {
 })
 
 /* ----------------------------------------------------------------------------
- * Definitions: #fetch
+ * Definitions: #init
  * ------------------------------------------------------------------------- */
 
-/* Test: #fetch should fetch baseline from url */
-function fetchShouldFetchBaselineFromUrl() {
+/* Test: #init should fetch baseline from url */
+function initShouldFetchBaselineFromUrl() {
   pending()
 }
 

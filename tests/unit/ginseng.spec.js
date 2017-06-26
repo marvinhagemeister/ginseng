@@ -24,7 +24,7 @@ import * as request from "~/src/browser/request"
 
 import Suite from "~/src/suite"
 import {
-  config,
+  OPTIONS,
   default as Ginseng
 } from "~/src/ginseng"
 
@@ -54,8 +54,8 @@ describe("Ginseng", () => {
     )
   })
 
-  /* #fetch */
-  describe("#fetch", () => {
+  /* #init */
+  describe("#init", () => {
 
     /* Register spies */
     beforeEach(() => {
@@ -69,7 +69,7 @@ describe("Ginseng", () => {
 
     /* Test: should fetch baseline from url */
     it("should fetch baseline from url",
-      fetchShouldFetchBaselineFromUrl
+      initShouldFetchBaselineFromUrl
     )
   })
 
@@ -102,7 +102,7 @@ describe("Ginseng", () => {
 function constructorShouldSetDefaultOptions() {
   const ginseng = new Ginseng()
   expect(ginseng.options)
-    .toEqual(config)
+    .toEqual(OPTIONS)
 }
 
 /* Test: #constructor should merge with default options */
@@ -110,6 +110,7 @@ function constructorShouldMergeWithDefaultOptions() {
   const options = {
     url: {
       baseline: false,
+      snapshot: false,
       genmaicha: {
         data: true
       }
@@ -129,14 +130,14 @@ function constructorShouldThrowOnInvalidOptions() {
 }
 
 /* ----------------------------------------------------------------------------
- * Definitions: #fetch
+ * Definitions: #init
  * ------------------------------------------------------------------------- */
 
-/* Test: #fetch should fetch baseline from url */
-function fetchShouldFetchBaselineFromUrl(done) {
+/* Test: #init should fetch baseline from url */
+function initShouldFetchBaselineFromUrl(done) {
   const options = { url: { baseline: true } }
   const ginseng = new Ginseng(options)
-  ginseng.fetch().then(parent => {
+  ginseng.init().then(parent => {
     expect(request.get)
       .toHaveBeenCalledWith(options.url.baseline)
     expect(Suite.factory)
