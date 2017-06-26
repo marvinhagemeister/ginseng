@@ -23,3 +23,7 @@
 
 # Coverage reports
 /coverage
+
+# Configuration files in ES5
+/tests/karma.conf.js
+/webpack.config.js

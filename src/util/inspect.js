@@ -21,7 +21,26 @@
  */
 
 /* ----------------------------------------------------------------------------
- * Exports
+ * Functions
  * ------------------------------------------------------------------------- */
 
-export { default } from "util-inspect"
+/**
+ * Super-lightweight value inspection
+ *
+ * util.inspect for the poor. However, it works reasonably well and does not
+ * blow up the size of the built script by 15kb (minified!).
+ *
+ * @param {*} value - Value
+ *
+ * @return {string} Stringified value
+ */
+export default value => {
+  if (value === null || ["undefined", "number"].indexOf(typeof value) !== -1)
+    return `${value}`
+  else if (typeof value === "string")
+    return `'${value}'`
+  else if (typeof value === "object")
+    return JSON.stringify(value, null, 2).replace(/\s+/g, " ")
+  else
+    return value.toString().replace(/\s+/g, " ")
+}

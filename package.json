@@ -65,10 +65,6 @@
     "promise-polyfill": "^6.0.2",
     "sass-loader": "^6.0.5",
     "unfetch": "^2.1.2",
-    "util-inspect": "^0.1.8",
     "webpack": "^3.0.0"
-  },
-  "peerDependencies": {
-    "ginseng-node": "*"
   }
 }
