@@ -230,7 +230,7 @@ function syncShouldReturnPromise() {
 /* Test: #sync should store snapshot */
 function syncShouldStoreSnapshot(done) {
   const ginseng = new Ginseng()
-  const suite = ginseng.suite()
+  const suite = ginseng.suite
   ginseng.sync()
     .then(() => {
       expect(request.post)
@@ -247,7 +247,7 @@ function syncShouldStoreSnapshot(done) {
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
   const ginseng = new Ginseng()
-  expect(ginseng.suite())
+  expect(ginseng.suite)
     .toEqual({ suite: true })
   expect(Suite.factory)
     .toHaveBeenCalledWith("人参")
@@ -256,6 +256,6 @@ function suiteShouldReturnTopLevelSuite() {
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
   const ginseng = new Ginseng()
-  expect(ginseng.suite())
-    .toBe(ginseng.suite())
+  expect(ginseng.suite)
+    .toBe(ginseng.suite)
 }

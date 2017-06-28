@@ -101,7 +101,7 @@ export default class Ginseng {
    *
    * @return {Suite} Top-level suite
    */
-  suite() {
+  get suite() {
     if (!(this.suite_ instanceof Suite))
       this.suite_ = Suite.factory("人参")
     return this.suite_

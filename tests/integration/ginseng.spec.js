@@ -94,7 +94,7 @@ describe("Ginseng", () => {
 /* Test: #init should fetch baseline */
 function initShouldFetchBaseline(done) {
   const ginseng = new Ginseng()
-  const suite = ginseng.suite()
+  const suite = ginseng.suite
   expect(suite.capture("genmaicha", ".init-genmaicha"))
     .toEqual(false)
   expect(suite.capture("sencha", ".init-sencha"))
@@ -118,7 +118,7 @@ function initShouldFetchBaseline(done) {
 /* Test: #sync should store snapshot */
 function syncShouldStoreSnapshot(done) {
   const ginseng = new Ginseng()
-  const suite = ginseng.suite()
+  const suite = ginseng.suite
   expect(suite.capture("genmaicha", ".sync-genmaicha"))
     .toEqual(false)
   expect(suite.capture("sencha", ".sync-sencha"))
@@ -139,13 +139,13 @@ function syncShouldStoreSnapshot(done) {
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
   const ginseng = new Ginseng()
-  expect(ginseng.suite())
+  expect(ginseng.suite)
     .toEqual(jasmine.any(Suite))
 }
 
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
   const ginseng = new Ginseng()
-  expect(ginseng.suite())
-    .toBe(ginseng.suite())
+  expect(ginseng.suite)
+    .toBe(ginseng.suite)
 }
