@@ -136,7 +136,7 @@ module.exports = karma => {
     /* Enable short reports and code coverage */
     config.reporters = [
       process.env.CI || process.env.SAUCE
-        ? "dots"
+        ? "summary"
         : "spec",
       "coverage-istanbul"
     ]
