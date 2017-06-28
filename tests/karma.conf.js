@@ -37,15 +37,16 @@ const path = require("path")
  */
 const middleware = () => {
   const json = body.json()
-  let data = {}
+  const data = {}
 
   /* Return dummy middleware */
   return (req, res, next) => {
     json(req, res, () => {
+      const scope = req.headers["user-agent"]
 
       /* Persist snapshot */
       if (req.method === "POST") {
-        data = req.body
+        data[scope] = req.body
         res.statusCode = 201 // Created
         res.end()
 
@@ -53,7 +54,7 @@ const middleware = () => {
       } else if (req.method === "GET") {
         res.statusCode = 200 // OK
         res.setHeader("Content-Type", "application/json")
-        res.end(JSON.stringify(data))
+        res.end(JSON.stringify(data[scope] || {}))
 
       /* Pass request to next middleware */
       } else {
