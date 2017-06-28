@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  */
 
+"use strict"
+
 const body = require("body-parser")
 const moniker = require("moniker")
 const path = require("path")
