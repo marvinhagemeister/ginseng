@@ -76,7 +76,8 @@ module.exports = karma => {
   const config = {
     frameworks: [
       "fixture",
-      "jasmine"
+      "jasmine",
+      "jasmine-diff"
     ],
 
     /* Include fixtures and tests */

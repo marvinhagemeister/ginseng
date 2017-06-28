@@ -56,6 +56,7 @@
     "karma-fixture": "^0.2.6",
     "karma-html2js-preprocessor": "^1.1.0",
     "karma-jasmine": "^1.1.0",
+    "karma-jasmine-diff": "^0.1.1",
     "karma-json-fixtures-preprocessor": "^0.0.6",
     "karma-sauce-launcher": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
