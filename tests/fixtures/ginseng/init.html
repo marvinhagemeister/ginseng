@@ -1,0 +1,43 @@
+<style>
+  body {
+    width: 120px;
+    margin: 0;
+  }
+  .init {
+    margin: 10px;
+    line-height: 18px;
+    background: yellow;
+  }
+  .init::before {
+    display: block;
+    background: red;
+    content: "before";
+  }
+  .init::after {
+    display: block;
+    background: green;
+    content: "after";
+  }
+  .init > div::before {
+    display: block;
+    background: blue;
+    content: "before";
+  }
+  .init > div > div::after {
+    display: block;
+    background: orange;
+    content: "after";
+  }
+</style>
+<div class="init init-genmaicha">
+  <div>
+    <div>
+      element
+    </div>
+  </div>
+</div>
+<div class="init init-sencha">
+  <div>
+    element
+  </div>
+</div>

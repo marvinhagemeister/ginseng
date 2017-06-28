@@ -103,7 +103,7 @@ describe("Browser", () => {
 
 /* ----------------------------------------------------------------------------
  * Definitions: .get
- * ------------------------------------------------------------------------- */ // TODO: check failed request/rejected promises
+ * ------------------------------------------------------------------------- */
 
 /* Test: .get should return promise */
 function getShouldReturnPromise() {

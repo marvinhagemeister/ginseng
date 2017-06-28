@@ -142,7 +142,7 @@ export default class Spec {
    * @return {Boolean} Comparison result
    */
   compare(baseline) {
-    return equal(baseline, this.data_ || this.capture())                        // TODO: validate baseline
+    return equal(baseline, this.data_ || this.capture())                        // TODO: validate baseline format
   }
 
   /**

@@ -31,7 +31,7 @@ import inspect from "../util/inspect"
  *
  * @param {string} url - URL
  *
- * @return {Response} Response
+ * @return {Promise<Response>} Promise resolving with response
  */
 export const get = url => {
   if (typeof url !== "string" || !url.length)
@@ -50,7 +50,7 @@ export const get = url => {
  * @param {string} url - URL
  * @param {(string|Object)} data - Payload
  *
- * @return {Response} Response
+ * @return {Promise<Response>} Promise resolving with response
  */
 export const post = (url, data) => {
   if (typeof url !== "string" || !url.length)

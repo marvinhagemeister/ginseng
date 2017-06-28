@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 
-// import * as request from "~/src/browser/request"
+import * as request from "~/src/browser/request"
 
 /* ----------------------------------------------------------------------------
  * Declarations
@@ -61,12 +61,15 @@ describe("Browser", () => {
  * ------------------------------------------------------------------------- */
 
 /* Test: .get should fetch data */
-function getShouldFetchData() {
-  pending()
-  // request.get("/test").then(res => {
-  //   console.log(res)
-  //   done()
-  // })
+function getShouldFetchData(done) {
+  request.get("/_ginseng")
+    .then(res => res.json())
+    .then(data => {
+      expect(data)
+        .toEqual(jasmine.any(Object))
+      done()
+    })
+    .catch(done.fail)
 }
 
 /* ----------------------------------------------------------------------------
@@ -74,6 +77,8 @@ function getShouldFetchData() {
  * ------------------------------------------------------------------------- */
 
 /* Test: .post should store data */
-function postShouldStoreData() {
-  pending()
+function postShouldStoreData(done) {
+  request.post("/_ginseng", { data: true })
+    .then(done)
+    .catch(done.fail)
 }

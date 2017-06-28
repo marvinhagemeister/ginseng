@@ -46,6 +46,11 @@ describe("Ginseng", () => {
     /* #init */
     describe("#init", () => {
 
+      /* Load fixtures */
+      beforeEach(() => {
+        fixture.load("init.html")
+      })
+
       /* Test: should fetch baseline */
       it("should fetch baseline",
         initShouldFetchBaseline
@@ -87,27 +92,44 @@ describe("Ginseng", () => {
  * ------------------------------------------------------------------------- */
 
 /* Test: #init should fetch baseline */
-function initShouldFetchBaseline() {
-  pending()
+function initShouldFetchBaseline(done) {
+  const ginseng = new Ginseng()
+  const suite = ginseng.suite()
+  expect(suite.capture("genmaicha", ".init-genmaicha"))
+    .toEqual(false)
+  expect(suite.capture("sencha", ".init-sencha"))
+    .toEqual(false)
+  ginseng.sync()
+    .then(() => ginseng.init())
+    .then(newsuite => {
+      expect(newsuite.capture("genmaicha", ".init-genmaicha"))
+        .toEqual(true)
+      expect(newsuite.capture("sencha", ".init-sencha"))
+        .toEqual(true)
+      done()
+    })
+    .catch(done.fail)
 }
-
-// TODO: write a simple HTTP server for the karma integration here, we should
-// not use ginseng-node, as it's an extra dependency.
 
 /* ----------------------------------------------------------------------------
  * Definitions: #sync
  * ------------------------------------------------------------------------- */
 
 /* Test: #sync should store snapshot */
-function syncShouldStoreSnapshot() {
-  pending()
-  // const ginseng = new Ginseng({ url: "." })
-  // const suite = ginseng.suite()
-  // suite.capture("genmaicha", ".sync-genmaicha")
-  // const subsuite = suite.suite("oolong")
-  // subsuite.capture("sencha", ".sync-sencha")
-  // ginseng.sync()
-  // console.log(inspect(suite, null, 10))
+function syncShouldStoreSnapshot(done) {
+  const ginseng = new Ginseng()
+  const suite = ginseng.suite()
+  expect(suite.capture("genmaicha", ".sync-genmaicha"))
+    .toEqual(false)
+  expect(suite.capture("sencha", ".sync-sencha"))
+    .toEqual(false)
+  ginseng.sync()
+    .then(res => {
+      expect(res)
+        .toBe(undefined)
+      done()
+    })
+    .catch(done.fail)
 }
 
 /* ----------------------------------------------------------------------------
@@ -116,14 +138,14 @@ function syncShouldStoreSnapshot() {
 
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
-  const ginseng = new Ginseng({ url: "." })
+  const ginseng = new Ginseng()
   expect(ginseng.suite())
     .toEqual(jasmine.any(Suite))
 }
 
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
-  const ginseng = new Ginseng({ url: "." })
+  const ginseng = new Ginseng()
   expect(ginseng.suite())
     .toBe(ginseng.suite())
 }

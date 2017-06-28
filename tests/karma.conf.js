@@ -20,15 +20,52 @@
  * IN THE SOFTWARE.
  */
 
-// const middleware = require("ginseng-connect").middleware
+const body = require("body-parser")
 const moniker = require("moniker")
 const path = require("path")
+
+/* ----------------------------------------------------------------------------
+ * Functions
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Dummy middleware which only remembers the last snapshot
+ *
+ * @return {Function} Middleware
+ */
+const middleware = () => {
+  const json = body.json()
+  let data = {}
+
+  /* Return dummy middleware */
+  return (req, res, next) => {
+    json(req, res, () => {
+
+      /* Persist snapshot */
+      if (req.method === "POST") {
+        data = req.body
+        res.statusCode = 201 // Created
+        res.end()
+
+      /* Retrieve snapshot */
+      } else if (req.method === "GET") {
+        res.statusCode = 200 // OK
+        res.setHeader("Content-Type", "application/json")
+        res.end(JSON.stringify(data))
+
+      /* Pass request to next middleware */
+      } else {
+        next()
+      }
+    })
+  }
+}
 
 /* ----------------------------------------------------------------------------
  * Configuration
  * ------------------------------------------------------------------------- */
 
-module.exports = function(karma) {
+module.exports = karma => {
   const webpack = require(
     path.resolve(__dirname, "../webpack.config.js"))()
 
@@ -63,15 +100,15 @@ module.exports = function(karma) {
     /* Webpack configuration */
     webpack,
 
-    // /* Plugins */
-    // plugins: (karma.plugins || []).concat([
-    //   { "middleware:ginseng": ["value", middleware()] }
-    // ]),
-    //
-    // /* Middlewares */
-    // middleware: (karma.middleware || []).concat([
-    //   "ginseng"
-    // ]),
+    /* Plugins */
+    plugins: (karma.plugins || []).concat([
+      { "middleware:ginseng": ["value", middleware()] }
+    ]),
+
+    /* Middleware for testing */
+    middleware: (karma.middleware || []).concat([
+      "ginseng"
+    ]),
 
     /* Test reporters */
     reporters: ["spec"],

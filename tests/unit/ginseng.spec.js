@@ -40,6 +40,11 @@ describe("Ginseng", () => {
       constructorShouldSetOptions
     )
 
+    /* Test: should use default options */
+    it("should use default options",
+      constructorShouldUseDefaultOptions
+    )
+
     /* Test: should ignore trailing slash in data binding URL */
     it("should ignore trailing slash in data binding URL",
       constructorShouldIgnoreTrailingSlashInDataBindingURL
@@ -91,7 +96,7 @@ describe("Ginseng", () => {
     /* Register spies */
     beforeEach(() => {
       spyOn(request, "post")
-        .and.returnValue(Promise.resolve())
+        .and.returnValue(Promise.resolve({ ok: true }))
     })
 
     /* Test: should return promise */
@@ -132,22 +137,33 @@ describe("Ginseng", () => {
 
 /* Test: #constructor should set options */
 function constructorShouldSetOptions() {
-  expect(new Ginseng({ url: "http://localhost" }).options)
+  expect(new Ginseng({ url: "/genmaicha" }).options)
     .toEqual({
       url: {
-        baseline: "http://localhost/baseline",
-        snapshot: "http://localhost/snapshot"
+        baseline: "/genmaicha/baseline",
+        snapshot: "/genmaicha/snapshot"
+      }
+    })
+}
+
+/* Test: #constructor should use default options */
+function constructorShouldUseDefaultOptions() {
+  expect(new Ginseng().options)
+    .toEqual({
+      url: {
+        baseline: "/_ginseng/baseline",
+        snapshot: "/_ginseng/snapshot"
       }
     })
 }
 
 /* Test: #constructor should ignore trailing slash in data binding URL */
 function constructorShouldIgnoreTrailingSlashInDataBindingURL() {
-  expect(new Ginseng({ url: "http://localhost/" }).options)
+  expect(new Ginseng({ url: "/oolong/" }).options)
     .toEqual({
       url: {
-        baseline: "http://localhost/baseline",
-        snapshot: "http://localhost/snapshot"
+        baseline: "/oolong/baseline",
+        snapshot: "/oolong/snapshot"
       }
     })
 }
@@ -182,16 +198,16 @@ function constructorShouldThrowOnInvalidDataBindingURL() {
 
 /* Test: #init should return promise */
 function initShouldReturnPromise() {
-  expect(new Ginseng({ url: "." }).init())
+  expect(new Ginseng().init())
     .toEqual(jasmine.any(Promise))
 }
 
 /* Test: #init should fetch baseline */
 function initShouldFetchBaseline(done) {
-  new Ginseng({ url: "." }).init()
+  new Ginseng().init()
     .then(suite => {
       expect(request.get)
-        .toHaveBeenCalledWith("./baseline")
+        .toHaveBeenCalledWith("/_ginseng/baseline")
       expect(Suite.factory)
         .toHaveBeenCalledWith("人参", { data: true })
       expect(suite)
@@ -207,16 +223,18 @@ function initShouldFetchBaseline(done) {
 
 /* Test: #sync should return promise */
 function syncShouldReturnPromise() {
-  expect(new Ginseng({ url: "." }).sync())
+  expect(new Ginseng().sync())
     .toEqual(jasmine.any(Promise))
 }
 
 /* Test: #sync should store snapshot */
 function syncShouldStoreSnapshot(done) {
-  new Ginseng({ url: "." }).sync()
+  const ginseng = new Ginseng()
+  const suite = ginseng.suite()
+  ginseng.sync()
     .then(() => {
       expect(request.post)
-        .toHaveBeenCalledWith("./snapshot", jasmine.any(Object))
+        .toHaveBeenCalledWith("/_ginseng/snapshot", suite)
       done()
     })
     .catch(done.fail)
@@ -228,7 +246,7 @@ function syncShouldStoreSnapshot(done) {
 
 /* Test: #suite should return top-level suite */
 function suiteShouldReturnTopLevelSuite() {
-  const ginseng = new Ginseng({ url: "." })
+  const ginseng = new Ginseng()
   expect(ginseng.suite())
     .toEqual({ suite: true })
   expect(Suite.factory)
@@ -237,7 +255,7 @@ function suiteShouldReturnTopLevelSuite() {
 
 /* Test: #suite should return existing top level suite */
 function suiteShouldReturnExistingTopLevelSuite() {
-  const ginseng = new Ginseng({ url: "." })
+  const ginseng = new Ginseng()
   expect(ginseng.suite())
     .toBe(ginseng.suite())
 }

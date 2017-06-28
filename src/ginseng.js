@@ -26,6 +26,19 @@ import inspect from "./util/inspect"
 import Suite from "./suite"
 
 /* ----------------------------------------------------------------------------
+ * Constants
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Default options passed to constructor
+ *
+ * @type {Object}
+ */
+const OPTIONS = {
+  url: "/_ginseng"
+}
+
+/* ----------------------------------------------------------------------------
  * Class
  * ------------------------------------------------------------------------- */
 
@@ -42,7 +55,7 @@ export default class Ginseng {
    * @param {Object} options - Options
    * @param {string} options.url - URL for data binding
    */
-  constructor(options) {
+  constructor(options = OPTIONS) {
     if (typeof options !== "object")
       throw new TypeError(`Invalid options: ${inspect(options)}`)
     if (typeof options.url !== "string" || !options.url.length)
@@ -76,10 +89,11 @@ export default class Ginseng {
   /**
    * Store gathered snapshots
    *
-   * @return {Promise<void>} Promise resolving with no result
+   * @return {Promise<undefined>} Promise resolving with no result
    */
   sync() {
     return request.post(this.options_.url.snapshot, this.suite_)
+      .then(() => Promise.resolve())
   }
 
   /**
