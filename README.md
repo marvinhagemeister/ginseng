@@ -1,21 +1,26 @@
-# Ginseng
-
 [![Travis][travis-image]][travis-link]
 [![Codecov][codecov-image]][codecov-link]
 [![Gitter][gitter-image]][gitter-link]
-[![Codacy][codacy-image]][codacy-link]
 [![npm][npm-image]][npm-link]
 
-  [travis-image]: https://travis-ci.org/squidfunk/ginseng.svg?branch=master
-  [travis-link]: https://travis-ci.org/squidfunk/ginseng
-  [codecov-image]: https://img.shields.io/codecov/c/github/squidfunk/ginseng/master.svg
-  [codecov-link]: https://codecov.io/gh/squidfunk/ginseng
-  [gitter-image]: https://img.shields.io/gitter/room/squidfunk/ginseng.svg
-  [gitter-link]: https://gitter.im/squidfunk/ginseng
-  [codacy-image]: https://api.codacy.com/project/badge/Grade/7f26578f604942258a1dab0c8bfe6356
-  [codacy-link]: https://www.codacy.com/app/squidfunk/ginseng?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=squidfunk/ginseng&amp;utm_campaign=Badge_Grade
+  [travis-image]: https://travis-ci.org/ginseng/ginseng.svg?branch=master
+  [travis-link]: https://travis-ci.org/ginseng/ginseng
+  [codecov-image]: https://img.shields.io/codecov/c/github/ginseng/ginseng/master.svg
+  [codecov-link]: https://codecov.io/gh/ginseng/ginseng
+  [gitter-image]: https://img.shields.io/gitter/room/ginseng/lobby.svg
+  [gitter-link]: https://gitter.im/ginseng/ginseng
   [npm-image]: https://img.shields.io/npm/v/ginseng.svg
   [npm-link]: https://npmjs.com/packages/ginseng
+
+# Ginseng
+
+A CSS snapshot testing framework.
+
+## Installation
+
+``` sh
+npm install ginseng --save-dev
+```
 
 ## Browser support
 
