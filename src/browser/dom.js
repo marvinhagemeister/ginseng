@@ -121,7 +121,7 @@ export const traverse = (selector, cb, data = null) => {
 
   /* Recursively traverse children */
   const children = el => {
-    return Array.prototype.reduce.call(el.childNodes, (nodes, node) => {
+    return [].reduce.call(el.childNodes, (nodes, node) => {
       if (node instanceof Element)
         nodes.push(cb(node, children(node), data))
       return nodes

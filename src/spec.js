@@ -41,8 +41,8 @@ import inspect from "./util/inspect"
  * @return {Array<HTMLElement>} Mocks
  */
 export const prepare = (el, children, stylesheet) => {
-  return ["::before", "::after"].reduce((result, type) => {
-    return [...result, pseudo.mock(el, type, stylesheet)].filter(Boolean)
+  return ["::before", "::after"].reduce((mocks, type) => {
+    return [...mocks, pseudo.mock(el, type, stylesheet)].filter(Boolean)
   }, []).concat(...children)
 }
 

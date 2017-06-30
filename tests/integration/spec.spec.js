@@ -102,7 +102,6 @@ function constructorShouldThrowOnInvalidSelector() {
 
 /* Test: #capture should capture element and child elements */
 function captureShouldCaptureElementAndChildElements() {
-  debugger // eslint-disable-line
   expect(new Spec("sencha", ".capture").capture())
     .toEqual(fixture.json[0])
 }

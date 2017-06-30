@@ -53,10 +53,10 @@ export const attrs = el => {
     throw new TypeError(`Invalid element: ${inspect(el)}`)
 
   /* Retrieve everything except the style attribute */
-  return Array.prototype.reduce.call(el.attributes, (result, attribute) => {
+  return [].reduce.call(el.attributes, (attributes, attribute) => {
     if (attribute.name !== "style")
-      result[attribute.name] = attribute.value
-    return result
+      attributes[attribute.name] = attribute.value
+    return attributes
   }, {})
 }
 

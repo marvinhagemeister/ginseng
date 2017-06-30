@@ -46,10 +46,9 @@ export default class Suite {
    */
   static factory(name, data = {}) {
     const init = (suite, suites) => {
-      Object.keys(suites).reduce((result, s) => {
-        init(result.suite(s, suites[s].specs), suites[s].suites || {})
-        return result
-      }, suite)
+      Object.keys(suites).forEach(s => {
+        init(suite.suite(s, suites[s].specs), suites[s].suites || {})
+      })
       return suite
     }
 
