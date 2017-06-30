@@ -1,3 +1,10 @@
+ginseng-0.3.0 (2017-06-30)
+
+  * Added support for size and offset extraction
+  * Added support for pseudo element mocking
+  * Added polyfills for Promise and fetch
+  * Added further unit and integration tests
+
 ginseng-0.2.1 (2017-05-05)
 
   * Fixed wrong webpack export due to missing library target
