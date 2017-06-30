@@ -20,7 +20,7 @@
   "children": [
     {
       "element": {
-        "tag": "GS-PSEUDO",
+        "tag": "[::before]",
         "attrs": {},
         "props": {
           "size": {
@@ -57,7 +57,7 @@
       "children": [
         {
           "element": {
-            "tag": "GS-PSEUDO",
+            "tag": "[::before]",
             "attrs": {},
             "props": {
               "size": {
@@ -94,7 +94,7 @@
           "children": [
             {
               "element": {
-                "tag": "GS-PSEUDO",
+                "tag": "[::after]",
                 "attrs": {},
                 "props": {
                   "size": {
@@ -117,7 +117,7 @@
     },
     {
       "element": {
-        "tag": "GS-PSEUDO",
+        "tag": "[::after]",
         "attrs": {},
         "props": {
           "size": {

@@ -57,7 +57,9 @@ export const prepare = (el, children, stylesheet) => {
 export const extract = (el, children) => {
   return {
     element: {
-      tag: el.tagName,
+      tag: el.tagName === "GS-PSEUDO"
+        ? `[${el.getAttribute("data-gs-type")}]`
+        : el.tagName,                                                           // TODO: use the class for this
       attrs: element.attrs(el),
       props: {
         size: element.size(el),
