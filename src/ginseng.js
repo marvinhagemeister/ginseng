@@ -52,8 +52,8 @@ export default class Ginseng {
    * @property {Object} options_ - Options
    * @property {Suite} suite_ - Top-level suite
    *
-   * @param {Object} options - Options
-   * @param {string} options.url - URL for data binding
+   * @param {Object} [options] - Options
+   * @param {string} [options.url] - URL for data binding
    */
   constructor(options = OPTIONS) {
     if (typeof options !== "object")

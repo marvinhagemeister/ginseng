@@ -94,9 +94,15 @@ export const style = (el, type) => {
  * @return {Element|null} Promoted pseudo element or null, if none
  */
 export const mock = (el, type, stylesheet) => {
-  const styles = style(el, type)
+  if (!(el instanceof Element))
+    throw new TypeError(`Invalid element: ${inspect(el)}`)
+  if (type !== null && ["::before", "::after"].indexOf(type) === -1)
+    throw new TypeError(`Invalid type: ${inspect(type)}`)
   if (!(stylesheet instanceof CSSStyleSheet))
     throw new TypeError(`Invalid stylesheet: ${inspect(stylesheet)}`)
+
+  /* Retrieve raw computed properties */
+  const styles = window.getComputedStyle(el, type)
 
   /* Chrome and Opera: "", Firefox and Internet Explorer: "none" */
   if (["", "none"].indexOf(styles.content) !== -1)
@@ -106,10 +112,10 @@ export const mock = (el, type, stylesheet) => {
   if (styles.display === "none")
     return null
 
-  /* Create mock for pseudo element */
+  /* Retrieve styles and create mock for pseudo element */
   const pseudo = new HTMLGinsengPseudoElement()
   pseudo.setAttribute("data-gs-type", type)
-  /* istanbul ignore else: already checked through pseudo.style */
+  /* istanbul ignore else: already checked */
   if (type === "::before") {
     el.insertBefore(pseudo, el.firstChild)
   } else if (type === "::after") {

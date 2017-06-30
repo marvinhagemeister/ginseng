@@ -40,6 +40,7 @@ describe("Browser", () => {
     /* Register spies */
     beforeEach(() => {
       spyOn(window, "getComputedStyle")
+        .and.returnValue({})
     })
 
     /* Cleanup fixtures */
