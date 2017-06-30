@@ -54,7 +54,7 @@ export const attrs = el => {
 
   /* Retrieve everything except the style attribute */
   return [].reduce.call(el.attributes, (attributes, attribute) => {
-    if (attribute.name !== "style")
+    if (attribute.name !== "style" && attribute.name.indexOf("data-gs") === -1)
       attributes[attribute.name] = attribute.value
     return attributes
   }, {})

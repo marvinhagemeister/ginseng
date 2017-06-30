@@ -159,8 +159,7 @@ function attrsShouldReturnAttributes() {
   expect(element.attrs(fixture.el.firstElementChild))
     .toEqual({
       class: "attrs",
-      id: "attrs",
-      "data-gs-name": "value"
+      id: "attrs"
     })
 }
 
