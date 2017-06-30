@@ -98,11 +98,11 @@ export const mock = (el, type, stylesheet) => {
   /* Retrieve raw computed properties */
   const styles = window.getComputedStyle(el, type)
 
-  /* Chrome and Opera: "", Firefox and Internet Explorer: "none" */
-  if (["", "none"].indexOf(styles.content) !== -1)
+  /* Don't replace uninitialized or empty pseudo elements (e.g. clearfixes) */
+  if (["", "\"\"", "none"].indexOf(styles.content) !== -1)
     return null
 
-  /* Perform a naive check if the element is rendered */
+  /* Don't replace invisible pseudo elements */
   if (styles.display === "none")
     return null
 
