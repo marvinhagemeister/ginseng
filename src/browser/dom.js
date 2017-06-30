@@ -33,6 +33,13 @@ import inspect from "../util/inspect"
  */
 export const root = document.body
 
+/**
+ * Ginseng pseudo element mock
+ *
+ * @type {Function}
+ */
+export const HTMLGinsengPseudoElement = document.registerElement("gs-pseudo")
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */

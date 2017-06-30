@@ -20,7 +20,7 @@
   "children": [
     {
       "element": {
-        "tag": "[::before]",
+        "tag": "::before",
         "attrs": {},
         "props": {
           "size": {
@@ -57,7 +57,7 @@
       "children": [
         {
           "element": {
-            "tag": "[::before]",
+            "tag": "::before",
             "attrs": {},
             "props": {
               "size": {
@@ -94,7 +94,7 @@
           "children": [
             {
               "element": {
-                "tag": "[::after]",
+                "tag": "::after",
                 "attrs": {},
                 "props": {
                   "size": {
@@ -117,7 +117,7 @@
     },
     {
       "element": {
-        "tag": "[::after]",
+        "tag": "::after",
         "attrs": {},
         "props": {
           "size": {

@@ -43,6 +43,30 @@ describe("Browser", () => {
       fixture.cleanup()
     })
 
+    /* .tag */
+    describe(".tag", () => {
+
+      /* Load fixtures and register spies */
+      beforeEach(() => {
+        fixture.load("tag.html")
+      })
+
+      /* Test: should return tag name */
+      it("should return tag name",
+        tagShouldReturnTagName
+      )
+
+      /* Test: should return tag name for mocked pseudo element */
+      it("should return tag name for mocked pseudo element",
+        tagShouldReturnTagNameForMockedPseudoElement
+      )
+
+      /* Test: should throw on invalid element */
+      it("should throw on invalid element",
+        tagShouldThrowOnInvalidElement
+      )
+    })
+
     /* .style */
     describe(".style", () => {
 
@@ -178,6 +202,30 @@ describe("Browser", () => {
     })
   })
 })
+
+/* ----------------------------------------------------------------------------
+ * Definitions: .tag
+ * ------------------------------------------------------------------------- */
+
+/* Test: .tag should return tag name */
+function tagShouldReturnTagName() {
+  expect(element.tag(fixture.el.firstElementChild))
+    .toEqual("DIV")
+}
+
+/* Test: .tag should return tag name for mocked pseudo element */
+function tagShouldReturnTagNameForMockedPseudoElement() {
+  expect(element.tag(fixture.el.firstElementChild.firstElementChild))
+    .toEqual("::before")
+}
+
+/* Test: .tag should throw on invalid element */
+function tagShouldThrowOnInvalidElement() {
+  expect(() => {
+    element.tag("invalid")
+  }).toThrow(
+    new TypeError("Invalid element: 'invalid'"))
+}
 
 /* ----------------------------------------------------------------------------
  * Definitions: .style

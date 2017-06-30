@@ -20,18 +20,12 @@
  * IN THE SOFTWARE.
  */
 
+import { HTMLGinsengPseudoElement } from "./dom"
 import inspect from "../util/inspect"
 
 /* ----------------------------------------------------------------------------
  * Variables
  * ------------------------------------------------------------------------- */
-
-/**
- * Ginseng element mock class
- *
- * @type {Function}
- */
-const HTMLGinsengPseudoElement = document.registerElement("gs-pseudo")
 
 /**
  * Default pseudo element styles

@@ -20,12 +20,28 @@
  * IN THE SOFTWARE.
  */
 
+import { HTMLGinsengPseudoElement } from "./dom"
 import * as pseudo from "./pseudo"
 import inspect from "../util/inspect"
 
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
+
+/**
+ * Retrieve the tag name of an element
+ *
+ * @param {Element} el - Element
+ *
+ * @return {string} Tag name
+ */
+export const tag = el => {
+  if (!(el instanceof Element))
+    throw new TypeError(`Invalid element: ${inspect(el)}`)
+  return el instanceof HTMLGinsengPseudoElement
+    ? el.getAttribute("data-gs-type")
+    : el.tagName
+}
 
 /**
  * Retrieve the computed properties of an element

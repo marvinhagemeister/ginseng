@@ -44,6 +44,8 @@ describe("Spec", () => {
 
   /* Register spies */
   beforeEach(() => {
+    spyOn(element, "tag")
+      .and.returnValue("tag")
     spyOn(element, "attrs")
       .and.returnValue("attrs")
     spyOn(element, "size")
